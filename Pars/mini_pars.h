@@ -1,6 +1,6 @@
 
-#ifndef MINISHELL_H
-#define MINISHELL_H
+#ifndef MINI_PARS_H
+#define MINI_PARS_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -69,12 +69,8 @@ size_t	ft_strlen(const char *s);
 char	**ft_split(char const *s, char c);
 int ft_strcmp(char *s1, char *s2);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
-void *ft_memmove(void *dest, const void *src, size_t n);
-size_t ft_strcspn(const char *s, const char *reject);
 char *ft_strcpy(char *dest, const char *src);
 char *ft_strncpy(char *dest, const char *src, size_t n);
-int ft_isalpha(int c);
-int ft_isdigit(int c);
 
 // lexer includes
 t_token *create_token(t_type type, char *value);
@@ -102,10 +98,5 @@ void free_input_files(t_input_file *input_list);
 void free_output_files(t_output_file *output_list);
 void free_commands(t_cmd *cmd_list);
 
-// main
-int main();
-
-// expand includes
-char *expand_env_variables(const char *str, size_t length);
 
 #endif

@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "mini_pars.h"
 
 char *ft_strncpy(char *dest, const char *src, size_t n)
 {

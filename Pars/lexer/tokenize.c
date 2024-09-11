@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../mini_pars.h"
 
 // Function to create a new token
 t_token *create_token(t_type type, char *value)

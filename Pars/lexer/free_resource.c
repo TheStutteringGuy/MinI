@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../mini_pars.h"
 
 // Function to free tokens array
 void free_token(char **tokens)

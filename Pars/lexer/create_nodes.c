@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../mini_pars.h"
 
 // Function to add a new input file to the linked list
 void add_input_file(t_input_file **input_list, char *filename)

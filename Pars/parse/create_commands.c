@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../mini_pars.h"
 
 // Create a new command
 t_cmd *create_new_command(t_token *token)

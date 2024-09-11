@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../mini_pars.h"
 
 // Function to print the command list for debugging
 void print_commands(t_cmd *cmd_list)
