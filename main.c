@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/11 18:48:19 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/12 03:24:33 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,12 @@ int main(int ac, char **av, char **envp)
         else
         {
             add_history(input);
-            parsed_cmd = parsing(input);
-            if (parsed_cmd)
-            {
-                printf("\n\n");
-                printf("Tree structure :\n");
-                print_tree(parsed_cmd, 0, true);
-                printf("\n\n");
-                exec(&data, parsed_cmd);
-                printf("\n\n");
-            }
+            t_token *token_list = NULL;
+            tokenize_input(input, &token_list);
+            t_cmd *cmd_list = parse_tokens(token_list);
+            print_commands(cmd_list);
+            free_tokens(token_list);
+            free_commands(cmd_list);
         }
         free_everything();
     }
