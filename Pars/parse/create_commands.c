@@ -18,6 +18,10 @@ t_cmd *create_new_command(t_token *token)
         printf("malloc failed");
         exit(1);
     }
+    new_cmd->last_exit_status = malloc(sizeof(int));
+    if (!new_cmd->last_exit_status)
+        exit(1);
+    *new_cmd->last_exit_status = 0;
     new_cmd->arguments[0] = ft_strdup(token->value);
     new_cmd->arguments[1] = NULL;
     new_cmd->input_files = NULL;
