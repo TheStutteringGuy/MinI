@@ -73,6 +73,7 @@ int ft_strcmp(char *s1, char *s2);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 char *ft_strcpy(char *dest, const char *src);
 char *ft_strncpy(char *dest, const char *src, size_t n);
+bool ft_isspace(int c);
 
 // lexer includes
 t_token *create_token(t_type type, char *value);
