@@ -1,13 +1,20 @@
 #include "../mini_pars.h"
 
 // Function to add a new input file to the linked list
-void add_input_file(t_input_file **input_list, char *filename)
+void add_input_file(t_input_file **input_list, char *filename, int heredoc, char *delimiter)
 {
     t_input_file *new_input;
     t_input_file *current;
 
     new_input = malloc(sizeof(t_input_file));
+    if (!new_input)
+        return;
     new_input->filename = ft_strdup(filename);
+    new_input->heredoc = heredoc;
+    if (delimiter)
+        new_input->delimiter = ft_strdup(delimiter);
+    else
+        new_input->delimiter = NULL;
     new_input->next = NULL;
     if (!*input_list)
     {

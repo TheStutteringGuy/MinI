@@ -6,15 +6,24 @@ t_cmd *create_new_command(t_token *token)
     t_cmd *new_cmd;
 
     new_cmd = malloc(sizeof(t_cmd));
+    if (!new_cmd)
+    {
+        printf("malloc failed");
+        exit(1);
+    }
     new_cmd->command = ft_strdup(token->value);
     new_cmd->arguments = malloc(sizeof(char *) * 2);
+    if (!new_cmd->arguments)
+    {
+        printf("malloc failed");
+        exit(1);
+    }
     new_cmd->arguments[0] = ft_strdup(token->value);
     new_cmd->arguments[1] = NULL;
     new_cmd->input_files = NULL;
     new_cmd->output_files = NULL;
-    new_cmd->herdoc = NULL;
     new_cmd->next = NULL;
-    return (new_cmd);
+    return new_cmd;
 }
 
 // Add an argument to the current command
@@ -56,43 +65,14 @@ void handle_redirections(t_cmd *current_cmd, t_token **current_token)
     if (next_token && (next_token->type == COMMAND || next_token->type == ARGUMENT))
     {
         if (token->type == RED_IN)
-            add_input_file(&current_cmd->input_files, next_token->value);
+            add_input_file(&current_cmd->input_files, next_token->value, 0, NULL);
+        else if (token->type == HERDOC)
+            add_input_file(&current_cmd->input_files, next_token->value, 1, next_token->value);
         else if (token->type == RED_OUT)
             add_output_file(&current_cmd->output_files, next_token->value, 0);
         else if (token->type == APPEND)
             add_output_file(&current_cmd->output_files, next_token->value, 1);
-        else if (token->type == HERDOC)
-            current_cmd->herdoc = ft_strdup(next_token->value);
         *current_token = next_token;
-    }
-}
-
-void process_token(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected)
-{
-    t_cmd *new_cmd;
-    
-    new_cmd = NULL;
-    if ((*current_token)->type == COMMAND || (*current_token)->type == ARGUMENT)
-    {
-        if (*expected == COMMAND)
-        {
-            new_cmd = create_new_command(*current_token);
-            if (!*cmd_list)
-                *cmd_list = new_cmd;
-            else
-                (*current_cmd)->next = new_cmd;
-            *current_cmd = new_cmd;
-            *expected = ARGUMENT;
-        }
-        else if (*expected == ARGUMENT)
-            add_argument_to_command(*current_cmd, *current_token);
-    }
-    else if ((*current_token)->type == PIPE)
-        *expected = COMMAND;
-    else if ((*current_token)->type == RED_IN || (*current_token)->type == RED_OUT ||
-             (*current_token)->type == APPEND || (*current_token)->type == HERDOC)
-    {
-        handle_redirections(*current_cmd, current_token);
     }
 }
 

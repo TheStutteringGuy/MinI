@@ -82,7 +82,6 @@ void free_commands(t_cmd *cmd_list)
         free(current->arguments);
         free_input_files(current->input_files);
         free_output_files(current->output_files);
-        free(current->herdoc);
         free(current);
         current = next;
     }

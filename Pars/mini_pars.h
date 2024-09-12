@@ -48,6 +48,8 @@ typedef struct s_output_file
 // struct for the input files
 typedef struct s_input_file
 {
+    int heredoc;
+    char *delimiter;
     char *filename;
     struct s_input_file *next;
 } t_input_file;
@@ -59,7 +61,6 @@ typedef struct s_cmd
     char **arguments;
     t_input_file *input_files;   // Linked list of input files
     t_output_file *output_files; // Linked list of output files
-    char *herdoc;
     struct s_cmd *next;
 } t_cmd;
 
@@ -78,7 +79,7 @@ void add_token(t_token **head, t_token *new_token);
 t_type classify_token(char *token, t_type expected);
 void handle_token(t_token **token_list, char *token, t_type *expected);
 void tokenize_input(char *input, t_token **token_list);
-void add_input_file(t_input_file **input_list, char *filename);
+void add_input_file(t_input_file **input_list, char *filename, int heredoc, char *delimiter);
 void add_output_file(t_output_file **output_list, char *filename, int append);
 
 // parser includes
@@ -87,6 +88,9 @@ void add_argument_to_command(t_cmd *current_cmd, t_token *token);
 void handle_redirections(t_cmd *current_cmd, t_token **current_token);
 void process_token(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected);
 t_cmd *parse_tokens(t_token *token_list);
+void process_redirection_or_pipe(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected);
+void process_command_or_argument(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected);
+
 
 // print include
 void print_commands(t_cmd *cmd_list);
