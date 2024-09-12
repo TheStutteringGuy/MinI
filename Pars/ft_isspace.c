@@ -2,7 +2,7 @@
 
 bool ft_isspace(int c)
 {
-    if (c == ' ' || (9 <= c && c >= 13))
+    if (c == ' ' || (c >= 9 && c <= 13))
         return (true);
     else
         return (false);

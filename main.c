@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/12 02:29:54 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/12 20:54:30 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,9 @@ int main(int ac, char **av, char **envp)
         handle_sig();
         input = readline("Minishell -> ");
         if (input == NULL)
-        {
             input_null(input);
-            continue;
-        }
         if (input[0] == '\0' || ft_isspace(*input))
-        {
             free(input);
-            continue;
-        }
         else
         {
             add_history(input);
@@ -75,8 +69,8 @@ int main(int ac, char **av, char **envp)
             printf("\n\n");
             // free_tokens(token_list);
             // free_commands(cmd_list);
+            free_everything();
         }
-        free_everything();
     }
     return 0;
 }
