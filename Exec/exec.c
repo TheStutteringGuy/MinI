@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 10:00:54 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/07/31 01:55:45 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/12 02:20:25 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,6 @@ void env_list(t_linked **list, char **envp)
 
 int  handle_input(t_exec *data, t_cmd *input)
 {
-  int i;
-  
-  (void)data;
-  if (input->input_file)
-  {
-    i = 0;
-    while (input->input_file[i])
-    {
-      printf("%s\n", input->input_file[i]);
-      if (access(input->input_file[i], F_OK | R_OK) != 0)
-      {
-        printf("%s: %s\n", input->input_file[i], strerror(errno));
-        exit(1);
-      }
-      i++;
-    }
-    exit(1);
-  }
   return (0);
 }
 
@@ -79,7 +61,7 @@ void exec(t_exec *data, t_cmd *input)
   // read_fd = 0;
   // write_fd = 0;
   len = ft_strlen2(input->command);
-  if (input->is_simple == true)
+  if (!input->next)
   {
     read_fd = handle_input(data, input);
     write_fd = handle_output(data, input);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/12 03:24:33 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/12 02:29:54 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,11 @@ int main(int ac, char **av, char **envp)
             tokenize_input(input, &token_list);
             t_cmd *cmd_list = parse_tokens(token_list);
             print_commands(cmd_list);
-            free_tokens(token_list);
-            free_commands(cmd_list);
+            printf("\n\n");
+            exec(&data, cmd_list);
+            printf("\n\n");
+            // free_tokens(token_list);
+            // free_commands(cmd_list);
         }
         free_everything();
     }

@@ -22,8 +22,7 @@ t_cmd *create_new_command(t_token *token)
     if (!new_cmd->last_exit_status)
         exit(1);
     *new_cmd->last_exit_status = 0;
-    new_cmd->arguments[0] = ft_strdup(token->value);
-    new_cmd->arguments[1] = NULL;
+    new_cmd->arguments[0] = NULL;
     new_cmd->input_files = NULL;
     new_cmd->output_files = NULL;
     new_cmd->next = NULL;
