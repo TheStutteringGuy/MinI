@@ -15,7 +15,7 @@ void print_commands(t_cmd *cmd_list)
             printf("Command: NULL\n");
         // Print arguments
         printf("Arguments: ");
-        for (int i = 1; current->arguments && current->arguments[i]; i++)
+        for (int i = 0; current->arguments && current->arguments[i]; i++)
             printf("%s ", current->arguments[i]);
         printf("\n");
         // Print input files
