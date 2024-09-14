@@ -74,6 +74,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 char *ft_strcpy(char *dest, const char *src);
 char *ft_strncpy(char *dest, const char *src, size_t n);
 bool ft_isspace(int c);
+void	*ft_memset(void *s, int c, size_t n);
 
 // lexer includes
 t_token *create_token(t_type type, char *value);
@@ -92,7 +93,7 @@ void process_token(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_toke
 t_cmd *parse_tokens(t_token *token_list);
 void process_redirection_or_pipe(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected);
 void process_command_or_argument(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected);
-
+t_cmd *create_empty_command(void);
 
 // print include
 void print_commands(t_cmd *cmd_list);
@@ -104,5 +105,9 @@ void free_input_files(t_input_file *input_list);
 void free_output_files(t_output_file *output_list);
 void free_commands(t_cmd *cmd_list);
 
+// quotes includes
+int check_syntax_errors(t_token *token_list);
+char *remove_quotes(char *token);
+char *handle_incorrect_quotes(char *token);
 
 #endif

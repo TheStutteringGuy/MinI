@@ -5,15 +5,23 @@ void process_command_or_argument(t_cmd **cmd_list, t_cmd **current_cmd, t_token 
 {
     t_cmd *new_cmd;
 
-    new_cmd = NULL;
     if (*expected == COMMAND)
     {
-        new_cmd = create_new_command(*current_token);
-        if (!*cmd_list)
-            *cmd_list = new_cmd;
+        if (*current_cmd && (*current_cmd)->command == NULL)
+        {
+            (*current_cmd)->command = ft_strdup((*current_token)->value);
+            (*current_cmd)->arguments = malloc(sizeof(char *) * 2);
+            (*current_cmd)->arguments[0] = NULL;
+        }
         else
-            (*current_cmd)->next = new_cmd;
-        *current_cmd = new_cmd;
+        {
+            new_cmd = create_new_command(*current_token);
+            if (!*cmd_list)
+                *cmd_list = new_cmd;
+            else
+                (*current_cmd)->next = new_cmd;
+            *current_cmd = new_cmd;
+        }
         *expected = ARGUMENT;
     }
     else if (*expected == ARGUMENT)
@@ -28,22 +36,28 @@ void process_redirection_or_pipe(t_cmd **cmd_list, t_cmd **current_cmd, t_token 
 {
     t_cmd *new_cmd;
 
-    new_cmd = NULL;
     if ((*current_token)->type == PIPE)
+    {
+        new_cmd = create_empty_command();
+        if (*current_cmd)
+            (*current_cmd)->next = new_cmd;
+        else
+            *cmd_list = new_cmd;
+        *current_cmd = new_cmd;
         *expected = COMMAND;
+    }
     else if ((*current_token)->type == RED_IN || (*current_token)->type == RED_OUT ||
              (*current_token)->type == APPEND || (*current_token)->type == HERDOC)
     {
-        if (!*current_cmd)
+        if (*current_cmd)
+            handle_redirections(*current_cmd, current_token);
+        else
         {
-            new_cmd = create_new_command(*current_token);
+            *current_cmd = create_empty_command();
             if (!*cmd_list)
-                *cmd_list = new_cmd;
-            else
-                (*current_cmd)->next = new_cmd;
-            *current_cmd = new_cmd;
+                *cmd_list = *current_cmd;
+            handle_redirections(*current_cmd, current_token);
         }
-        handle_redirections(*current_cmd, current_token);
     }
 }
 

@@ -77,6 +77,8 @@ void handle_redirections(t_cmd *current_cmd, t_token **current_token)
             add_output_file(&current_cmd->output_files, next_token->value, 1);
         *current_token = next_token;
     }
+    else
+        printf("Error: Missing or invalid token after redirection\n");
 }
 
 // Main parsing function that iterates over the token list
@@ -97,4 +99,26 @@ t_cmd *parse_tokens(t_token *token_list)
         current_token = current_token->next;
     }
     return cmd_list;
+}
+
+t_cmd *create_empty_command(void)
+{
+    t_cmd *cmd;
+
+    cmd = malloc(sizeof(t_cmd));
+    if (cmd)
+    {
+        cmd->last_exit_status = malloc(sizeof(int));
+        if (!cmd->last_exit_status)
+            exit(1);
+        *cmd->last_exit_status = 0;
+        cmd->command = NULL;
+        cmd->arguments = NULL;
+        cmd->input_files = NULL;
+        cmd->output_files = NULL;
+        cmd->next = NULL;
+    }
+    else
+        printf("Error: Memory allocation failed for new command\n");
+    return (cmd);
 }

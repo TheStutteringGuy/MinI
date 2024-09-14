@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/12 20:54:30 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/14 23:57:11 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,22 @@ int main(int ac, char **av, char **envp)
             input_null(input);
         if (input[0] == '\0' || ft_isspace(*input))
             free(input);
+        if (!handle_incorrect_quotes(input))
+        {
+            free(input);
+            continue;
+        }
         else
         {
             add_history(input);
             t_token *token_list = NULL;
             tokenize_input(input, &token_list);
+            if (check_syntax_errors(token_list))
+            {
+                free_tokens(token_list);
+                free(input);
+                continue;
+            }
             t_cmd *cmd_list = parse_tokens(token_list);
             print_commands(cmd_list);
             printf("\n\n");

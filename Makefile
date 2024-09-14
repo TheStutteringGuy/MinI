@@ -1,7 +1,7 @@
 # BASIC SETTINGS :
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -w #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -w -g #-fsanitize=address
 RM = rm -rf
 
 ###########################################################################################
