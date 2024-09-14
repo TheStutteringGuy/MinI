@@ -48,7 +48,7 @@ void    exit_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 {
     (void)data;
     printf("exit\n");
-    if (input->arguments)
+    if (input->arguments[0])
     {
         handle_arg(input);
         pars_arg(input);

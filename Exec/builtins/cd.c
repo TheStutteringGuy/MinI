@@ -29,9 +29,9 @@ static void handle_arg(t_cmd *input)
 void    cd_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 {
     char cwd[PATH_MAX];
-    
+
     (void)data;
-    if (input->arguments)
+    if (input->arguments[0])
     {
         handle_arg(input);
         if (chdir(input->arguments[0]) != 0)

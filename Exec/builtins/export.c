@@ -20,7 +20,7 @@ void    ft_swap(t_linked *list1, t_linked *list2)
     tmp_key = list1->key;
     list1->key = list2->key;
     list2->key = tmp_key;
-    
+
     tmp_value = list1->value;
     list1->value = list2->value;
     list2->value = tmp_value;
@@ -31,7 +31,7 @@ void    sort_list(t_linked **list)
     t_linked *iterat;
     t_linked *iterat2;
     size_t  len;
-    
+
     iterat = *list;
     while (iterat)
     {
@@ -52,7 +52,7 @@ void    sort_list(t_linked **list)
 static void handle_arg(char *str, int *flag)
 {
     int j;
-    
+
     if (ft_isalpha(str[0]) == 0 && str[0] != '_')
     {
         printf("export: `%s': not a valid identifier\n", str);
@@ -113,7 +113,7 @@ void    handle_equal(t_exec *data, char *str)
     int j;
     int y;
     int z;
-    
+
     i = 0;
     while (str[i] != '=')
         i++;
@@ -136,7 +136,7 @@ void    handle_equal(t_exec *data, char *str)
 void    handle_not(t_exec *data, t_linked **list, char *str)
 {
     see_if_it_exist(data, ft_substr(str, 0, ft_strlen2(str)));
-    create_node(list, ft_substr(str, 0, ft_strlen2(str)), ft_substr(str, 0, 0), 1); 
+    create_node(list, ft_substr(str, 0, ft_strlen2(str)), ft_substr(str, 0, 0), 1);
 }
 
 
@@ -145,10 +145,10 @@ void    export_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
     t_linked *list;
     int flag;
     int i;
-    
+
     flag = 0;
     i = 0;
-    if (input->arguments)
+    if (input->arguments[0])
     {
         while (input->arguments[i])
         {

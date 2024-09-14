@@ -17,7 +17,7 @@ void    unset_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
     int i;
 
     i = 0;
-    if (input->arguments)
+    if (input->arguments[0])
     {
         while (input->arguments[i] != NULL)
         {

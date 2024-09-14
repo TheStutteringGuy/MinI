@@ -29,7 +29,7 @@ static int  handle_flag(t_exec *data, t_cmd *input, int *flag)
     {
         if (len != ft_strlen2(input->arguments[i]))
             return (i);
-        if (len == ft_strlen2(input->arguments[i]) && ft_strncmp(input->arguments[i], "-n", ft_strlen2("-n")) != 0) 
+        if (len == ft_strlen2(input->arguments[i]) && ft_strncmp(input->arguments[i], "-n", ft_strlen2("-n")) != 0)
             return (i);
         ++i;
     }
@@ -40,9 +40,9 @@ void    echo_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 {
     int stop;
     int flag;
-    
+
     flag = 0;
-    if (input->arguments)
+    if (input->arguments[0])
     {
         stop = handle_flag(data, input, &flag);
         while (input->arguments[stop] != NULL)
