@@ -26,7 +26,8 @@ typedef enum s_type
     RED_IN,
     RED_OUT,
     APPEND,
-    HERDOC
+    HERDOC,
+    ENV
 } t_type;
 
 // struct for the tokens
@@ -67,14 +68,15 @@ typedef struct s_cmd
 
 // includ protypes
 char *ft_strdup(const char *s);
-size_t	ft_strlen(const char *s);
-char	**ft_split(char const *s, char c);
+size_t ft_strlen(const char *s);
+char **ft_split(char const *s, char c);
 int ft_strcmp(char *s1, char *s2);
-size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+size_t ft_strlcpy(char *dst, const char *src, size_t size);
 char *ft_strcpy(char *dest, const char *src);
 char *ft_strncpy(char *dest, const char *src, size_t n);
 bool ft_isspace(int c);
-void	*ft_memset(void *s, int c, size_t n);
+void *ft_memset(void *s, int c, size_t n);
+char	*ft_itoa(int n);
 
 // lexer includes
 t_token *create_token(t_type type, char *value);
@@ -109,5 +111,8 @@ void free_commands(t_cmd *cmd_list);
 int check_syntax_errors(t_token *token_list);
 char *remove_quotes(char *token);
 char *handle_incorrect_quotes(char *token);
+
+// env includes
+char *expand_env_var(char *token);
 
 #endif

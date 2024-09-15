@@ -7,21 +7,17 @@ char *remove_quotes(char *token)
     char *new_token;
 
     len = ft_strlen(token);
-    if (len < 2)
+    if (len < 2 || !((token[0] == '"' && token[len - 1] == '"') || (token[0] == '\'' && token[len - 1] == '\'')))
         return (ft_strdup(token));
-    if ((token[0] == '"' && token[len - 1] == '"') || (token[0] == '\'' && token[len - 1] == '\''))
+    new_token = malloc(len - 1);
+    if (!new_token)
     {
-        new_token = malloc(len - 1);
-        if (!new_token)
-        {
-            printf("Error: malloc failed\n");
-            exit(1);
-        }
-        ft_strncpy(new_token, token + 1, len - 2);
-        new_token[len - 2] = '\0';
-        return new_token;
+        printf("Error: malloc failed\n");
+        exit(1);
     }
-    return (ft_strdup(token));
+    ft_strncpy(new_token, token + 1, len - 2);
+    new_token[len - 2] = '\0';
+    return (new_token);
 }
 
 char *handle_incorrect_quotes(char *token)
@@ -50,5 +46,3 @@ char *handle_incorrect_quotes(char *token)
     }
     return (ft_strdup(token));
 }
-
-
