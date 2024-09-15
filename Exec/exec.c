@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 10:00:54 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/15 21:55:30 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/15 22:54:52 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,11 +119,36 @@ void handle_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
     dup2(saved_fd, STDOUT_FILENO);
 }
 
+void  handle_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
+{
+  int saved_fd;
+  size_t len;
+
+  len = ft_strlen2(input->command);
+  if (len == ft_strlen2("pwd") && ft_strncmp(input->command, "pwd", ft_strlen2("pwd")) == 0)
+    pwd_hard(data, input, read_fd, write_fd);
+  else if (len == ft_strlen2("env") && ft_strncmp(input->command, "env", ft_strlen2("env")) == 0)
+    env_hard(data, input, read_fd, write_fd);
+  else if (len == ft_strlen2("echo") && ft_strncmp(input->command, "echo", ft_strlen2("echo")) == 0)
+    echo_hard(data, input, read_fd, write_fd);
+  else if (len == ft_strlen2("cd") && ft_strncmp(input->command, "cd", ft_strlen2("cd")) == 0)
+    cd_hard(data, input, read_fd, write_fd);
+  else if (len == ft_strlen2("exit") && ft_strncmp(input->command, "exit", ft_strlen2("exit")) == 0)
+    exit_hard(data, input, read_fd, write_fd);
+  else if (len == ft_strlen2("export") && ft_strncmp(input->command, "export", ft_strlen2("export")) == 0)
+    export_hard(data, input, read_fd, write_fd);
+  else if (len == ft_strlen2("unset") && ft_strncmp(input->command, "unset", ft_strlen2("unset")) == 0)
+    unset_hard(data, input, read_fd, write_fd);
+  else
+    execve_handle_hard(data, input, read_fd, write_fd);
+}
+
 void exec(t_exec *data, t_cmd *input)
 {
   int id;
   int write_fd;
   int read_fd;
+  int status;
 
   if (!input->next)
   {
@@ -136,14 +161,21 @@ void exec(t_exec *data, t_cmd *input)
   }
   else
   {
-    printf("HARD\n");
-    // id = fork();
-    // if (id == 0)
-    // {
-
-    // }
-    // else
-    // {
-    // }
+    id = fork();
+    if (id == 0)
+    {
+      signal(SIGINT, SIG_DFL);
+      signal(SIGQUIT, SIG_DFL);
+      read_fd = handle_input(data, input);
+      if (read_fd == -1)
+        return ;
+      write_fd = handle_output(data, input);
+    }
+    else
+    {
+      signal(SIGINT, SIG_IGN);
+      waitpid(id, &status, 0);
+      *input->last_exit_status = WEXITSTATUS(status);
+    }
   }
 }

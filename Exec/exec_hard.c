@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_simple.c                                      :+:      :+:    :+:   */
+/*   exec_hard.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/27 02:21:40 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/15 22:56:16 by thestutteri      ###   ########.fr       */
+/*   Created: 2024/09/15 22:33:35 by thestutteri       #+#    #+#             */
+/*   Updated: 2024/09/15 22:59:23 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ static void    turn(char **envp, t_linked *list)
     }
 }
 
-void				execve_handle_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
+void				execve_handle_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 {
     pid_t   id;
     int i;
@@ -162,17 +162,7 @@ void				execve_handle_simple(t_exec *data, t_cmd *input, int read_fd, int write_
     data->envp = malloc(sizeof(char *) * (i + 1));
     data->envp[i] = NULL;
     turn(data->envp, data->environ);
-    id = fork();
-    if (id == 0)
-    {
-        signal(SIGINT, SIG_DFL);
-        signal(SIGQUIT, SIG_DFL);
-        child_function(data, input);
-    }
-    else
-    {
-        signal(SIGINT, SIG_IGN);
-        waitpid(id, &status, 0);
-        *input->last_exit_status = WEXITSTATUS(status);
-    }
+    signal(SIGINT, SIG_DFL);
+    signal(SIGQUIT, SIG_DFL);
+    child_function(data, input);
 }
