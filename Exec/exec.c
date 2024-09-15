@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 10:00:54 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/15 02:37:48 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/15 04:41:24 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,7 @@ int  handle_input(t_exec *data, t_cmd *input)
       if (iterate->heredoc == false)
       {
         if (access(iterate->filename, F_OK | R_OK) == 0)
-        {
           fd = open(iterate->filename, O_RDONLY);
-          return(fd);
-        }
         else
         {
           printf("%s: %s\n", iterate->filename, strerror(errno));
@@ -67,6 +64,7 @@ int  handle_input(t_exec *data, t_cmd *input)
       }
       iterate = iterate->next;
      }
+    return(fd);
   }
   return (0);
 }
@@ -97,15 +95,17 @@ void exec(t_exec *data, t_cmd *input)
   size_t len;
   int read_fd;
   int write_fd;
+  int saved_fd;
 
-  read_fd = 0;
-  write_fd = 1;
   if (!input->next)
   {
-    read_fd = handle_input(data, input);
-    write_fd = handle_output(data, input);
     if (input->command)
     {
+        saved_fd = dup(STDOUT_FILENO);  
+        read_fd = handle_input(data, input);
+        write_fd = handle_output(data, input);
+        if (write_fd != 1)
+          dup2(write_fd, STDOUT_FILENO);
         len = ft_strlen2(input->command);
         if (len == ft_strlen2("pwd") && ft_strncmp(input->command, "pwd", ft_strlen2("pwd")) == 0)
         pwd_simple(data, input, read_fd, write_fd);
@@ -123,6 +123,8 @@ void exec(t_exec *data, t_cmd *input)
         unset_simple(data, input, read_fd, write_fd);
         else
         execve_handle_simple(data, input, read_fd, write_fd);
+        if (write_fd != 1)
+          dup2(saved_fd, STDOUT_FILENO);
     }
   }
   else
