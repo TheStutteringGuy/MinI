@@ -6,13 +6,13 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/07/31 01:59:25 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/15 21:50:28 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void handle_arg(t_cmd *input)
+static int handle_arg(t_cmd *input)
 {
     int i;
 
@@ -22,7 +22,8 @@ static void handle_arg(t_cmd *input)
     if (i > 1)
     {
         printf("cd: too many arguments\n");
-        exit(1);
+        *input->last_exit_status = 1;
+        return (-1);
     }
 }
 
@@ -33,11 +34,13 @@ void    cd_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
     (void)data;
     if (input->arguments[0])
     {
-        handle_arg(input);
+        if (handle_arg(input) == -1)
+            return ;
         if (chdir(input->arguments[0]) != 0)
         {
             printf("cd: %s: %s\n", input->arguments[0], strerror(errno));
-            exit(1);
+            *input->last_exit_status = 1;
+            return ;
         }
     }
     getcwd(cwd, PATH_MAX);

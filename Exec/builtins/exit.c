@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/08/01 22:53:02 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/15 21:57:04 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void handle_arg(t_cmd *input)
+static int handle_arg(t_cmd *input)
 {
     int i;
 
@@ -22,11 +22,12 @@ static void handle_arg(t_cmd *input)
     if (i > 1)
     {
         printf("exit: too many arguments\n");
-        exit(1);
+        *input->last_exit_status = 1;
+        return (-1);
     }
 }
 
-static void pars_arg(t_cmd *input)
+static int pars_arg(t_cmd *input)
 {
     int i;
 
@@ -37,8 +38,9 @@ static void pars_arg(t_cmd *input)
     {
         if (ft_isdigit(input->arguments[0][i]) == 0)
         {
-            printf("exit %s: %s\n", input->arguments[0], "numeric argument required");
-            exit(1);
+            printf("exit: %s: %s\n", input->arguments[0], "numeric argument required");
+            *input->last_exit_status = 1;
+            return (-1);
         }
         ++i;
     }
@@ -50,8 +52,10 @@ void    exit_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
     printf("exit\n");
     if (input->arguments[0])
     {
-        handle_arg(input);
-        pars_arg(input);
+        if (handle_arg(input) == -1)
+            return ;
+        if (pars_arg(input) == -1)
+            return ;
         exit(ft_atoi(input->arguments[0]));
     }
     exit(*input->last_exit_status);

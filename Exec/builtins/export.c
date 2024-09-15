@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/07/31 02:00:44 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/15 21:59:10 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,15 @@ void    sort_list(t_linked **list)
     }
 }
 
-static void handle_arg(char *str, int *flag)
+static int handle_arg(char *str, int *flag, t_cmd *input)
 {
     int j;
 
     if (ft_isalpha(str[0]) == 0 && str[0] != '_')
     {
         printf("export: `%s': not a valid identifier\n", str);
-        exit (1);
+        *input->last_exit_status = 1;
+        return (-1);
     }
     j = 1;
     while (str[j] != '\0')
@@ -73,7 +74,8 @@ static void handle_arg(char *str, int *flag)
             if (ft_isalpha(str[j]) == 0 && ft_isdigit(str[j]) == 0 && str[j] != '_')
             {
                 printf("export: `%s': not a valid identifier\n", str);
-                exit (1);
+                *input->last_exit_status = 1;
+                return (-1);
             }
             j++;
         }
@@ -85,7 +87,8 @@ static void handle_arg(char *str, int *flag)
             if (ft_isalpha(str[j]) == 0 && ft_isdigit(str[j]) == 0 && str[j] != '_')
             {
                 printf("export: `%s': not a valid identifier\n", str);
-                exit (1);
+                *input->last_exit_status = 1;
+                return (-1);
             }
             j++;
         }
@@ -152,7 +155,8 @@ void    export_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
     {
         while (input->arguments[i])
         {
-            handle_arg(input->arguments[i], &flag);
+            if (handle_arg(input->arguments[i], &flag, input) == -1)
+                return ;
             printf("%d\n", flag);
             if (flag == 1)
                 handle_equal(data, input->arguments[i]);
