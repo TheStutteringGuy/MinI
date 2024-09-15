@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 01:51:10 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/11 21:51:46 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/15 01:51:48 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <sys/time.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <sys/stat.h>
 
 # define PATH_MAX 4096
 
