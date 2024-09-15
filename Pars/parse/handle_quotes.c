@@ -5,18 +5,39 @@ char *remove_quotes(char *token)
 {
     size_t len;
     char *new_token;
+    int i;
+    int j;
+    char current_quote;
 
     len = ft_strlen(token);
-    if (len < 2 || !((token[0] == '"' && token[len - 1] == '"') || (token[0] == '\'' && token[len - 1] == '\'')))
+    if (len < 2)
         return (ft_strdup(token));
-    new_token = malloc(len - 1);
+
+    new_token = malloc(len + 1);
     if (!new_token)
     {
         printf("Error: malloc failed\n");
         exit(1);
     }
-    ft_strncpy(new_token, token + 1, len - 2);
-    new_token[len - 2] = '\0';
+    i = 0;
+    j = 0;
+    current_quote = '\0';
+    while (i < len)
+    {
+        if ((token[i] == '"' || token[i] == '\'') && current_quote == '\0')
+        {
+            current_quote = token[i];
+            i++;
+        }
+        else if (token[i] == current_quote)
+        {
+            current_quote = '\0';
+            i++;
+        }
+        else
+            new_token[j++] = token[i++];
+    }
+    new_token[j] = '\0';
     return (new_token);
 }
 
