@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 10:00:54 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/15 01:52:59 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/15 02:37:48 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int  handle_output(t_exec *data, t_cmd *input)
     }
     return (fd);
   }
-  return (0);
+  return (1);
 }
 
 void exec(t_exec *data, t_cmd *input)
@@ -99,14 +99,14 @@ void exec(t_exec *data, t_cmd *input)
   int write_fd;
 
   read_fd = 0;
-  write_fd = 0;
-  len = ft_strlen2(input->command);
+  write_fd = 1;
   if (!input->next)
   {
     read_fd = handle_input(data, input);
     write_fd = handle_output(data, input);
     if (input->command)
     {
+        len = ft_strlen2(input->command);
         if (len == ft_strlen2("pwd") && ft_strncmp(input->command, "pwd", ft_strlen2("pwd")) == 0)
         pwd_simple(data, input, read_fd, write_fd);
         else if (len == ft_strlen2("env") && ft_strncmp(input->command, "env", ft_strlen2("env")) == 0)
