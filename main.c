@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/15 22:53:03 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/16 21:26:21 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void input_null(char *input)
     free(input);
     exit(0);
 }
+int last_exit_status = 0;
 
 int main(int ac, char **av, char **envp)
 {

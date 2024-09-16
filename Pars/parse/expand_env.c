@@ -7,6 +7,8 @@ char *expand_env_var(char *token)
 
     if (token[0] == '$')
     {
+        if (ft_strcmp(token, "$?") == 0)
+            return (ft_itoa(last_exit_status));
         env_var = token + 1;
         env_value = getenv(env_var);
         if (env_value != NULL)

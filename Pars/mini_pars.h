@@ -2,6 +2,8 @@
 #ifndef MINI_PARS_H
 #define MINI_PARS_H
 
+extern int last_exit_status;
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
