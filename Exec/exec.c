@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 10:00:54 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/16 22:10:32 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/16 23:22:59 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ void  handle_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
   size_t len;
 
   len = ft_strlen2(input->command);
+  dup2(read_fd, 0);
+  dup2(write_fd, 1);
   if (len == ft_strlen2("pwd") && ft_strncmp(input->command, "pwd", ft_strlen2("pwd")) == 0)
     pwd_hard(data, input, read_fd, write_fd);
   else if (len == ft_strlen2("env") && ft_strncmp(input->command, "env", ft_strlen2("env")) == 0)

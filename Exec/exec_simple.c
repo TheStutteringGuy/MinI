@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 02:21:40 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/16 22:14:01 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/16 23:09:37 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,16 @@ static char **join_to_array(char *str, char **array)
 
 static void    ft_acces(t_exec *data, t_cmd *input)
 {
-    errno = 0;
+    struct stat info;
+    
+    if (stat(input->command, &info) == 0)
+    {
+        if (S_ISDIR(info.st_mode) != 0)
+        {
+            printf("%s: %s\n", input->command, "Is a directory");
+            exit(126);
+        }
+    }
     if (access(input->command, F_OK | X_OK) == 0)
     {
         data->arg = join_to_array(input->command, input->arguments);
@@ -72,12 +81,11 @@ static void    ft_acces(t_exec *data, t_cmd *input)
     }
     else
     {
+        printf("ERROR\n");
         printf("%s: %s\n", input->command, strerror(errno));
         if (errno == ENOENT)
             exit(127);
         if (errno == EACCES)
-            exit(126);
-        if (errno == EISDIR)
             exit(126);
     }
     exit(0);
