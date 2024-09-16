@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/15 21:59:10 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/16 20:50:58 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int handle_arg(char *str, int *flag, t_cmd *input)
     if (ft_isalpha(str[0]) == 0 && str[0] != '_')
     {
         printf("export: `%s': not a valid identifier\n", str);
-        *input->last_exit_status = 1;
+        last_exit_status = 1;
         return (-1);
     }
     j = 1;
@@ -74,7 +74,7 @@ static int handle_arg(char *str, int *flag, t_cmd *input)
             if (ft_isalpha(str[j]) == 0 && ft_isdigit(str[j]) == 0 && str[j] != '_')
             {
                 printf("export: `%s': not a valid identifier\n", str);
-                *input->last_exit_status = 1;
+                last_exit_status = 1;
                 return (-1);
             }
             j++;
@@ -87,7 +87,7 @@ static int handle_arg(char *str, int *flag, t_cmd *input)
             if (ft_isalpha(str[j]) == 0 && ft_isdigit(str[j]) == 0 && str[j] != '_')
             {
                 printf("export: `%s': not a valid identifier\n", str);
-                *input->last_exit_status = 1;
+                last_exit_status = 1;
                 return (-1);
             }
             j++;

@@ -1,4 +1,3 @@
-
 #ifndef MINI_PARS_H
 #define MINI_PARS_H
 
@@ -16,6 +15,8 @@
 #include <stdarg.h>
 #include <stddef.h>
 #include "../Exec/Libft/libft.h"
+
+extern int last_exit_status;
 
 // the enum used for the lexer and tokenization
 typedef enum s_type
@@ -60,7 +61,7 @@ typedef struct s_cmd
 {
     char *command;
     char **arguments;
-    // int *last_exit_status;
+    int *last_exit_status;
     t_input_file *input_files;   // Linked list of input files
     t_output_file *output_files; // Linked list of output files
     struct s_cmd *next;

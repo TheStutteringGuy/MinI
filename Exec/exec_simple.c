@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 02:21:40 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/15 22:56:16 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/16 20:49:14 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,6 @@ void				execve_handle_simple(t_exec *data, t_cmd *input, int read_fd, int write_
     {
         signal(SIGINT, SIG_IGN);
         waitpid(id, &status, 0);
-        *input->last_exit_status = WEXITSTATUS(status);
+        last_exit_status = WEXITSTATUS(status);
     }
 }

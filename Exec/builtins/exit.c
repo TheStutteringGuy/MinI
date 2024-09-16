@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/16 20:39:49 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/16 20:51:09 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int handle_arg(t_cmd *input)
     if (i > 1)
     {
         printf("exit: too many arguments\n");
-        *input->last_exit_status = 1;
+        last_exit_status = 1;
         return (-1);
     }
 }
@@ -39,7 +39,7 @@ static int pars_arg(t_cmd *input)
         if (ft_isdigit(input->arguments[0][i]) == 0)
         {
             printf("exit: %s: %s\n", input->arguments[0], "numeric argument required");
-            *input->last_exit_status = 1;
+            last_exit_status = 1;
             return (-1);
         }
         ++i;
@@ -58,5 +58,5 @@ void    exit_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
             return ;
         exit(ft_atoi(input->arguments[0]));
     }
-    exit(*input->last_exit_status);
+    exit(last_exit_status);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/16 21:26:21 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/16 20:59:25 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,15 @@ int main(int ac, char **av, char **envp)
         input = readline("Minishell -> ");
         if (input == NULL)
             input_null(input);
-        if (input[0] == '\0' || ft_isspace(*input))
+        else if (input[0] == '\0' || ft_isspace(*input))
             free(input);
-        if (!handle_incorrect_quotes(input))
-        {
-            free(input);
-            continue;
-        }
         else
         {
+            if (!handle_incorrect_quotes(input))
+            {
+                free(input);
+                continue;
+            }
             add_history(input);
             t_token *token_list = NULL;
             tokenize_input(input, &token_list);

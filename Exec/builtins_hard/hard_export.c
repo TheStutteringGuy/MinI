@@ -6,13 +6,13 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/15 22:53:27 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/16 20:55:34 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void    ft_swap(t_linked *list1, t_linked *list2)
+static void    ft_swap(t_linked *list1, t_linked *list2)
 {
     char *tmp_key;
     char *tmp_value;
@@ -26,7 +26,7 @@ void    ft_swap(t_linked *list1, t_linked *list2)
     list2->value = tmp_value;
 }
 
-void    sort_list(t_linked **list)
+static void    sort_list(t_linked **list)
 {
     t_linked *iterat;
     t_linked *iterat2;
@@ -85,7 +85,7 @@ static void handle_arg(char *str, int *flag, t_cmd *input)
             if (ft_isalpha(str[j]) == 0 && ft_isdigit(str[j]) == 0 && str[j] != '_')
             {
                 printf("export: `%s': not a valid identifier\n", str);
-                *input->last_exit_status = 1;
+                last_exit_status = 1;
                 exit(1);
             }
             j++;
@@ -93,7 +93,7 @@ static void handle_arg(char *str, int *flag, t_cmd *input)
     }
 }
 
-void    see_if_it_exist(t_exec *data, char *str)
+static void    see_if_it_exist(t_exec *data, char *str)
 {
     t_linked *iterate;
 
@@ -108,7 +108,7 @@ void    see_if_it_exist(t_exec *data, char *str)
     free(str);
 }
 
-void    handle_equal(t_exec *data, char *str)
+static void    handle_equal(t_exec *data, char *str)
 {
     int i;
     int j;
@@ -134,7 +134,7 @@ void    handle_equal(t_exec *data, char *str)
     create_node(&data->export, ft_substr(str, 0, j), ft_substr(str, z, y), 1);
 }
 
-void    handle_not(t_exec *data, t_linked **list, char *str)
+static void    handle_not(t_exec *data, t_linked **list, char *str)
 {
     see_if_it_exist(data, ft_substr(str, 0, ft_strlen2(str)));
     create_node(list, ft_substr(str, 0, ft_strlen2(str)), ft_substr(str, 0, 0), 1);

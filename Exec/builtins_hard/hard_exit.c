@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/15 22:53:17 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/16 20:49:37 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,5 @@ void    exit_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
         pars_arg(input);
         exit(ft_atoi(input->arguments[0]));
     }
-    exit(*input->last_exit_status);
+    exit(last_exit_status);
 }

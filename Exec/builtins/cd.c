@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/15 21:50:28 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/16 20:50:34 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int handle_arg(t_cmd *input)
     if (i > 1)
     {
         printf("cd: too many arguments\n");
-        *input->last_exit_status = 1;
+        last_exit_status = 1;
         return (-1);
     }
 }
@@ -39,7 +39,7 @@ void    cd_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
         if (chdir(input->arguments[0]) != 0)
         {
             printf("cd: %s: %s\n", input->arguments[0], strerror(errno));
-            *input->last_exit_status = 1;
+            last_exit_status = 1;
             return ;
         }
     }
