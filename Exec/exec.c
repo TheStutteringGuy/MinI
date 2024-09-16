@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 10:00:54 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/15 22:54:52 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/16 22:10:32 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,12 +170,14 @@ void exec(t_exec *data, t_cmd *input)
       if (read_fd == -1)
         return ;
       write_fd = handle_output(data, input);
+      handle_hard(data, input, read_fd, write_fd);
+      exit(0);
     }
     else
     {
       signal(SIGINT, SIG_IGN);
       waitpid(id, &status, 0);
-      *input->last_exit_status = WEXITSTATUS(status);
+     last_exit_status = WEXITSTATUS(status);
     }
   }
 }

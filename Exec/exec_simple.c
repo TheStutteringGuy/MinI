@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 02:21:40 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/16 20:49:14 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/16 22:14:01 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char **case_one(char *str)
     arg = malloc(sizeof(char *) * 2);
     if (!arg)
     {
-        printf("OOPS\n");
+        printf("failed to alloate arg\n");
         exit(1);
     }
     arg[0] = ft_substr(str, 0, ft_strlen2(str));
@@ -46,7 +46,7 @@ static char **join_to_array(char *str, char **array)
     argv = malloc(sizeof(char *) * (total + 1));
     if (!argv)
     {
-        printf("OOPS\n");
+        printf("failed to allocate argv\n");
         exit(0);
     }
     argv[total] = NULL;

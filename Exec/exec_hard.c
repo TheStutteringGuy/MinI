@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 22:33:35 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/15 22:59:23 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/16 22:12:16 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char **join_to_array(char *str, char **array)
     argv = malloc(sizeof(char *) * (total + 1));
     if (!argv)
     {
-        printf("OOPS\n");
+        printf("failed to allocate argv\n");
         exit(0);
     }
     argv[total] = NULL;
@@ -162,7 +162,5 @@ void				execve_handle_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd
     data->envp = malloc(sizeof(char *) * (i + 1));
     data->envp[i] = NULL;
     turn(data->envp, data->environ);
-    signal(SIGINT, SIG_DFL);
-    signal(SIGQUIT, SIG_DFL);
     child_function(data, input);
 }
