@@ -14,7 +14,7 @@ SRCS_Pars = Pars/*.c Pars/lexer/*.c Pars/parse/*.c
 
 # TheStutteringGUy Srcs:
 
-SRCS_Exec = Exec/*.c Exec/get_next_line/*.c Exec/builtins/*.c
+SRCS_Exec = Exec/*.c Exec/get_next_line/*.c Exec/builtins/*.c Exec/builtins_hard/*.c
 
 FLAGS = -L Exec/Libft -lft
 
