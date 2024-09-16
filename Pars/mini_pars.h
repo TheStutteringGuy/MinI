@@ -2,8 +2,6 @@
 #ifndef MINI_PARS_H
 #define MINI_PARS_H
 
-extern int last_exit_status;
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -62,7 +60,7 @@ typedef struct s_cmd
 {
     char *command;
     char **arguments;
-    int *last_exit_status;
+    // int *last_exit_status;
     t_input_file *input_files;   // Linked list of input files
     t_output_file *output_files; // Linked list of output files
     struct s_cmd *next;
