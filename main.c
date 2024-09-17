@@ -29,6 +29,8 @@ int main(int ac, char **av, char **envp)
     char *input;
     t_cmd *parsed_cmd;
     t_exec data;
+    t_cmd *cmd_list;
+    t_token *token_list;
 
     (void)envp;
     (void)ac;
@@ -56,17 +58,22 @@ int main(int ac, char **av, char **envp)
         input = readline("Minishell -> ");
         if (input == NULL)
             input_null(input);
-        else if (input[0] == '\0' || ft_isspace(*input))
-            free(input);
         else
         {
+            input = trim_spaces(input);
+            //printf("%s\n", input);
+            if (input[0] == '\0')
+            {
+                //free(input);
+                continue;
+            }
             if (!handle_incorrect_quotes(input))
             {
                 free(input);
                 continue;
             }
             add_history(input);
-            t_token *token_list = NULL;
+            token_list = NULL;
             tokenize_input(input, &token_list);
             if (check_syntax_errors(token_list))
             {
@@ -74,7 +81,7 @@ int main(int ac, char **av, char **envp)
                 free(input);
                 continue;
             }
-            t_cmd *cmd_list = parse_tokens(token_list);
+            cmd_list = parse_tokens(token_list);
             print_commands(cmd_list);
             printf("\n\n");
             exec(&data, cmd_list);

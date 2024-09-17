@@ -78,6 +78,7 @@ char *ft_strncpy(char *dest, const char *src, size_t n);
 bool ft_isspace(int c);
 void *ft_memset(void *s, int c, size_t n);
 char	*ft_itoa(int n);
+int	ft_isdigit(int c);
 
 // lexer includes
 t_token *create_token(t_type type, char *value);
@@ -112,6 +113,7 @@ void free_commands(t_cmd *cmd_list);
 int check_syntax_errors(t_token *token_list);
 char *remove_quotes(char *token);
 char *handle_incorrect_quotes(char *token);
+char *trim_spaces(char *str);
 
 // env includes
 char *expand_env_var(char *token);
