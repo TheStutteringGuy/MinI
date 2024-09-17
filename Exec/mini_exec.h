@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 01:51:10 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/15 22:59:39 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/17 19:48:18 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include <sys/stat.h>
 
 # define PATH_MAX 4096
+# define TRUE 1
 
 // STRUCTS :
 

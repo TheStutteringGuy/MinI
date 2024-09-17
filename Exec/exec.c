@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 10:00:54 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/16 23:22:59 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/17 20:35:27 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int handle_input(t_exec *data, t_cmd *input)
 {
   t_input_file *iterate;
   int fd;
+  char *hered_inp;
 
   iterate = input->input_files;
   if (iterate != NULL)
@@ -59,7 +60,30 @@ int handle_input(t_exec *data, t_cmd *input)
         else
         {
           printf("%s: %s\n", iterate->filename, strerror(errno));
-          return(*input->last_exit_status = 1, -1);
+          return(last_exit_status = 1, -1);
+        }
+      }
+      else if (iterate->heredoc == true)
+      {
+        fd = open("HEREDOC", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
+        if (fd == -1)
+        {
+          printf("Poblem in HEREDOC FILE\n");
+          exit(1);
+        }
+        while (TRUE)
+        {
+          hered_inp = readline("> ");
+          if (!hered_inp)
+            break;
+          else if (ft_strlen2(hered_inp) == ft_strlen2(iterate->delimiter) && ft_strncmp(hered_inp, iterate->delimiter, ft_strlen2(iterate->delimiter)) == 0)
+          {
+            free(hered_inp);
+            break;
+          }
+          write(fd, hered_inp, ft_strlen2(hered_inp));
+          write(fd, "\n", 1);
+          free(hered_inp);
         }
       }
       iterate = iterate->next;
@@ -160,6 +184,7 @@ void exec(t_exec *data, t_cmd *input)
     write_fd = handle_output(data, input);
     if (input->command)
       handle_simple(data, input, read_fd, write_fd);
+    unlink("HEREDOC");
   }
   else
   {
@@ -173,13 +198,14 @@ void exec(t_exec *data, t_cmd *input)
         return ;
       write_fd = handle_output(data, input);
       handle_hard(data, input, read_fd, write_fd);
+      unlink("HEREDOC");
       exit(0);
     }
     else
     {
       signal(SIGINT, SIG_IGN);
       waitpid(id, &status, 0);
-     last_exit_status = WEXITSTATUS(status);
+      last_exit_status = WEXITSTATUS(status);
     }
   }
 }
