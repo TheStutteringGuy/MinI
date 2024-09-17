@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 10:00:54 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/17 20:35:27 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/17 21:43:51 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ int handle_input(t_exec *data, t_cmd *input)
         else
         {
           printf("%s: %s\n", iterate->filename, strerror(errno));
-          return(last_exit_status = 1, -1);
+          return (last_exit_status = 1, -1);
         }
       }
-      else if (iterate->heredoc == true)
+      else
       {
         fd = open("HEREDOC", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
         if (fd == -1)
@@ -85,6 +85,9 @@ int handle_input(t_exec *data, t_cmd *input)
           write(fd, "\n", 1);
           free(hered_inp);
         }
+        close(fd);
+        fd = open("HEREDOC", O_CREAT | O_RDWR, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
+        unlink("HEREDOC");
       }
       iterate = iterate->next;
     }
@@ -143,7 +146,7 @@ void handle_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
     dup2(saved_fd, STDOUT_FILENO);
 }
 
-void  handle_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
+void handle_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 {
   int saved_fd;
   size_t len;
@@ -180,11 +183,10 @@ void exec(t_exec *data, t_cmd *input)
   {
     read_fd = handle_input(data, input);
     if (read_fd == -1)
-      return ;
+      return;
     write_fd = handle_output(data, input);
     if (input->command)
       handle_simple(data, input, read_fd, write_fd);
-    unlink("HEREDOC");
   }
   else
   {
@@ -195,10 +197,9 @@ void exec(t_exec *data, t_cmd *input)
       signal(SIGQUIT, SIG_DFL);
       read_fd = handle_input(data, input);
       if (read_fd == -1)
-        return ;
+        exit(1);
       write_fd = handle_output(data, input);
       handle_hard(data, input, read_fd, write_fd);
-      unlink("HEREDOC");
       exit(0);
     }
     else

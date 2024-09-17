@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/16 20:59:25 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/17 21:54:27 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,8 @@ int main(int ac, char **av, char **envp)
         else
         {
             input = trim_spaces(input);
-            //printf("%s\n", input);
             if (input[0] == '\0')
-            {
-                //free(input);
                 continue;
-            }
             if (!handle_incorrect_quotes(input))
             {
                 free(input);
