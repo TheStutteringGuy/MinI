@@ -5,8 +5,9 @@ char *expand_env_var(char *token)
     char *env_var;
     char *env_value;
 
-    if (token[0] == '\'' && token[ft_strlen(token - 1) - 1] == '\'')
+    if (token[0] == '\'' && token[ft_strlen(token) - 1] == '\'')
         return (ft_strdup(token));
+    
     if (token[0] == '$')
     {
         if (ft_strcmp(token, "$?") == 0)
@@ -20,7 +21,7 @@ char *expand_env_var(char *token)
             return (ft_strdup(env_value));
         else
         {
-            printf("Invalid env \n");
+            printf("Invalid env: %s\n", env_var);
             return (ft_strdup(""));
         }
     }

@@ -79,6 +79,9 @@ bool ft_isspace(int c);
 void *ft_memset(void *s, int c, size_t n);
 char	*ft_itoa(int n);
 int	ft_isdigit(int c);
+int	ft_isalnum(int c);
+int	ft_isalpha(int c);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 
 // lexer includes
 t_token *create_token(t_type type, char *value);

@@ -4,15 +4,12 @@
 void process_command_or_argument(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected)
 {
     t_cmd *new_cmd;
-    char *expand_val;
 
     if (*expected == COMMAND)
     {
         if (*current_cmd && (*current_cmd)->command == NULL)
         {
-            expand_val = expand_env_var((*current_token)->value);
             (*current_cmd)->command = ft_strdup((*current_token)->value);
-            free(expand_val);
             (*current_cmd)->arguments = malloc(sizeof(char *) * 2);
             (*current_cmd)->arguments[0] = NULL;
         }
@@ -31,9 +28,7 @@ void process_command_or_argument(t_cmd **cmd_list, t_cmd **current_cmd, t_token 
     {
         if (*current_cmd)
         {
-            expand_val = expand_env_var((*current_token)->value);
             add_argument_to_command(*current_cmd, *current_token);
-            free(expand_val);
         }
     }
 }
@@ -72,11 +67,23 @@ void process_redirection_or_pipe(t_cmd **cmd_list, t_cmd **current_cmd, t_token 
 void process_token(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected)
 {
     char *expand_val;
+    char *token_val;
+    size_t len;
 
-    if ((*current_token)->type == COMMAND || (*current_token)->type == ARGUMENT)
+    token_val = (*current_token)->value;
+    len = ft_strlen(token_val);
+    if (token_val[0] == '\'' && token_val[len - 1] == '\'')
     {
+        (*current_token)->value = remove_quotes((*current_token)->value);
+    }
+    else if ((*current_token)->type == COMMAND || (*current_token)->type == ARGUMENT)
+    {
+        (*current_token)->value = remove_quotes((*current_token)->value);
         expand_val = expand_env_var((*current_token)->value);
         (*current_token)->value = expand_val;
+    }
+    if ((*current_token)->type == COMMAND || (*current_token)->type == ARGUMENT)
+    {
         process_command_or_argument(cmd_list, current_cmd, current_token, expected);
     }
     else if ((*current_token)->type == PIPE || (*current_token)->type == RED_IN ||

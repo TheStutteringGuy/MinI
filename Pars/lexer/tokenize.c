@@ -11,7 +11,7 @@ t_token *create_token(t_type type, char *value)
     if (!new_token)
         return NULL;
     new_token->type = type;
-    new_token->value = remove_quotes(value);
+    new_token->value = ft_strdup(value);
     new_token->next = NULL;
     return (new_token);
 }
@@ -45,7 +45,7 @@ t_type classify_token(char *token, t_type expected)
         return (HERDOC);
     else if (ft_strcmp(token, ">>") == 0)
         return (APPEND);
-    if (token[0] == '$')
+    if (token[0] == "$")
         return (ENV);
     else
         return (expected);
@@ -73,10 +73,7 @@ void handle_token(t_token **token_list, char *token, t_type *expected)
         free(expand_token);
     }
     else
-    {
-        //processed_token = remove_quotes(processed_token);
         new_token = create_token(type, processed_token);
-    }
     if (new_token)
         add_token(token_list, new_token);
     if (type == PIPE)
