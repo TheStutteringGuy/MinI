@@ -45,8 +45,7 @@ t_type classify_token(char *token, t_type expected)
         return (HERDOC);
     else if (ft_strcmp(token, ">>") == 0)
         return (APPEND);
-
-    else if (token[0] == "$")
+    if (token[0] == '$')
         return (ENV);
     else
         return (expected);
@@ -75,6 +74,7 @@ void handle_token(t_token **token_list, char *token, t_type *expected)
     }
     else
     {
+        //processed_token = remove_quotes(processed_token);
         new_token = create_token(type, processed_token);
     }
     if (new_token)
