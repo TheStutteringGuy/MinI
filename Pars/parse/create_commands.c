@@ -57,7 +57,7 @@ void add_argument_to_command(t_cmd *current_cmd, t_token *token)
     current_cmd->arguments = new_arguments;
 }
 
-void    add_redirection(t_output_input **redirection, char *filename, int heredoc, char *delimiter, int append, int value)
+void add_redirection(t_output_input **redirection, char *filename, int heredoc, char *delimiter, int append, int value)
 {
     t_output_input *new;
     t_output_input *iterate;
@@ -66,7 +66,7 @@ void    add_redirection(t_output_input **redirection, char *filename, int heredo
         exit(1234);
     new = malloc(sizeof(t_output_input));
     if (!new)
-        return ;
+        return;
     new->whichis = value;
     new->filename = ft_strdup(filename);
     new->append = append;
@@ -79,7 +79,7 @@ void    add_redirection(t_output_input **redirection, char *filename, int heredo
     if (*redirection == NULL)
     {
         *redirection = new;
-        return ;
+        return;
     }
     iterate = *redirection;
     while (iterate->next)

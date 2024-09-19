@@ -11,6 +11,7 @@ char *remove_quotes(char *token)
     int env_start;
     char *env_var;
     char *env_value;
+    char *str;
     size_t env_len;
     char *temp;
 
@@ -49,12 +50,13 @@ char *remove_quotes(char *token)
                 return (ft_itoa(last_exit_status));
             else if (env_var[0] == '?' && env_var[1] != '\0')
             {
-                char *str;
                 str = ft_itoa(last_exit_status);
                 env_var[0] = str[0];
                 return (env_var);
             }
             env_value = getenv(env_var);
+            if (env_value == NULL)
+                   return (NULL);
             free(env_var);
             if (env_value)
             {
@@ -115,7 +117,8 @@ char *handle_incorrect_quotes(char *token)
     if (single_quotes % 2 != 0 || double_quotes % 2 != 0)
     {
         printf("Syntax error: unclosed quotes\n");
-        return NULL;
+        last_exit_status = 130;
+        return (NULL);
     }
     return (ft_strdup(token));
 }

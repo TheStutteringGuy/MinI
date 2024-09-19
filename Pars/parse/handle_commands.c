@@ -75,10 +75,14 @@ void process_token(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_toke
     if (token_val[0] == '\'' && token_val[len - 1] == '\'')
     {
         (*current_token)->value = remove_quotes((*current_token)->value);
+        if ((*current_token)->value == NULL)
+            return ;
     }
     else if ((*current_token)->type == COMMAND || (*current_token)->type == ARGUMENT)
     {
         (*current_token)->value = remove_quotes((*current_token)->value);
+        if ((*current_token)->value == NULL)
+            return ;
     }
     if ((*current_token)->type == COMMAND || (*current_token)->type == ARGUMENT)
     {

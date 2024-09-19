@@ -27,8 +27,7 @@ typedef enum s_type
     RED_IN,
     RED_OUT,
     APPEND,
-    HERDOC,
-    ENV
+    HERDOC
 } t_type;
 
 // struct for the tokens

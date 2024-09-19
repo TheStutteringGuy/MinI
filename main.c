@@ -78,6 +78,11 @@ int main(int ac, char **av, char **envp)
                 continue;
             }
             cmd_list = parse_tokens(token_list);
+            if (cmd_list == NULL)
+            {
+                free(cmd_list);
+                continue;
+            }
             print_commands(cmd_list);
             printf("\n\n");
             exec(&data, cmd_list);

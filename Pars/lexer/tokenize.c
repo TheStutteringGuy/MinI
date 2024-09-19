@@ -45,8 +45,6 @@ t_type classify_token(char *token, t_type expected)
         return (HERDOC);
     else if (ft_strcmp(token, ">>") == 0)
         return (APPEND);
-    if (token[0] == "$")
-        return (ENV);
     else
         return (expected);
 }
