@@ -40,21 +40,34 @@ typedef struct s_token
 } t_token;
 
 // struct for the ouput files
-typedef struct s_output_file
+// typedef struct s_output_file
+// {
+//     char *filename;
+//     int append; // 0 if normal redirection, 1 if append
+//     struct s_output_file *next;
+// } t_output_file;
+
+// // struct for the input files
+// typedef struct s_input_file
+// {
+//     int heredoc;
+//     char *delimiter;
+//     char *filename;
+//     struct s_input_file *next;
+// } t_input_file;
+
+
+// Struct for both output and input
+typedef struct s_output_input
 {
+    int whichis;
     char *filename;
     int append; // 0 if normal redirection, 1 if append
-    struct s_output_file *next;
-} t_output_file;
-
-// struct for the input files
-typedef struct s_input_file
-{
     int heredoc;
     char *delimiter;
-    char *filename;
-    struct s_input_file *next;
-} t_input_file;
+    struct s_output_input *next;
+} t_output_input;
+
 
 // main struct
 typedef struct s_cmd
@@ -62,8 +75,9 @@ typedef struct s_cmd
     char *command;
     char **arguments;
     int *last_exit_status;
-    t_input_file *input_files;   // Linked list of input files
-    t_output_file *output_files; // Linked list of output files
+    t_output_input *redirection;
+    // t_input_file *input_files;   // Linked list of input files
+    // t_output_file *output_files; // Linked list of output files
     struct s_cmd *next;
 } t_cmd;
 
@@ -79,9 +93,6 @@ bool ft_isspace(int c);
 void *ft_memset(void *s, int c, size_t n);
 char	*ft_itoa(int n);
 int	ft_isdigit(int c);
-int	ft_isalnum(int c);
-int	ft_isalpha(int c);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
 
 // lexer includes
 t_token *create_token(t_type type, char *value);
@@ -89,8 +100,15 @@ void add_token(t_token **head, t_token *new_token);
 t_type classify_token(char *token, t_type expected);
 void handle_token(t_token **token_list, char *token, t_type *expected);
 void tokenize_input(char *input, t_token **token_list);
-void add_input_file(t_input_file **input_list, char *filename, int heredoc, char *delimiter);
-void add_output_file(t_output_file **output_list, char *filename, int append);
+
+///
+// void add_input_file(t_input_file **input_list, char *filename, int heredoc, char *delimiter);
+// t_input_file *add_input_file(char *filename, int heredoc, char *delimiter);
+
+// void add_output_file(t_output_file **output_list, char *filename, int append);
+// t_output_file *add_output_file(char *filename, int append);
+
+///
 
 // parser includes
 t_cmd *create_new_command(t_token *token);
@@ -108,8 +126,8 @@ void print_commands(t_cmd *cmd_list);
 // free resources
 void free_tokens(t_token *token_list);
 void free_token(char **tokens);
-void free_input_files(t_input_file *input_list);
-void free_output_files(t_output_file *output_list);
+// void free_input_files(t_input_file *input_list);
+// void free_output_files(t_output_file *output_list);
 void free_commands(t_cmd *cmd_list);
 
 // quotes includes

@@ -1,6 +1,5 @@
 #include "../mini_pars.h"
 
-// Create a new command
 t_cmd *create_new_command(t_token *token)
 {
     t_cmd *new_cmd;
@@ -23,8 +22,9 @@ t_cmd *create_new_command(t_token *token)
         exit(1);
     *new_cmd->last_exit_status = 0;
     new_cmd->arguments[0] = NULL;
-    new_cmd->input_files = NULL;
-    new_cmd->output_files = NULL;
+    new_cmd->redirection = NULL;
+    // new_cmd->input_files = NULL;
+    // new_cmd->output_files = NULL;
     new_cmd->next = NULL;
     return new_cmd;
 }
@@ -57,6 +57,36 @@ void add_argument_to_command(t_cmd *current_cmd, t_token *token)
     current_cmd->arguments = new_arguments;
 }
 
+void    add_redirection(t_output_input **redirection, char *filename, int heredoc, char *delimiter, int append, int value)
+{
+    t_output_input *new;
+    t_output_input *iterate;
+
+    if (redirection == NULL)
+        exit(1234);
+    new = malloc(sizeof(t_output_input));
+    if (!new)
+        return ;
+    new->whichis = value;
+    new->filename = ft_strdup(filename);
+    new->append = append;
+    new->heredoc = heredoc;
+    if (delimiter)
+        new->delimiter = ft_strdup(delimiter);
+    else
+        new->delimiter = NULL;
+    new->next = NULL;
+    if (*redirection == NULL)
+    {
+        *redirection = new;
+        return ;
+    }
+    iterate = *redirection;
+    while (iterate->next)
+        iterate = iterate->next;
+    iterate->next = new;
+}
+
 // Handle redirections
 void handle_redirections(t_cmd *current_cmd, t_token **current_token)
 {
@@ -68,13 +98,13 @@ void handle_redirections(t_cmd *current_cmd, t_token **current_token)
     if (next_token && (next_token->type == COMMAND || next_token->type == ARGUMENT))
     {
         if (token->type == RED_IN)
-            add_input_file(&current_cmd->input_files, next_token->value, 0, NULL);
+            add_redirection(&current_cmd->redirection, next_token->value, 0, NULL, 0, 0);
         else if (token->type == HERDOC)
-            add_input_file(&current_cmd->input_files, next_token->value, 1, next_token->value);
+            add_redirection(&current_cmd->redirection, next_token->value, 1, next_token->value, 0, 0);
         else if (token->type == RED_OUT)
-            add_output_file(&current_cmd->output_files, next_token->value, 0);
+            add_redirection(&current_cmd->redirection, next_token->value, 0, NULL, 0, 1);
         else if (token->type == APPEND)
-            add_output_file(&current_cmd->output_files, next_token->value, 1);
+            add_redirection(&current_cmd->redirection, next_token->value, 0, NULL, 1, 1);
         *current_token = next_token;
     }
     else
@@ -114,8 +144,9 @@ t_cmd *create_empty_command(void)
         *cmd->last_exit_status = 0;
         cmd->command = NULL;
         cmd->arguments = NULL;
-        cmd->input_files = NULL;
-        cmd->output_files = NULL;
+        cmd->redirection = NULL;
+        // cmd->input_files = NULL;
+        // cmd->output_files = NULL;
         cmd->next = NULL;
     }
     else

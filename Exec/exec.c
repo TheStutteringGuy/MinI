@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 10:00:54 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/17 21:43:51 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/19 01:35:45 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,77 +44,77 @@ void env_list(t_linked **list, char **envp)
 
 int handle_input(t_exec *data, t_cmd *input)
 {
-  t_input_file *iterate;
-  int fd;
-  char *hered_inp;
+  // t_input_file *iterate;
+  // int fd;
+  // char *hered_inp;
 
-  iterate = input->input_files;
-  if (iterate != NULL)
-  {
-    while (iterate)
-    {
-      if (iterate->heredoc == false)
-      {
-        if (access(iterate->filename, F_OK | R_OK) == 0)
-          fd = open(iterate->filename, O_RDONLY);
-        else
-        {
-          printf("%s: %s\n", iterate->filename, strerror(errno));
-          return (last_exit_status = 1, -1);
-        }
-      }
-      else
-      {
-        fd = open("HEREDOC", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
-        if (fd == -1)
-        {
-          printf("Poblem in HEREDOC FILE\n");
-          exit(1);
-        }
-        while (TRUE)
-        {
-          hered_inp = readline("> ");
-          if (!hered_inp)
-            break;
-          else if (ft_strlen2(hered_inp) == ft_strlen2(iterate->delimiter) && ft_strncmp(hered_inp, iterate->delimiter, ft_strlen2(iterate->delimiter)) == 0)
-          {
-            free(hered_inp);
-            break;
-          }
-          write(fd, hered_inp, ft_strlen2(hered_inp));
-          write(fd, "\n", 1);
-          free(hered_inp);
-        }
-        close(fd);
-        fd = open("HEREDOC", O_CREAT | O_RDWR, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
-        unlink("HEREDOC");
-      }
-      iterate = iterate->next;
-    }
-    return (fd);
-  }
-  return (0);
+  // iterate = input->input_files;
+  // if (iterate != NULL)
+  // {
+  //   while (iterate)
+  //   {
+  //     if (iterate->heredoc == false)
+  //     {
+  //       if (access(iterate->filename, F_OK | R_OK) == 0)
+  //         fd = open(iterate->filename, O_RDONLY);
+  //       else
+  //       {
+  //         printf("%s: %s\n", iterate->filename, strerror(errno));
+  //         return (last_exit_status = 1, -1);
+  //       }
+  //     }
+  //     else
+  //     {
+  //       fd = open("HEREDOC", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
+  //       if (fd == -1)
+  //       {
+  //         printf("Poblem in HEREDOC FILE\n");
+  //         exit(1);
+  //       }
+  //       while (TRUE)
+  //       {
+  //         hered_inp = readline("> ");
+  //         if (!hered_inp)
+  //           break;
+  //         else if (ft_strlen2(hered_inp) == ft_strlen2(iterate->delimiter) && ft_strncmp(hered_inp, iterate->delimiter, ft_strlen2(iterate->delimiter)) == 0)
+  //         {
+  //           free(hered_inp);
+  //           break;
+  //         }
+  //         write(fd, hered_inp, ft_strlen2(hered_inp));
+  //         write(fd, "\n", 1);
+  //         free(hered_inp);
+  //       }
+  //       close(fd);
+  //       fd = open("HEREDOC", O_CREAT | O_RDWR, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
+  //       unlink("HEREDOC");
+  //     }
+  //     iterate = iterate->next;
+  //   }
+  //   return (fd);
+  // }
+  // return (0);
 }
 
 int handle_output(t_exec *data, t_cmd *input)
 {
-  t_output_file *iterate;
-  int fd;
+  // t_output_file *iterate;
+  // int fd;
 
-  iterate = input->output_files;
-  if (iterate != NULL)
-  {
-    while (iterate)
-    {
-      if (iterate->append == true)
-        fd = open(iterate->filename, O_CREAT | O_RDWR | O_APPEND, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
-      else
-        fd = open(iterate->filename, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
-      iterate = iterate->next;
-    }
-    return (fd);
-  }
-  return (1);
+  // iterate = input->output_files;
+  // if (iterate != NULL)
+  // {
+  //   while (iterate)
+  //   {
+  //     if (iterate->append == true)
+  //       fd = open(iterate->filename, O_CREAT | O_RDWR | O_APPEND, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
+  //     else
+  //       fd = open(iterate->filename, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
+  //     iterate = iterate->next;
+  //   }
+  //   return (fd);
+  // }
+  // return (1);
 }
 
 void handle_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)

@@ -31,36 +31,36 @@ void free_tokens(t_token *token_list)
 }
 
 // Free the memory allocated for input files
-void free_input_files(t_input_file *input_list)
-{
-    t_input_file *current;
-    t_input_file *next;
+// void free_input_files(t_input_file *input_list)
+// {
+//     t_input_file *current;
+//     t_input_file *next;
 
-    current = input_list;
-    while (current)
-    {
-        next = current->next;
-        free(current->filename);
-        free(current);
-        current = next;
-    }
-}
+//     current = input_list;
+//     while (current)
+//     {
+//         next = current->next;
+//         free(current->filename);
+//         free(current);
+//         current = next;
+//     }
+// }
 
-// Free the memory allocated for output files
-void free_output_files(t_output_file *output_list)
-{
-    t_output_file *current;
-    t_output_file *next;
+// // Free the memory allocated for output files
+// void free_output_files(t_output_file *output_list)
+// {
+//     t_output_file *current;
+//     t_output_file *next;
 
-    current = output_list;
-    while (current)
-    {
-        next = current->next;
-        free(current->filename);
-        free(current);
-        current = next;
-    }
-}
+//     current = output_list;
+//     while (current)
+//     {
+//         next = current->next;
+//         free(current->filename);
+//         free(current);
+//         current = next;
+//     }
+// }
 
 void free_commands(t_cmd *cmd_list)
 {
@@ -80,8 +80,8 @@ void free_commands(t_cmd *cmd_list)
             i++;
         }
         free(current->arguments);
-        free_input_files(current->input_files);
-        free_output_files(current->output_files);
+        // free_input_files(current->input_files);
+        // free_output_files(current->output_files);
         free(current);
         current = next;
     }
