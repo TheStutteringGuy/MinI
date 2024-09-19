@@ -9,7 +9,7 @@ void print_commands(t_cmd *cmd_list)
     current = cmd_list;
     if (current == NULL)
     {
-        printf("SHIT EMPTY\n");
+        printf("INPUT EMPTY\n");
         exit(1);
     }
     while (current)

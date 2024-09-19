@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 22:33:35 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/17 20:09:14 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/19 23:31:31 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ static void    child_function(t_exec *data, t_cmd *input)
         i++;
     }
     printf("%s: command not found\n", input->command);
-    exit(1);
+    exit(127);
 }
 
 static void    turn(char **envp, t_linked *list)

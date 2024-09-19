@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 02:21:40 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/17 21:41:27 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/19 23:29:38 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ static void    ft_acces(t_exec *data, t_cmd *input)
     }
     else
     {
-        printf("ERROR\n");
         printf("%s: %s\n", input->command, strerror(errno));
         if (errno == ENOENT)
             exit(127);
@@ -126,7 +125,8 @@ static void    child_function(t_exec *data, t_cmd *input)
         return ;
     split = ft_split(inp, ':');
     while (split[i])
-    {
+    {void	*ft_memcpy2(void *dest, const void *src, size_t n);
+
         join = ft_strjoin2(split[i], "/");
         check = ft_strjoin2(join, input->command);
         free(join);
@@ -139,7 +139,7 @@ static void    child_function(t_exec *data, t_cmd *input)
         i++;
     }
     printf("%s: command not found\n", input->command);
-    exit(1);
+    exit(127);
 }
 
 static void    turn(char **envp, t_linked *list)
