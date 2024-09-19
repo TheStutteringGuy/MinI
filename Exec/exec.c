@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/22 10:00:54 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/19 02:19:40 by thestutteri      ###   ########.fr       */
+/*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
+/*   Updated: 2024/09/19 23:18:06 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,12 +163,46 @@ void handle_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
     execve_handle_hard(data, input, read_fd, write_fd);
 }
 
+int ft_size(t_cmd *iterate)
+{
+  int size;
+
+  size = 0;
+  while (iterate)
+  {
+    size++;
+    iterate = iterate->next;
+  }
+  return (size);
+}
+void  forking_for_pipes(t_exec *data, t_cmd *input, pid_t *pid_list, int size)
+{
+  pid_t id;
+
+  if (size == 0)
+    return;
+  id = fork();
+  if (id == 0)
+  {
+    signal(SIGINT, SIG_DFL);
+    signal(SIGQUIT, SIG_DFL);
+    printf("HERE\n");
+  }
+  else
+  {
+    pid_list[ft_size(input) - size] = id;
+    forking_for_pipes(data, input, pid_list, size - 1);
+  }
+}
+
 void exec(t_exec *data, t_cmd *input)
 {
-  int id;
+  pid_t id;
   int write_fd;
   int read_fd;
   int status;
+  pid_t *pid_list;
+  int size;
 
   if (!input->next)
   {
@@ -180,22 +214,22 @@ void exec(t_exec *data, t_cmd *input)
   }
   else
   {
-    id = fork();
-    if (id == 0)
-    {
-      signal(SIGINT, SIG_DFL);
-      signal(SIGQUIT, SIG_DFL);
-      handle_input_output(data, input, &read_fd, &write_fd);
-      if (read_fd == -1)
-        exit(1);
-      handle_hard(data, input, read_fd, write_fd);
-      exit(0);
-    }
-    else
-    {
-      signal(SIGINT, SIG_IGN);
-      waitpid(id, &status, 0);
-      last_exit_status = WEXITSTATUS(status);
-    }
+      size = ft_size(input);
+      pid_list = malloc(sizeof(pid_t) * size);
+      if (!pid_list)
+        return;
+      forking_for_pipes(data, input, pid_list, size);
+      while (TRUE)
+      {
+        if (waitpid(id, &status, 0) == 0)
+        {
+          if (WEXITSTATUS(status) != 0 && !WIFSIGNALED(status))
+          {
+          }
+        }
+        if (errno == ECHILD)
+          break;
+      }
+      printf("MAIN HERE\n");
   }
 }
