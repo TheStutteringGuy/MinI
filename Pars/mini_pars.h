@@ -125,7 +125,7 @@ void print_commands(t_cmd *cmd_list);
 
 // free resources
 void free_tokens(t_token *token_list);
-void free_token(char **tokens);
+//void free_token(char **tokens);
 // void free_input_files(t_input_file *input_list);
 // void free_output_files(t_output_file *output_list);
 void free_commands(t_cmd *cmd_list);

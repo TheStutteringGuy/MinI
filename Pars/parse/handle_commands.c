@@ -79,8 +79,6 @@ void process_token(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_toke
     else if ((*current_token)->type == COMMAND || (*current_token)->type == ARGUMENT)
     {
         (*current_token)->value = remove_quotes((*current_token)->value);
-        expand_val = expand_env_var((*current_token)->value);
-        (*current_token)->value = expand_val;
     }
     if ((*current_token)->type == COMMAND || (*current_token)->type == ARGUMENT)
     {

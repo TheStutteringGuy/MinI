@@ -66,14 +66,7 @@ void handle_token(t_token **token_list, char *token, t_type *expected)
         return;
     }
     type = classify_token(processed_token, *expected);
-    if (type == ENV)
-    {
-        expand_token = expand_env_var(processed_token);
-        new_token = create_token(type, expand_token);
-        free(expand_token);
-    }
-    else
-        new_token = create_token(type, processed_token);
+    new_token = create_token(type, processed_token);
     if (new_token)
         add_token(token_list, new_token);
     if (type == PIPE)

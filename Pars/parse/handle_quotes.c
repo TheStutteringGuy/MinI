@@ -4,26 +4,23 @@
 char *remove_quotes(char *token)
 {
     size_t len;
-    size_t env_len;
     char *new_token;
     int i;
     int j;
     char current_quote;
+    int env_start;
     char *env_var;
     char *env_value;
-    int env_start;
+    size_t env_len;
+    char *temp;
 
     len = ft_strlen(token);
-    if (len < 2)
-        return (ft_strdup(token));  // Handle single-character tokens
-
     new_token = malloc(len + 1);
     if (!new_token)
     {
         printf("Error: malloc failed\n");
         exit(1);
     }
-
     i = 0;
     j = 0;
     current_quote = '\0';
@@ -34,43 +31,67 @@ char *remove_quotes(char *token)
             current_quote = token[i];
             i++;
         }
-        else if (token[i] == '$' && current_quote != '\'')
-        {
-            i++;
-            env_start = i;
-            while (i < len && (ft_isalnum(token[i]) || token[i] == '_'))
-                i++;
-            env_var = ft_substr(token, env_start, i - env_start);
-            env_value = getenv(env_var);
-            free(env_var);
-            if (env_value)
-            {
-                env_len = ft_strlen(env_value);
-                if (j + env_len >= len)  // Avoid buffer overflow
-                {
-                    new_token = realloc(new_token, j + env_len + 1);
-                    if (!new_token)
-                    {
-                        printf("Error: realloc failed\n");
-                        exit(1);
-                    }
-                }
-                ft_strncpy(&new_token[j], env_value, env_len);
-                j += env_len;
-            }
-        }
         else if (token[i] == current_quote)
         {
             current_quote = '\0';
             i++;
         }
+        else if (token[i] == '$' && current_quote != '\'')
+        {
+            i++;
+            env_start = i;
+            while (i < len && (ft_isalnum(token[i]) || token[i] == '_' || token[i] == '?'))
+                i++;
+            env_var = ft_substr(token, env_start, i - env_start);
+            if (ft_isdigit(env_var[0]))
+                return (ft_strdup(env_var + 1));
+            if (env_var[0] == '?' && env_var[1] == '\0')
+                return (ft_itoa(last_exit_status));
+            else if (env_var[0] == '?' && env_var[1] != '\0')
+            {
+                char *str;
+                str = ft_itoa(last_exit_status);
+                env_var[0] = str[0];
+                return (env_var);
+            }
+            env_value = getenv(env_var);
+            free(env_var);
+            if (env_value)
+            {
+                env_len = ft_strlen(env_value);
+                temp = malloc(j + env_len + 1);
+                if (!temp)
+                {
+                    printf("Error: malloc failed\n");
+                    exit(1);
+                }
+                if (j > 0)
+                {
+                    ft_memcpy(temp, new_token, j);
+                }
+                ft_memcpy(&temp[j], env_value, env_len);
+                j += env_len;
+                temp[j] = '\0';
+                free(new_token);
+                new_token = temp;
+            }
+        }
+        else if (token[i] == '\\' && current_quote == '"')
+        {
+            i++;
+            if (i < len)
+            {
+                new_token[j++] = token[i++];
+            }
+        }
         else
+        {
             new_token[j++] = token[i++];
+        }
     }
     new_token[j] = '\0';
-    return (new_token);
+    return new_token;
 }
-
 
 char *handle_incorrect_quotes(char *token)
 {
