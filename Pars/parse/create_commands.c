@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:10 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/20 18:10:19 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/20 20:48:58 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,20 +63,6 @@ void add_argument_to_command(t_cmd *current_cmd, t_token *token)
     new_arguments[i + 1] = NULL;
     free(current_cmd->arguments);
     current_cmd->arguments = new_arguments;
-}
-
-int contains_unexpanded_var(char *filename)
-{
-    int i = 0;
-
-    while (filename[i])
-    {
-        // Check if there's an unescaped '$' in the filename
-        if (filename[i] == '$' && (i == 0 || filename[i - 1] != '\\'))
-            return 1;
-        i++;
-    }
-    return 0;
 }
 
 void add_redirection(t_output_input **redirection, char *filename, int heredoc, char *delimiter, int append, int value)
