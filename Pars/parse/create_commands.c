@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:10 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/20 01:20:11 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:36:36 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,6 @@ t_cmd *create_new_command(t_token *token)
         printf("malloc failed");
         exit(1);
     }
-    new_cmd->last_exit_status = malloc(sizeof(int));
-    if (!new_cmd->last_exit_status)
-        exit(1);
-    *new_cmd->last_exit_status = 0;
     new_cmd->arguments[0] = NULL;
     new_cmd->redirection = NULL;
     // new_cmd->input_files = NULL;
@@ -150,10 +146,6 @@ t_cmd *create_empty_command(void)
     cmd = malloc(sizeof(t_cmd));
     if (cmd)
     {
-        cmd->last_exit_status = malloc(sizeof(int));
-        if (!cmd->last_exit_status)
-            exit(1);
-        *cmd->last_exit_status = 0;
         cmd->command = NULL;
         cmd->arguments = NULL;
         cmd->redirection = NULL;

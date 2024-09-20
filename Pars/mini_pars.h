@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:35 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/20 01:20:36 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:36:23 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ typedef struct s_cmd
 {
     char *command;
     char **arguments;
-    int *last_exit_status;
     t_output_input *redirection;
     // t_input_file *input_files;   // Linked list of input files
     // t_output_file *output_files; // Linked list of output files
