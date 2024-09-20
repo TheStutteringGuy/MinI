@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:10 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/20 16:36:36 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:10:19 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,34 @@ void add_argument_to_command(t_cmd *current_cmd, t_token *token)
     current_cmd->arguments = new_arguments;
 }
 
+int contains_unexpanded_var(char *filename)
+{
+    int i = 0;
+
+    while (filename[i])
+    {
+        // Check if there's an unescaped '$' in the filename
+        if (filename[i] == '$' && (i == 0 || filename[i - 1] != '\\'))
+            return 1;
+        i++;
+    }
+    return 0;
+}
+
 void add_redirection(t_output_input **redirection, char *filename, int heredoc, char *delimiter, int append, int value)
 {
     t_output_input *new;
     t_output_input *iterate;
+    char *processed_filename;
 
     if (redirection == NULL)
         exit(1234);
     new = malloc(sizeof(t_output_input));
     if (!new)
         return;
+    processed_filename = remove_quotes(filename);
     new->whichis = value;
-    new->filename = ft_strdup(filename);
+    new->filename = ft_strdup(processed_filename);
     new->append = append;
     new->heredoc = heredoc;
     if (delimiter)
@@ -93,7 +109,9 @@ void add_redirection(t_output_input **redirection, char *filename, int heredoc, 
     while (iterate->next)
         iterate = iterate->next;
     iterate->next = new;
+    free(processed_filename);
 }
+
 
 // Handle redirections
 void handle_redirections(t_cmd *current_cmd, t_token **current_token)
@@ -113,6 +131,7 @@ void handle_redirections(t_cmd *current_cmd, t_token **current_token)
             add_redirection(&current_cmd->redirection, next_token->value, 0, NULL, 0, 1);
         else if (token->type == APPEND)
             add_redirection(&current_cmd->redirection, next_token->value, 0, NULL, 1, 1);
+
         *current_token = next_token;
     }
     else
