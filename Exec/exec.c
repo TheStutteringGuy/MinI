@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/19 23:18:06 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/19 23:40:25 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ void  forking_for_pipes(t_exec *data, t_cmd *input, pid_t *pid_list, int size)
     signal(SIGINT, SIG_DFL);
     signal(SIGQUIT, SIG_DFL);
     printf("HERE\n");
+    exit(0);
   }
   else
   {
