@@ -3,26 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/20 21:25:13 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/20 23:17:42 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void update_environ(t_linked **list, char *cwd)
+void update_environ(t_exec **list, char *cwd)
 {
     char *key;
     t_linked *iterate;
 
     key = "OLDPWD";
-    iterate = *list;
+    iterate = (*list)->environ;
     while (iterate)
     {
         if (ft_strlen2(iterate->key) == ft_strlen2(key) && ft_strncmp(iterate->key, key, ft_strlen2(key)) == 0)
         {
+            printf("GOT IT\n");
+            printf("Checking key: %s\n", iterate->key);
+            free(iterate->value);
+            iterate->value = ft_substr(cwd, 0, ft_strlen(cwd));
+            break;
+        }
+        iterate = iterate->next;
+    }
+    iterate = (*list)->export;
+    while (iterate)
+    {
+        if (ft_strlen2(iterate->key) == ft_strlen2(key) && ft_strncmp(iterate->key, key, ft_strlen2(key)) == 0)
+        {
+            printf("GOT IT\n");
+            printf("Checking key: %s\n", iterate->key);
             free(iterate->value);
             iterate->value = ft_substr(cwd, 0, ft_strlen(cwd));
             break;
@@ -63,7 +78,7 @@ void cd_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
                 last_exit_status = 1;
                 return;
             }
-            update_environ(&data->environ, cwd);
+            update_environ(&data, cwd);
             return;
         }
         if (chdir(input->arguments[0]) != 0)
