@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 01:39:55 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/07/29 06:59:48 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/20 20:07:34 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ int list_size(t_linked *list)
 static size_t key_return(char *key, char *key2)
 {
     size_t len;
-    
+
     len = ft_strlen2(key);
     if (len < ft_strlen2(key2))
         len = ft_strlen2(key2);
     return (len);
 }
 
-void    delete_one(t_linked **list)
+void delete_one(t_linked **list)
 {
     t_linked *iterate;
 
@@ -46,10 +46,10 @@ void    delete_one(t_linked **list)
     free(iterate->key);
     free(iterate->value);
     free(iterate);
-    return ;
+    return;
 }
 
-void    remove_list(t_linked **list, char *key)
+void remove_list(t_linked **list, char *key)
 {
     t_linked *iterate;
     t_linked *prev;
@@ -58,7 +58,7 @@ void    remove_list(t_linked **list, char *key)
     iterate = *list;
     len = key_return(iterate->key, key);
     if (ft_strncmp(iterate->key, key, len) == 0)
-        return ;
+        return;
     prev = *list;
     iterate = (*list)->next;
     while (iterate)
@@ -70,17 +70,17 @@ void    remove_list(t_linked **list, char *key)
             free(iterate->key);
             free(iterate->value);
             free(iterate);
-            return ;
+            return;
         }
         prev = prev->next;
         iterate = iterate->next;
     }
 }
 
-char    *ft_getenv(t_linked *list, char *name)
+char *ft_getenv(t_linked *list, char *name)
 {
     size_t len;
-    
+
     while (list)
     {
         len = key_return(list->key, name);
@@ -94,7 +94,7 @@ char    *ft_getenv(t_linked *list, char *name)
 int ft_get_export(t_linked *list, char *name)
 {
     size_t len;
-    
+
     while (list)
     {
         len = key_return(list->key, name);

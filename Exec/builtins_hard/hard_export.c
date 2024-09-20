@@ -6,13 +6,13 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/16 20:55:34 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/20 20:07:12 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void    ft_swap(t_linked *list1, t_linked *list2)
+static void ft_swap(t_linked *list1, t_linked *list2)
 {
     char *tmp_key;
     char *tmp_value;
@@ -26,11 +26,11 @@ static void    ft_swap(t_linked *list1, t_linked *list2)
     list2->value = tmp_value;
 }
 
-static void    sort_list(t_linked **list)
+static void sort_list(t_linked **list)
 {
     t_linked *iterat;
     t_linked *iterat2;
-    size_t  len;
+    size_t len;
 
     iterat = *list;
     while (iterat)
@@ -93,7 +93,7 @@ static void handle_arg(char *str, int *flag, t_cmd *input)
     }
 }
 
-static void    see_if_it_exist(t_exec *data, char *str)
+static void see_if_it_exist(t_exec *data, char *str)
 {
     t_linked *iterate;
 
@@ -103,12 +103,12 @@ static void    see_if_it_exist(t_exec *data, char *str)
         remove_list(&data->environ, str);
         remove_list(&data->export, str);
         free(str);
-        return ;
+        return;
     }
     free(str);
 }
 
-static void    handle_equal(t_exec *data, char *str)
+static void handle_equal(t_exec *data, char *str)
 {
     int i;
     int j;
@@ -134,14 +134,13 @@ static void    handle_equal(t_exec *data, char *str)
     create_node(&data->export, ft_substr(str, 0, j), ft_substr(str, z, y), 1);
 }
 
-static void    handle_not(t_exec *data, t_linked **list, char *str)
+static void handle_not(t_exec *data, t_linked **list, char *str)
 {
     see_if_it_exist(data, ft_substr(str, 0, ft_strlen2(str)));
     create_node(list, ft_substr(str, 0, ft_strlen2(str)), ft_substr(str, 0, 0), 1);
 }
 
-
-void    export_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
+void export_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 {
     t_linked *list;
     int flag;
@@ -161,7 +160,7 @@ void    export_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
                 handle_not(data, &data->export, input->arguments[i]);
             ++i;
         }
-        return ;
+        return;
     }
     sort_list(&data->export);
     list = data->export;

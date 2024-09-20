@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 22:33:35 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/19 23:31:31 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/20 20:07:21 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char **join_to_array(char *str, char **array)
         argv = case_one(str);
         return (argv);
     }
-    total = 0; 
+    total = 0;
     while (array[total])
         total++;
     ++total;
@@ -62,7 +62,7 @@ static char **join_to_array(char *str, char **array)
     return (argv);
 }
 
-static void    ft_acces(t_exec *data, t_cmd *input)
+static void ft_acces(t_exec *data, t_cmd *input)
 {
     errno = 0;
     if (access(input->command, F_OK | X_OK) == 0)
@@ -83,7 +83,7 @@ static void    ft_acces(t_exec *data, t_cmd *input)
     exit(0);
 }
 
-static void    ft_handle_function(char *str, int *flag)
+static void ft_handle_function(char *str, int *flag)
 {
     int i;
 
@@ -96,16 +96,15 @@ static void    ft_handle_function(char *str, int *flag)
     }
 }
 
-
-static void    child_function(t_exec *data, t_cmd *input)
+static void child_function(t_exec *data, t_cmd *input)
 {
     char **split;
     char *inp;
-    char    *check;
+    char *check;
     int i;
     int flag;
     char *join;
-    
+
     inp = ft_substr("", 0, 0);
     flag = 0;
     i = 0;
@@ -115,7 +114,7 @@ static void    child_function(t_exec *data, t_cmd *input)
     if (ft_getenv(data->export, "PATH"))
         inp = ft_getenv(data->export, "PATH");
     if (*inp == '\0')
-        return ;
+        return;
     split = ft_split(inp, ':');
     while (split[i])
     {
@@ -134,11 +133,11 @@ static void    child_function(t_exec *data, t_cmd *input)
     exit(127);
 }
 
-static void    turn(char **envp, t_linked *list)
+static void turn(char **envp, t_linked *list)
 {
     char *join;
     int j;
-    
+
     j = 0;
     while (list)
     {
@@ -146,13 +145,13 @@ static void    turn(char **envp, t_linked *list)
         envp[j] = ft_strjoin2(join, list->value);
         free(join);
         j++;
-        list = list->next;   
+        list = list->next;
     }
 }
 
-void				execve_handle_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
+void execve_handle_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 {
-    pid_t   id;
+    pid_t id;
     int i;
     int status;
 

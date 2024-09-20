@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/19 23:40:25 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/20 20:09:00 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd
 {
   t_output_input *iterate;
   char *hered_inp;
+  char *after_pars;
 
   iterate = input->redirection;
   if (iterate != NULL)
@@ -63,7 +64,7 @@ void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd
             printf("%s: %s\n", iterate->filename, strerror(errno));
             last_exit_status = 1;
             *read_fd = -1;
-            return ;
+            return;
           }
         }
         else
@@ -102,7 +103,7 @@ void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd
       }
       iterate = iterate->next;
     }
-    return ;
+    return;
   }
   *read_fd = 0;
   *write_fd = 1;
@@ -175,7 +176,7 @@ int ft_size(t_cmd *iterate)
   }
   return (size);
 }
-void  forking_for_pipes(t_exec *data, t_cmd *input, pid_t *pid_list, int size)
+void forking_for_pipes(t_exec *data, t_cmd *input, pid_t *pid_list, int size)
 {
   pid_t id;
 
@@ -209,28 +210,28 @@ void exec(t_exec *data, t_cmd *input)
   {
     handle_input_output(data, input, &read_fd, &write_fd);
     if (read_fd == -1)
-      return ;
+      return;
     if (input->command)
       handle_simple(data, input, read_fd, write_fd);
   }
   else
   {
-      size = ft_size(input);
-      pid_list = malloc(sizeof(pid_t) * size);
-      if (!pid_list)
-        return;
-      forking_for_pipes(data, input, pid_list, size);
-      while (TRUE)
+    size = ft_size(input);
+    pid_list = malloc(sizeof(pid_t) * size);
+    if (!pid_list)
+      return;
+    forking_for_pipes(data, input, pid_list, size);
+    while (TRUE)
+    {
+      if (waitpid(id, &status, 0) == 0)
       {
-        if (waitpid(id, &status, 0) == 0)
+        if (WEXITSTATUS(status) != 0 && !WIFSIGNALED(status))
         {
-          if (WEXITSTATUS(status) != 0 && !WIFSIGNALED(status))
-          {
-          }
         }
-        if (errno == ECHILD)
-          break;
       }
-      printf("MAIN HERE\n");
+      if (errno == ECHILD)
+        break;
+    }
+    printf("MAIN HERE\n");
   }
 }

@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/16 20:51:09 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/20 20:06:48 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,16 @@ static int pars_arg(t_cmd *input)
     }
 }
 
-void    exit_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
+void exit_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 {
     (void)data;
     printf("exit\n");
     if (input->arguments[0])
     {
         if (handle_arg(input) == -1)
-            return ;
+            return;
         if (pars_arg(input) == -1)
-            return ;
+            return;
         exit(ft_atoi(input->arguments[0]));
     }
     exit(last_exit_status);

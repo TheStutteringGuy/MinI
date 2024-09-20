@@ -6,13 +6,13 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/07/31 01:59:44 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/20 20:06:43 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static int  handle_flag(t_exec *data, t_cmd *input, int *flag)
+static int handle_flag(t_exec *data, t_cmd *input, int *flag)
 {
     int i;
     size_t len;
@@ -36,7 +36,7 @@ static int  handle_flag(t_exec *data, t_cmd *input, int *flag)
     return (i);
 }
 
-void    echo_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
+void echo_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 {
     int stop;
     int flag;

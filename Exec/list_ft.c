@@ -6,19 +6,19 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 01:51:17 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/07/29 01:39:38 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/20 20:07:31 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void    clear_list(t_linked **list)
+void clear_list(t_linked **list)
 {
     t_linked *iterate;
     t_linked *tmp;
-    
+
     iterate = *list;
-    while(iterate)
+    while (iterate)
     {
         tmp = iterate;
         iterate = iterate->next;
@@ -29,13 +29,13 @@ void    clear_list(t_linked **list)
     *list = NULL;
 }
 
-void    add_front(t_linked **list, t_linked *new)
+void add_front(t_linked **list, t_linked *new)
 {
     new = *list;
     *list = new;
 }
 
-void    add_back(t_linked **list, t_linked *new)
+void add_back(t_linked **list, t_linked *new)
 {
     t_linked *iterat;
 
@@ -45,10 +45,10 @@ void    add_back(t_linked **list, t_linked *new)
     iterat->next = new;
 }
 
-void    create_node(t_linked **list, char *key, char *value, int flag)
+void create_node(t_linked **list, char *key, char *value, int flag)
 {
     t_linked *new;
-    
+
     if (list == NULL)
     {
         printf("it is NULL\n");
@@ -61,7 +61,7 @@ void    create_node(t_linked **list, char *key, char *value, int flag)
     if (*list == NULL)
     {
         *list = new;
-        return ;
+        return;
     }
     if (flag == 0)
         add_front(list, new);
