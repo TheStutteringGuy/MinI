@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/20 23:17:42 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/20 23:20:12 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void update_environ(t_exec **list, char *cwd)
     {
         if (ft_strlen2(iterate->key) == ft_strlen2(key) && ft_strncmp(iterate->key, key, ft_strlen2(key)) == 0)
         {
-            printf("GOT IT\n");
-            printf("Checking key: %s\n", iterate->key);
             free(iterate->value);
             iterate->value = ft_substr(cwd, 0, ft_strlen(cwd));
             break;
@@ -36,8 +34,6 @@ void update_environ(t_exec **list, char *cwd)
     {
         if (ft_strlen2(iterate->key) == ft_strlen2(key) && ft_strncmp(iterate->key, key, ft_strlen2(key)) == 0)
         {
-            printf("GOT IT\n");
-            printf("Checking key: %s\n", iterate->key);
             free(iterate->value);
             iterate->value = ft_substr(cwd, 0, ft_strlen(cwd));
             break;
