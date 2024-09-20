@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenize.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/20 01:20:01 by aahlaqqa          #+#    #+#             */
+/*   Updated: 2024/09/20 01:20:02 by aahlaqqa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../mini_pars.h"
 
 // Function to create a new token
@@ -74,6 +86,15 @@ void handle_token(t_token **token_list, char *token, t_type *expected)
     free(processed_token);
 }
 
+int is_operator(char c)
+{
+    return (c == '|' || c == '<' || c == '>');
+}
+
+int is_multi_operator(char *str)
+{
+    return ((str[0] == '<' && str[1] == '<') || (str[0] == '>' && str[1] == '>'));
+}
 // Main function to tokenize input
 void tokenize_input(char *input, t_token **token_list)
 {
@@ -114,9 +135,37 @@ void tokenize_input(char *input, t_token **token_list)
                 token_len = 0;
             }
         }
-        else
+        else if (is_multi_operator(&input[i]) && !in_quotes)
+        {
+            if (token_len > 0)
+            {
+                token[token_len] = '\0';
+                handle_token(token_list, token, &expected);
+                token_len = 0;
+            }
+            token[token_len++] = input[i++];
             token[token_len++] = input[i];
-
+            token[token_len] = '\0';
+            handle_token(token_list, token, &expected);
+            token_len = 0;
+        }
+        else if (is_operator(input[i]) && !in_quotes)
+        {
+            if (token_len > 0)
+            {
+                token[token_len] = '\0';
+                handle_token(token_list, token, &expected);
+                token_len = 0;
+            }
+            token[token_len++] = input[i];
+            token[token_len] = '\0';
+            handle_token(token_list, token, &expected);
+            token_len = 0;
+        }
+        else
+        {
+            token[token_len++] = input[i];
+        }
         i++;
     }
     if (token_len > 0)

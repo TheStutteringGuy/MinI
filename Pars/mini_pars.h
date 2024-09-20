@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini_pars.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/20 01:20:35 by aahlaqqa          #+#    #+#             */
+/*   Updated: 2024/09/20 01:20:36 by aahlaqqa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINI_PARS_H
 #define MINI_PARS_H
 
@@ -100,6 +112,8 @@ void add_token(t_token **head, t_token *new_token);
 t_type classify_token(char *token, t_type expected);
 void handle_token(t_token **token_list, char *token, t_type *expected);
 void tokenize_input(char *input, t_token **token_list);
+int is_multi_operator(char *str);
+int is_operator(char c);
 
 ///
 // void add_input_file(t_input_file **input_list, char *filename, int heredoc, char *delimiter);
