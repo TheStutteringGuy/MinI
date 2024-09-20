@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_pars.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:35 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/20 18:10:06 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/20 23:13:42 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ bool ft_isspace(int c);
 void *ft_memset(void *s, int c, size_t n);
 char	*ft_itoa(int n);
 int	ft_isdigit(int c);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 // lexer includes
 t_token *create_token(t_type type, char *value);
@@ -132,6 +133,7 @@ t_cmd *parse_tokens(t_token *token_list);
 void process_redirection_or_pipe(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected);
 void process_command_or_argument(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected);
 t_cmd *create_empty_command(void);
+char *expand_herdoc(char *str);
 
 // print include
 void print_commands(t_cmd *cmd_list);
