@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 21:02:15 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/20 23:23:06 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/21 01:31:04 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,16 @@ char *expand_herdoc(char *str)
     char *status_str;
     char *var_name;
     int index;
+    int quote_found;
 
     len = ft_strlen(str);
     i = 0;
+    quote_found = 0;
     res = (char *)malloc(1);
     if (!res)
         return (NULL);
     res[0] = '\0';
+
     while (i < len)
     {
         if (str[i] == '$')
@@ -43,47 +46,8 @@ char *expand_herdoc(char *str)
             }
             else if (ft_isdigit(str[i + 1]))
             {
-                index = i + 1;
-                while (ft_isdigit(str[index]))
-                    index++;
-                res = ft_strjoin(res, str + index);
-                break;
-            }
-            else
-            {
-                j = i + 1;
-                while (j < len && (ft_isalnum(str[j]) || str[j] == '_'))
-                    j++;
-                var_name = ft_substr(str, i + 1, j - i - 1);
-                env_value = getenv(var_name);
-                free(var_name);
-                if (env_value)
-                    res = ft_strjoin(res, env_value);
-                else
-                    res = ft_strjoin(res, "");
-                i = j;
-            }
-        }
-        else if (str[i] == '\"')
-        {
-            i++;
-            while (i < len && str[i] != '\"')
-            {
-                if (str[i] == '$' && (ft_isalnum(str[i + 1]) || str[i + 1] == '_'))
-                {
-                    j = i + 1;
-                    while (j < len && (ft_isalnum(str[j]) || str[j] == '_'))
-                        j++;
-                    var_name = ft_substr(str, i + 1, j - i - 1);
-                    env_value = getenv(var_name);
-                    free(var_name);
-                    if (env_value)
-                        res = ft_strjoin(res, env_value);
-                    else
-                        res = ft_strjoin(res, "");
-                    i = j;
-                }
-                else
+                i += 2;
+                while (i < len && (ft_isdigit(str[i]) || ft_isalnum(str[i]) || str[i] == '_'))
                 {
                     temp[0] = str[i];
                     temp[1] = '\0';
@@ -91,6 +55,32 @@ char *expand_herdoc(char *str)
                     i++;
                 }
             }
+            else
+            {
+                if (i > 0 && (str[i - 1] == '"' || str[i - 1] == '\''))
+                {
+                    quote_found = 1;
+                }
+
+                j = i + 1;
+                while (j < len && (ft_isalnum(str[j]) || str[j] == '_'))
+                    j++;
+                var_name = ft_substr(str, i + 1, j - i - 1);
+                env_value = getenv(var_name);
+                free(var_name);
+
+                if (env_value)
+                    res = ft_strjoin(res, env_value);
+                else
+                    res = ft_strjoin(res, "");
+                i = j;
+            }
+        }
+        else if (str[i] == '\"' || str[i] == '\'')
+        {
+            temp[0] = str[i];
+            temp[1] = '\0';
+            res = ft_strjoin(res, temp);
             i++;
         }
         else
@@ -103,4 +93,3 @@ char *expand_herdoc(char *str)
     }
     return (res);
 }
-

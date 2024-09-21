@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:06 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/20 01:20:07 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/21 01:33:09 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int check_syntax_errors(t_token *token_list)
     {
         if (current->type == PIPE && current->next == NULL)
         {
-            printf("syntax error near unexpected token  `%s`\n", current->value);
+            printf("syntax error near unexpected token `%s`\n", current->value);
             last_exit_status = 2;
             return (1);
         }
