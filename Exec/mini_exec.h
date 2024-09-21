@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 01:51:10 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/21 01:51:18 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/21 02:03:34 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char *ft_getenv(t_linked *list, char *name);
 void copy_environ(t_linked **list, t_linked *environ);
 int ft_get_export(t_linked *list, char *name);
 int list_size(t_linked *list);
-void    print_error(char *s1, char *s2, int value);
+void    print_error(char *s1, char *s2, char *s3, int value)
 
 // BUILTINS :
 
