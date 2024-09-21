@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 01:51:17 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/21 01:52:29 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/21 02:04:07 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void create_node(t_linked **list, char *key, char *value, int flag)
 
     if (list == NULL)
     {
-        print_error("It is Null\n", NULL, 0);
+        print_error("It is Null\n", NULL, NULL, 0);
         exit(1);
     }
     new = malloc(sizeof(t_linked));

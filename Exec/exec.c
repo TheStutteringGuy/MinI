@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/21 01:43:20 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/21 02:22:02 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd
             *read_fd = open(iterate->filename, O_RDONLY);
           else
           {
-            printf("%s: %s\n", iterate->filename, strerror(errno));
+            print_error(iterate->filename, strerror(errno), NULL, 1);
             last_exit_status = 1;
             *read_fd = -1;
             return;
@@ -72,7 +72,7 @@ void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd
           *read_fd = open("HEREDOC", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
           if (*read_fd == -1)
           {
-            printf("Poblem in HEREDOC FILE\n");
+            print_error("Poblem in HEREDOC FILE", NULL, NULL, 0);
             exit(1);
           }
           while (TRUE)

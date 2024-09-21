@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hard_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/20 20:07:12 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/21 04:27:09 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void handle_arg(char *str, int *flag, t_cmd *input)
 
     if (ft_isalpha(str[0]) == 0 && str[0] != '_')
     {
-        printf("export: `%s': not a valid identifier\n", str);
+        print_error("export", str, "not a valid identifier", 2);
         exit(1);
     }
     j = 1;
@@ -72,7 +72,7 @@ static void handle_arg(char *str, int *flag, t_cmd *input)
         {
             if (ft_isalpha(str[j]) == 0 && ft_isdigit(str[j]) == 0 && str[j] != '_')
             {
-                printf("export: `%s': not a valid identifier\n", str);
+                print_error("export", str, "not a valid identifier", 2);
                 exit(1);
             }
             j++;
@@ -84,7 +84,7 @@ static void handle_arg(char *str, int *flag, t_cmd *input)
         {
             if (ft_isalpha(str[j]) == 0 && ft_isdigit(str[j]) == 0 && str[j] != '_')
             {
-                printf("export: `%s': not a valid identifier\n", str);
+                print_error("export", str, "not a valid identifier", 2);
                 last_exit_status = 1;
                 exit(1);
             }
@@ -153,7 +153,6 @@ void export_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
         while (input->arguments[i])
         {
             handle_arg(input->arguments[i], &flag, input);
-            printf("%d\n", flag);
             if (flag == 1)
                 handle_equal(data, input->arguments[i]);
             else

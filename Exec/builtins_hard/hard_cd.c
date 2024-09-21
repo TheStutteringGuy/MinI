@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/21 01:20:58 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/21 02:10:24 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int handle_arg(t_cmd *input)
         ++i;
     if (i > 1)
     {
-        printf("cd: too many arguments\n");
+        print_error("cd: too many arguments", NULL, NULL, 0);
         last_exit_status = 1;
         return (-1);
     }
@@ -70,7 +70,7 @@ void cd_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
             getcwd(cwd, PATH_MAX);
             if (chdir(ft_getenv(data->environ, "OLDPWD")) != 0)
             {
-                printf("cd: %s: %s\n", input->arguments[0], strerror(errno));
+                print_error("cd", input->arguments[0], strerror(errno), 2);
                 last_exit_status = 1;
                 return;
             }
@@ -79,7 +79,7 @@ void cd_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
         }
         if (chdir(input->arguments[0]) != 0)
         {
-            printf("cd: %s: %s\n", input->arguments[0], strerror(errno));
+            print_error("cd", input->arguments[0], strerror(errno), 2);
             last_exit_status = 1;
             return;
         }
