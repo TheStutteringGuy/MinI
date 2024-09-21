@@ -6,13 +6,13 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/21 02:19:49 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:07:21 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void update_environ(t_exec **list, char *cwd)
+static void update_environ(t_exec **list, char *cwd)
 {
     char *key;
     t_linked *iterate;

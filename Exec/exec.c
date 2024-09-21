@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/21 02:22:02 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:04:15 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,6 @@ void forking_for_pipes(t_exec *data, t_cmd *input, pid_t *pid_list, int size)
   {
     signal(SIGINT, SIG_DFL);
     signal(SIGQUIT, SIG_DFL);
-    printf("HERE\n");
     exit(0);
   }
   else
