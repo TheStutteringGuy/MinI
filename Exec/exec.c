@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/21 01:04:30 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/21 01:43:20 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ void handle_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
     execve_handle_simple(data, input, read_fd, write_fd);
   if (write_fd != 1)
     dup2(saved_fd, STDOUT_FILENO);
+  close(saved_fd);
 }
 
 void handle_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
@@ -229,9 +230,10 @@ void exec(t_exec *data, t_cmd *input)
     {
       if (waitpid(id, &status, 0) == 0)
       {
-        if (WEXITSTATUS(status) != 0 && !WIFSIGNALED(status))
-        {
-        }
+        if (!WIFSIGNALED(status))
+          last_exit_status = WEXITSTATUS(status);
+        else
+          last_exit_status = 128 + WTERMSIG(status);
       }
       if (errno == ECHILD)
         break;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_hard.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 22:33:35 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/20 20:07:21 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/21 01:59:03 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char **case_one(char *str)
     arg = malloc(sizeof(char *) * 2);
     if (!arg)
     {
-        printf("OOPS\n");
+        print_error("Failed to allocate arg\n", NULL, 0);
         exit(1);
     }
     arg[0] = ft_substr(str, 0, ft_strlen2(str));
@@ -46,7 +46,7 @@ static char **join_to_array(char *str, char **array)
     argv = malloc(sizeof(char *) * (total + 1));
     if (!argv)
     {
-        printf("failed to allocate argv\n");
+        print_error("Failed to allocate arg\n", NULL, 0);
         exit(0);
     }
     argv[total] = NULL;
@@ -72,12 +72,10 @@ static void ft_acces(t_exec *data, t_cmd *input)
     }
     else
     {
-        printf("%s: %s\n", input->command, strerror(errno));
+        print_error(input->command, strerror(errno), 1);
         if (errno == ENOENT)
             exit(127);
         if (errno == EACCES)
-            exit(126);
-        if (errno == EISDIR)
             exit(126);
     }
     exit(0);
@@ -129,7 +127,7 @@ static void child_function(t_exec *data, t_cmd *input)
         free(check);
         i++;
     }
-    printf("%s: command not found\n", input->command);
+    print_error(input->command, "command not found\n", 1);
     exit(127);
 }
 

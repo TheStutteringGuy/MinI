@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 02:21:40 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/21 01:17:57 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/21 01:57:47 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char **case_one(char *str)
     arg = malloc(sizeof(char *) * 2);
     if (!arg)
     {
-        printf("failed to alloate arg\n");
+        print_error("Failed to allocate arg\n", NULL, 0);
         exit(1);
     }
     arg[0] = ft_substr(str, 0, ft_strlen2(str));
@@ -46,7 +46,7 @@ static char **join_to_array(char *str, char **array)
     argv = malloc(sizeof(char *) * (total + 1));
     if (!argv)
     {
-        printf("failed to allocate argv\n");
+        print_error("Failed to allocate arg\n", NULL, 0);
         exit(0);
     }
     argv[total] = NULL;
@@ -70,7 +70,7 @@ static void ft_acces(t_exec *data, t_cmd *input)
     {
         if (S_ISDIR(info.st_mode) != 0)
         {
-            printf("%s: %s\n", input->command, "Is a directory");
+            print_error(input->command, "Is a directory", 1);
             exit(126);
         }
     }
@@ -81,7 +81,7 @@ static void ft_acces(t_exec *data, t_cmd *input)
     }
     else
     {
-        printf("%s: %s\n", input->command, strerror(errno));
+        print_error(input->command, strerror(errno), 1);
         if (errno == ENOENT)
             exit(127);
         if (errno == EACCES)
@@ -138,7 +138,7 @@ static void child_function(t_exec *data, t_cmd *input)
         free(check);
         i++;
     }
-    printf("%s: command not found\n", input->command);
+    print_error(input->command, "command not found\n", 1);
     exit(127);
 }
 

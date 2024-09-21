@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_ft.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 01:51:17 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/20 20:07:31 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/21 01:52:29 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void create_node(t_linked **list, char *key, char *value, int flag)
 
     if (list == NULL)
     {
-        printf("it is NULL\n");
+        print_error("It is Null\n", NULL, 0);
         exit(1);
     }
     new = malloc(sizeof(t_linked));
