@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:10 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/20 20:48:58 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/21 01:42:33 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void add_redirection(t_output_input **redirection, char *filename, int heredoc, 
     free(processed_filename);
 }
 
-
 // Handle redirections
 void handle_redirections(t_cmd *current_cmd, t_token **current_token)
 {
@@ -121,7 +120,7 @@ void handle_redirections(t_cmd *current_cmd, t_token **current_token)
         *current_token = next_token;
     }
     else
-        printf("Error: Missing or invalid token after redirection\n");
+        write(2, "Error: Missing or invalid token after redirection\n", 51);
 }
 
 // Main parsing function that iterates over the token list
@@ -159,6 +158,6 @@ t_cmd *create_empty_command(void)
         cmd->next = NULL;
     }
     else
-        printf("Error: Memory allocation failed for new command\n");
+        write(2, "Error: Memory allocation failed for new command\n", 49);
     return (cmd);
 }

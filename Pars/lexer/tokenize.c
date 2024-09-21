@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:01 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/20 01:20:02 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/21 01:44:54 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void handle_token(t_token **token_list, char *token, t_type *expected)
     processed_token = handle_incorrect_quotes(token);
     if (!processed_token)
     {
-        printf("Syntax error: incorrect quotes\n");
+        write(2, "Syntax error: incorrect quotes\n", 32);
         return;
     }
     type = classify_token(processed_token, *expected);

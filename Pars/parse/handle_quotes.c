@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/20 01:20:19 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/21 01:43:23 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char *remove_quotes(char *token)
             }
             env_value = getenv(env_var);
             if (env_value == NULL)
-                   return (NULL);
+                return (NULL);
             free(env_var);
             if (env_value)
             {
@@ -128,7 +128,7 @@ char *handle_incorrect_quotes(char *token)
     }
     if (single_quotes % 2 != 0 || double_quotes % 2 != 0)
     {
-        printf("Syntax error: unclosed quotes\n");
+        write(2, "Syntax error: unclosed quotes\n", 31);
         last_exit_status = 130;
         return (NULL);
     }

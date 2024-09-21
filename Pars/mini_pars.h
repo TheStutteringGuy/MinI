@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:35 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/21 00:57:28 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/21 01:44:08 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,14 +114,6 @@ void tokenize_input(char *input, t_token **token_list);
 int is_multi_operator(char *str);
 int is_operator(char c);
 
-///
-// void add_input_file(t_input_file **input_list, char *filename, int heredoc, char *delimiter);
-// t_input_file *add_input_file(char *filename, int heredoc, char *delimiter);
-
-// void add_output_file(t_output_file **output_list, char *filename, int append);
-// t_output_file *add_output_file(char *filename, int append);
-
-///
 
 // parser includes
 t_cmd *create_new_command(t_token *token);
