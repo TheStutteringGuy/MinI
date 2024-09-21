@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/21 05:04:15 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/22 00:23:58 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd
   {
     while (iterate)
     {
+      if (iterate->ambigious == 1)
+      {
+        print_error(iterate->filename, "ambiguous redirect", NULL, 1);
+        last_exit_status = 1;
+        *read_fd = -1;
+        return;
+      }
       if (iterate->whichis == false)
       {
         if (iterate->heredoc == false)
