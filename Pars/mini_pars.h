@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:35 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/21 22:46:04 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/22 00:14:11 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #include <stdarg.h>
 #include <stddef.h>
 #include "../Exec/Libft/libft.h"
+#include "../Exec/get_next_line/get_next_line.h"
 
 extern int last_exit_status;
 

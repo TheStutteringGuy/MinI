@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:21:59 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/19 23:24:11 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/22 00:12:23 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_list
 
 int					ft_toupper(int c);
 int					ft_tolower(int c);
-// size_t				ft_strlen(const char *s);
+size_t				ft_strlen(const char *s);
 int					ft_isprint(int c);
 int					ft_isdigit(int c);
 int					ft_isascii(int c);
@@ -49,7 +49,7 @@ int					ft_memcmp(const void *s1, const void *s2, size_t n);
 void				ft_bzero(void *s, size_t n);
 void				*ft_calloc(size_t nmemb, size_t size);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
-// char				*ft_strjoin(char const *s1, char const *s2);
+char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strtrim(char const *s1, char const *set);
 char				**ft_split(char const *s, char c);
 char				*ft_itoa(int n);

@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:10 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/21 22:47:11 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/22 00:18:43 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,14 @@ void add_redirection(t_output_input **redirection, char *filename, int heredoc, 
     else
         new->ambigious = 0;
     new->whichis = value;
-    new->filename = ft_strdup(processed_filename);
+    if (processed_filename == NULL)
+        new->filename = ft_strdup2(filename);
+    else
+        new->filename = ft_strdup2(processed_filename);
     new->append = append;
     new->heredoc = heredoc;
     if (delimiter)
-        new->delimiter = ft_strdup(delimiter);
+        new->delimiter = ft_strdup2(delimiter);
     else
         new->delimiter = NULL;
     new->next = NULL;
