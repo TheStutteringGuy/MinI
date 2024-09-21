@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/20 20:06:48 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/21 01:11:50 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int pars_arg(t_cmd *input)
         if (ft_isdigit(input->arguments[0][i]) == 0)
         {
             printf("exit: %s: %s\n", input->arguments[0], "numeric argument required");
-            last_exit_status = 1;
+            last_exit_status = 2;
             return (-1);
         }
         ++i;

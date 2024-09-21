@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/20 20:09:00 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/21 01:04:30 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,11 @@ void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd
               free(hered_inp);
               break;
             }
-            write(*read_fd, hered_inp, ft_strlen2(hered_inp));
+            after_pars = expand_herdoc(hered_inp);
+            write(*read_fd, after_pars, ft_strlen2(after_pars));
             write(*read_fd, "\n", 1);
             free(hered_inp);
+            free(after_pars);
           }
           close(*read_fd);
           *read_fd = open("HEREDOC", O_CREAT | O_RDWR, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
@@ -208,6 +210,8 @@ void exec(t_exec *data, t_cmd *input)
 
   if (!input->next)
   {
+    read_fd = 0;
+    write_fd = 1;
     handle_input_output(data, input, &read_fd, &write_fd);
     if (read_fd == -1)
       return;

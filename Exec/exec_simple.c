@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_simple.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 02:21:40 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/20 20:07:24 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/21 01:17:57 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,9 @@ void execve_handle_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
     {
         signal(SIGINT, SIG_IGN);
         waitpid(id, &status, 0);
-        last_exit_status = WEXITSTATUS(status);
+        if (!WIFSIGNALED(status))
+            last_exit_status = WEXITSTATUS(status);
+        else
+            last_exit_status = 128 + WTERMSIG(status);
     }
 }
