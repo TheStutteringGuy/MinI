@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:06 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/21 01:33:09 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/21 18:54:41 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int check_syntax_errors(t_token *token_list)
     {
         if (current->type == PIPE && current->next == NULL)
         {
-            printf("syntax error near unexpected token `%s`\n", current->value);
+            ft_error(current->value);
             last_exit_status = 2;
             return (1);
         }
@@ -31,7 +31,7 @@ int check_syntax_errors(t_token *token_list)
             after_red = current->next->next;
             if (after_red == NULL || after_red->type == RED_IN || after_red->type == RED_OUT || after_red->type == HERDOC || after_red->type == APPEND)
             {
-                printf("syntax error near unexpected token `%s`\n", current->value);
+                ft_error(current->value);
                 last_exit_status = 2;
                 return (1);
             }
@@ -44,7 +44,7 @@ int check_syntax_errors(t_token *token_list)
                  current->next->type == RED_OUT || current->next->type == APPEND ||
                  current->next->type == HERDOC))
             {
-                printf("syntax error near unexpected token  `%s`\n", current->value);
+                ft_error(current->value);
                 last_exit_status = 2;
                 return (1);
             }

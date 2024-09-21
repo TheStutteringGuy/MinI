@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:35 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/21 01:44:08 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/21 22:46:04 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_token
 // Struct for both output and input
 typedef struct s_output_input
 {
+    int ambigious;
     int whichis;
     char *filename;
     int append; // 0 if normal redirection, 1 if append
@@ -125,6 +126,7 @@ void process_redirection_or_pipe(t_cmd **cmd_list, t_cmd **current_cmd, t_token 
 void process_command_or_argument(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected);
 t_cmd *create_empty_command(void);
 char *expand_herdoc(char *str);
+void ft_error(char *s1);
 
 // print include
 void print_commands(t_cmd *cmd_list);

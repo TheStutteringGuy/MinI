@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:10 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/21 01:42:33 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/21 22:47:11 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,10 @@ void add_redirection(t_output_input **redirection, char *filename, int heredoc, 
     if (!new)
         return;
     processed_filename = remove_quotes(filename);
+    if (processed_filename == NULL)
+        new->ambigious = 1;
+    else
+        new->ambigious = 0;
     new->whichis = value;
     new->filename = ft_strdup(processed_filename);
     new->append = append;
@@ -89,6 +93,7 @@ void add_redirection(t_output_input **redirection, char *filename, int heredoc, 
     if (*redirection == NULL)
     {
         *redirection = new;
+        free(processed_filename);
         return;
     }
     iterate = *redirection;
@@ -96,6 +101,7 @@ void add_redirection(t_output_input **redirection, char *filename, int heredoc, 
         iterate = iterate->next;
     iterate->next = new;
     free(processed_filename);
+    return;
 }
 
 // Handle redirections
