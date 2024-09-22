@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/22 01:54:38 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/22 16:01:48 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,11 @@ char *remove_quotes(char *token)
 {
     size_t len;
     char *new_token;
-    int i;
-    int j;
+    int i, j;
     char current_quote;
     int env_start;
     char *env_var;
     char *env_value;
-    char *str;
     size_t env_len;
     char *temp;
 
@@ -37,9 +35,59 @@ char *remove_quotes(char *token)
     i = 0;
     j = 0;
     current_quote = '\0';
+
     while (i < len)
     {
-        if ((token[i] == '"' || token[i] == '\'') && current_quote == '\0')
+        // Handle cases like $'...'$
+        if (token[i] == '$' && (i + 1 < len) && (token[i + 1] == '\'' || token[i + 1] == '"'))
+        {
+            current_quote = token[i + 1];
+            i += 2; // Skip $ and the opening quote
+            if (current_quote == '\'')
+            {
+                // Preserve everything within $'...'$
+                while (i < len && token[i] != current_quote)
+                    new_token[j++] = token[i++];
+            }
+            else if (current_quote == '"')
+            {
+                // Expand variables within $"..."$
+                while (i < len && token[i] != current_quote)
+                {
+                    if (token[i] == '$')
+                    {
+                        i++;
+                        env_start = i;
+                        while (i < len && (ft_isalnum(token[i]) || token[i] == '_' || token[i] == '?'))
+                            i++;
+                        env_var = ft_substr(token, env_start, i - env_start);
+                        env_value = getenv(env_var);
+                        free(env_var);
+                        if (env_value)
+                        {
+                            env_len = ft_strlen(env_value);
+                            memcpy(new_token + j, env_value, env_len);
+                            j += env_len;
+                        }
+                    }
+                    else if (token[i] == '\\' && i + 1 < len)
+                    {
+                        // Handle escaped characters within $"..."$
+                        new_token[j++] = token[++i];
+                    }
+                    else
+                    {
+                        new_token[j++] = token[i++];
+                    }
+                }
+            }
+            if (i < len && token[i] == current_quote)
+                i++; // Skip the closing quote
+            if (i < len && token[i] == '$')
+                new_token[j++] = token[i++]; // Preserve the trailing $
+        }
+        // Regular quotes processing
+        else if ((token[i] == '"' || token[i] == '\'') && current_quote == '\0')
         {
             current_quote = token[i];
             i++;
@@ -51,47 +99,27 @@ char *remove_quotes(char *token)
         }
         else if (token[i] == '$' && current_quote != '\'')
         {
-            i++;
-            env_start = i;
-            while (i < len && (ft_isalnum(token[i]) || token[i] == '_' || token[i] == '?'))
+            // Check for standalone '$'
+            if (i + 1 >= len || !(ft_isalnum(token[i + 1]) || token[i + 1] == '_'))
+            {
+                new_token[j++] = token[i++]; // Copy the standalone '$'
+            }
+            else
+            {
+                // Expand environment variable
                 i++;
-            env_var = ft_substr(token, env_start, i - env_start);
-            if (ft_isdigit(env_var[0]))
-                return (ft_strdup(env_var + 1));
-            if (env_var[0] == '?' && env_var[1] == '\0')
-                return (ft_itoa(last_exit_status));
-            else if (env_var[0] == '?' && env_var[1] != '\0')
-            {
-                str = ft_itoa(last_exit_status);
-                env_var[0] = str[0];
-                return (env_var);
-            }
-            env_value = getenv(env_var);
-            if (env_value == NULL)
-            {
+                env_start = i;
+                while (i < len && (ft_isalnum(token[i]) || token[i] == '_' || token[i] == '?'))
+                    i++;
+                env_var = ft_substr(token, env_start, i - env_start);
+                env_value = getenv(env_var);
                 free(env_var);
-                free(new_token);
-                return (NULL);
-            }
-            free(env_var);
-            if (env_value)
-            {
-                env_len = ft_strlen(env_value);
-                temp = malloc(j + env_len + 1);
-                if (!temp)
+                if (env_value)
                 {
-                    printf("Error: malloc failed\n");
-                    exit(1);
+                    env_len = ft_strlen(env_value);
+                    memcpy(new_token + j, env_value, env_len);
+                    j += env_len;
                 }
-                if (j > 0)
-                {
-                    ft_memcpy(temp, new_token, j);
-                }
-                ft_memcpy(&temp[j], env_value, env_len);
-                j += env_len;
-                temp[j] = '\0';
-                free(new_token);
-                new_token = temp;
             }
         }
         else if (token[i] == '\\' && current_quote == '"')
@@ -107,9 +135,11 @@ char *remove_quotes(char *token)
             new_token[j++] = token[i++];
         }
     }
+
     new_token[j] = '\0';
     return new_token;
 }
+
 
 char *handle_incorrect_quotes(char *token)
 {
