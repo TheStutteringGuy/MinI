@@ -6,11 +6,11 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:06 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/21 18:54:41 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:53:30 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../mini_pars.h"
+#include "../../minishell.h"
 
 int check_syntax_errors(t_token *token_list)
 {

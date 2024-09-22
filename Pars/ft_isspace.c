@@ -6,11 +6,11 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:23 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/20 01:20:24 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:55:16 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mini_pars.h"
+#include "../minishell.h"
 
 bool ft_isspace(int c)
 {

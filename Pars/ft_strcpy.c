@@ -6,11 +6,11 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:29 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/20 01:20:30 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:55:26 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mini_pars.h"
+#include "../minishell.h"
 
 char *ft_strcpy(char *dest, const char *src)
 {

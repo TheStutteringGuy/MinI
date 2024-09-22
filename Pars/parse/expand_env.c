@@ -6,11 +6,11 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:13 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/20 01:20:14 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:53:41 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../mini_pars.h"
+#include "../../minishell.h"
 
 char *expand_env_var(char *token)
 {

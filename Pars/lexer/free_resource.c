@@ -6,11 +6,11 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:19:57 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/20 01:19:58 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:53:26 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../mini_pars.h"
+#include "../../minishell.h"
 
 // Function to free tokens array
 void free_token(char **tokens)

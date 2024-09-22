@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/22 01:39:17 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:50:23 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@
 #include <stdbool.h>
 #include <stdarg.h>
 #include <stddef.h>
-#include "../Exec/Libft/libft.h"
-#include "../Exec/get_next_line/get_next_line.h"
 
 extern int last_exit_status;
 
@@ -77,8 +75,8 @@ typedef struct s_cmd
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include <stdio.h>
-#include "Libft/libft.h"
-#include "get_next_line/get_next_line.h"
+#include "Exec/Libft/libft.h"
+#include "Exec/get_next_line/get_next_line.h"
 #include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
