@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/22 16:01:48 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/22 20:10:58 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,17 @@ char *remove_quotes(char *token)
 
     while (i < len)
     {
-        // Handle cases like $'...'$
         if (token[i] == '$' && (i + 1 < len) && (token[i + 1] == '\'' || token[i + 1] == '"'))
         {
             current_quote = token[i + 1];
-            i += 2; // Skip $ and the opening quote
+            i += 2;
             if (current_quote == '\'')
             {
-                // Preserve everything within $'...'$
                 while (i < len && token[i] != current_quote)
                     new_token[j++] = token[i++];
             }
             else if (current_quote == '"')
             {
-                // Expand variables within $"..."$
                 while (i < len && token[i] != current_quote)
                 {
                     if (token[i] == '$')
@@ -72,7 +69,6 @@ char *remove_quotes(char *token)
                     }
                     else if (token[i] == '\\' && i + 1 < len)
                     {
-                        // Handle escaped characters within $"..."$
                         new_token[j++] = token[++i];
                     }
                     else
@@ -82,11 +78,10 @@ char *remove_quotes(char *token)
                 }
             }
             if (i < len && token[i] == current_quote)
-                i++; // Skip the closing quote
+                i++;
             if (i < len && token[i] == '$')
-                new_token[j++] = token[i++]; // Preserve the trailing $
+                new_token[j++] = token[i++];
         }
-        // Regular quotes processing
         else if ((token[i] == '"' || token[i] == '\'') && current_quote == '\0')
         {
             current_quote = token[i];
@@ -99,14 +94,12 @@ char *remove_quotes(char *token)
         }
         else if (token[i] == '$' && current_quote != '\'')
         {
-            // Check for standalone '$'
             if (i + 1 >= len || !(ft_isalnum(token[i + 1]) || token[i + 1] == '_'))
             {
-                new_token[j++] = token[i++]; // Copy the standalone '$'
+                new_token[j++] = token[i++];
             }
             else
             {
-                // Expand environment variable
                 i++;
                 env_start = i;
                 while (i < len && (ft_isalnum(token[i]) || token[i] == '_' || token[i] == '?'))
@@ -168,3 +161,4 @@ char *handle_incorrect_quotes(char *token)
     }
     return (ft_strdup(token));
 }
+
