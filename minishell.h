@@ -3,15 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/22 01:50:23 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/22 05:14:27 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#include <stdio.h>
+#include "Exec/Libft/libft.h"
+#include "Exec/get_next_line/get_next_line.h"
+#include <errno.h>
+#include <fcntl.h>
+#include <limits.h>
+#include <readline/history.h>
+#include <readline/readline.h>
+#include <signal.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/time.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <sys/stat.h>
+
+#define PATH_MAX 4096
+#define TRUE 1
+
+// STRUCTS :
+
+typedef struct s_linked
+{
+    char *key;
+    char *value;
+    struct s_linked *next;
+} t_linked;
+
+typedef struct s_exec
+{
+    t_linked *environ;
+    t_linked *export;
+    char **envp;
+    char **arg;
+} t_exec;
+
+typedef struct s_pipe
+{
+    int size;
+    int **pipes;
+    pid_t *pid_list;
+} t_pipe;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include <stdio.h>
@@ -62,7 +107,6 @@ typedef struct s_output_input
     struct s_output_input *next;
 } t_output_input;
 
-
 // main struct
 typedef struct s_cmd
 {
@@ -71,47 +115,6 @@ typedef struct s_cmd
     t_output_input *redirection;
     struct s_cmd *next;
 } t_cmd;
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#include <stdio.h>
-#include "Exec/Libft/libft.h"
-#include "Exec/get_next_line/get_next_line.h"
-#include <errno.h>
-#include <fcntl.h>
-#include <limits.h>
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <signal.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/time.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <sys/stat.h>
-
-#define PATH_MAX 4096
-#define TRUE 1
-
-// STRUCTS :
-
-typedef struct s_linked
-{
-	char *key;
-	char *value;
-	struct s_linked *next;
-} t_linked;
-
-typedef struct s_exec
-{
-	t_linked *environ;
-	t_linked *export;
-	char **envp;
-	char **arg;
-} t_exec;
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 char *ft_strdup(const char *s);
@@ -123,9 +126,9 @@ char *ft_strcpy(char *dest, const char *src);
 char *ft_strncpy(char *dest, const char *src, size_t n);
 bool ft_isspace(int c);
 void *ft_memset(void *s, int c, size_t n);
-char	*ft_itoa(int n);
-int	ft_isdigit(int c);
-char	*ft_strjoin(char const *s1, char const *s2);
+char *ft_itoa(int n);
+int ft_isdigit(int c);
+char *ft_strjoin(char const *s1, char const *s2);
 
 // lexer includes
 t_token *create_token(t_type type, char *value);
@@ -135,7 +138,6 @@ void handle_token(t_token **token_list, char *token, t_type *expected);
 void tokenize_input(char *input, t_token **token_list);
 int is_multi_operator(char *str);
 int is_operator(char c);
-
 
 // parser includes
 t_cmd *create_new_command(t_token *token);
@@ -154,9 +156,9 @@ void print_commands(t_cmd *cmd_list);
 
 // free resources
 void free_tokens(t_token *token_list);
-//void free_token(char **tokens);
-// void free_input_files(t_input_file *input_list);
-// void free_output_files(t_output_file *output_list);
+// void free_token(char **tokens);
+//  void free_input_files(t_input_file *input_list);
+//  void free_output_files(t_output_file *output_list);
 void free_commands(t_cmd *cmd_list);
 
 // quotes includes
@@ -168,7 +170,6 @@ char *trim_spaces(char *str);
 // env includes
 char *expand_env_var(char *token);
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // PROTOTYPES :
@@ -179,14 +180,14 @@ void env_list(t_linked **list, char **envp);
 void exec(t_exec *data, t_cmd *input);
 void execve_handle_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd);
 void create_node(t_linked **list, char *key, char *value,
-				 int flag);
+                 int flag);
 void clear_list(t_linked **list);
 void remove_list(t_linked **list, char *key);
 char *ft_getenv(t_linked *list, char *name);
 void copy_environ(t_linked **list, t_linked *environ);
 int ft_get_export(t_linked *list, char *name);
 int list_size(t_linked *list);
-void    print_error(char *s1, char *s2, char *s3, int value);
+void print_error(char *s1, char *s2, char *s3, int value);
 
 // BUILTINS :
 

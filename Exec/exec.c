@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/22 01:13:58 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/22 07:30:06 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,8 +154,6 @@ void handle_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
   size_t len;
 
   len = ft_strlen2(input->command);
-  dup2(read_fd, 0);
-  dup2(write_fd, 1);
   if (len == ft_strlen2("pwd") && ft_strncmp(input->command, "pwd", ft_strlen2("pwd")) == 0)
     pwd_hard(data, input, read_fd, write_fd);
   else if (len == ft_strlen2("env") && ft_strncmp(input->command, "env", ft_strlen2("env")) == 0)
@@ -186,7 +184,65 @@ int ft_size(t_cmd *iterate)
   }
   return (size);
 }
-void forking_for_pipes(t_exec *data, t_cmd *input, pid_t *pid_list, int size)
+
+void close_pipes(t_pipe *info, int size)
+{
+  int i;
+
+  i = 0;
+  while (i < size)
+  {
+    close(info->pipes[i][1]);
+    close(info->pipes[i][0]);
+    i++;
+  }
+}
+
+void child(t_exec *data, t_cmd *input, t_pipe *info, int id)
+{
+  int read_fd;
+  int write_fd;
+
+  read_fd = 0;
+  write_fd = 1;
+  if (id == 0)
+  {
+    printf("111111111111111111111111111111111111 %d\n", id);
+    // printf("%d\n", id);
+    dup2(info->pipes[id][1], STDOUT_FILENO);
+    close_pipes(info, info->size - 1);
+    execlp("ls", "ls", NULL);
+  }
+  else if (id == info->size - 1)
+  {
+    printf("33333333333333333333333333333333333333 %d\n", id);
+
+    // printf("%d\n", id);
+    dup2(info->pipes[id - 1][0], STDIN_FILENO);
+    // execlp("grep", "m", NULL);
+    close_pipes(info, info->size - 1);
+    execlp("grep", "grep", "M", NULL);
+  }
+  else
+  {
+    printf("22222222222222222222222222222222222222222222222 %d\n", id);
+
+    // printf("%d\n", id);
+    dup2(info->pipes[id - 1][0], STDIN_FILENO);
+    dup2(info->pipes[id][1], STDOUT_FILENO);
+    close_pipes(info, info->size - 1);
+    execlp("ls", "ls", NULL);
+  }
+  // close_pipes(info, info->size);
+  // handle_input_output(data, input, &read_fd, &write_fd);
+  // if(read_fd != 0)
+  //   dup2(read_fd ,STDIN_FILENO);
+  // if (write_fd != 1)
+  //   dup2(write_fd, STDOUT_FILENO);
+  // handle_hard(data, input, read_fd, write_fd);
+}
+
+void forking_for_pipes(t_exec *data, t_cmd *input, t_pipe *info, int size)
 {
   pid_t id;
 
@@ -197,13 +253,34 @@ void forking_for_pipes(t_exec *data, t_cmd *input, pid_t *pid_list, int size)
   {
     signal(SIGINT, SIG_DFL);
     signal(SIGQUIT, SIG_DFL);
+    child(data, input, info, ft_size(input) - size);
     exit(0);
   }
   else
   {
-    pid_list[ft_size(input) - size] = id;
-    forking_for_pipes(data, input, pid_list, size - 1);
+    info->pid_list[ft_size(input) - size] = id;
+    forking_for_pipes(data, input, info, size - 1);
   }
+}
+
+void initialize_pipes(t_pipe *info, int size)
+{
+  int i;
+
+  i = 0;
+  printf("size %d\n", size);
+  info->pipes = malloc(sizeof(int *) * size);
+  if (!info->pipes)
+  {
+    print_error("Error Malloc", NULL, NULL, 0);
+    return;
+  }
+  i = 0;
+  while (i < size)
+    info->pipes[i++] = malloc(sizeof(int) * 2);
+  i = 0;
+  while (i < size)
+    pipe(info->pipes[i++]);
 }
 
 void exec(t_exec *data, t_cmd *input)
@@ -212,8 +289,8 @@ void exec(t_exec *data, t_cmd *input)
   int write_fd;
   int read_fd;
   int status;
-  pid_t *pid_list;
-  int size;
+  t_pipe info;
+  int i;
 
   if (!input->next)
   {
@@ -227,23 +304,25 @@ void exec(t_exec *data, t_cmd *input)
   }
   else
   {
-    size = ft_size(input);
-    pid_list = malloc(sizeof(pid_t) * size);
-    if (!pid_list)
+    info.size = ft_size(input);
+    info.pid_list = malloc(sizeof(pid_t) * info.size);
+    if (!info.pid_list)
       return;
-    forking_for_pipes(data, input, pid_list, size);
+    initialize_pipes(&info, info.size - 1);
+    forking_for_pipes(data, input, &info, info.size);
+    close_pipes(&info, info.size - 1);
     while (TRUE)
     {
-      if (waitpid(id, &status, 0) == 0)
+      if (waitpid(0, &status, 0) == -1)
       {
-        if (!WIFSIGNALED(status))
-          last_exit_status = WEXITSTATUS(status);
-        else
-          last_exit_status = 128 + WTERMSIG(status);
+        if (errno == ECHILD)
+          break;
       }
-      if (errno == ECHILD)
-        break;
+      if (!WIFSIGNALED(status))
+        last_exit_status = WEXITSTATUS(status);
+      else
+        last_exit_status = 128 + WTERMSIG(status);
+      printf("-->%d\n", last_exit_status);
     }
-    printf("MAIN HERE\n");
   }
 }
