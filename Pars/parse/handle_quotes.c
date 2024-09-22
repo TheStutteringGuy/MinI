@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/22 20:10:58 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/23 00:37:13 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char *remove_quotes(char *token)
                         if (env_value)
                         {
                             env_len = ft_strlen(env_value);
-                            memcpy(new_token + j, env_value, env_len);
+                            ft_memcpy(new_token + j, env_value, env_len);
                             j += env_len;
                         }
                     }
@@ -110,7 +110,7 @@ char *remove_quotes(char *token)
                 if (env_value)
                 {
                     env_len = ft_strlen(env_value);
-                    memcpy(new_token + j, env_value, env_len);
+                    ft_memcpy(new_token + j, env_value, env_len);
                     j += env_len;
                 }
             }

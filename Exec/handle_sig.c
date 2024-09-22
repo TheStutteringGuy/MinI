@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_sig.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 21:40:47 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/20 20:07:29 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/22 22:56:48 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
