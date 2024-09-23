@@ -6,11 +6,44 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/23 05:36:31 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/23 05:57:11 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+static void update_pwd(t_exec **list)
+{
+    char cwd[PATH_MAX];
+
+    getcwd(cwd, PATH_MAX);
+    char *key;
+    t_linked *iterate;
+
+    key = "PWD";
+    iterate = (*list)->environ;
+    while (iterate)
+    {
+        if (ft_strlen2(iterate->key) == ft_strlen2(key) && ft_strncmp(iterate->key, key, ft_strlen2(key)) == 0)
+        {
+            free(iterate->value);
+            iterate->value = ft_substr(cwd, 0, ft_strlen(cwd));
+            break;
+        }
+        iterate = iterate->next;
+    }
+    iterate = (*list)->export;
+    while (iterate)
+    {
+        if (ft_strlen2(iterate->key) == ft_strlen2(key) && ft_strncmp(iterate->key, key, ft_strlen2(key)) == 0)
+        {
+            free(iterate->value);
+            iterate->value = ft_substr(cwd, 0, ft_strlen(cwd));
+            break;
+        }
+        iterate = iterate->next;
+    }
+}
 
 static void update_environ(t_exec **list, char *cwd)
 {
@@ -81,6 +114,7 @@ void cd_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
                 exit(1);
             }
             update_environ(&data, cwd);
+            update_pwd(&data);
             return;
         }
         if (chdir(input->arguments[0]) != 0)
@@ -90,4 +124,5 @@ void cd_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
         }
     }
     update_environ(&data, cwd);
+    update_pwd(&data);
 }
