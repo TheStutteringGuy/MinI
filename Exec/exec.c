@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/23 06:25:13 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/23 06:45:30 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void handle_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
   size_t len;
 
   if (!input->command)
-    return ;
+    return;
   len = ft_strlen2(input->command);
   if (len == ft_strlen2("pwd") && ft_strncmp(input->command, "pwd", ft_strlen2("pwd")) == 0)
     pwd_hard(data, input, read_fd, write_fd);
@@ -219,9 +219,9 @@ void child(t_exec *data, t_cmd *input, t_pipe *info, int id)
   close_pipes(info, info->size - 1);
   handle_input_output(data, input, &read_fd, &write_fd);
   if (read_fd == -1)
-      exit (1);
-  if(read_fd != 0)
-    dup2(read_fd ,STDIN_FILENO);
+    exit(1);
+  if (read_fd != 0)
+    dup2(read_fd, STDIN_FILENO);
   if (write_fd != 1)
     dup2(write_fd, STDOUT_FILENO);
   if (input->command)
@@ -290,6 +290,7 @@ void exec(t_exec *data, t_cmd *input)
   }
   else
   {
+    signal(SIGINT, SIG_IGN);
     info.size = ft_size(input);
     info.pid_list = malloc(sizeof(pid_t) * info.size);
     if (!info.pid_list)
