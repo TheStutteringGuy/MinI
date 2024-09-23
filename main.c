@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/22 00:14:22 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/23 04:37:48 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int main(int ac, char **av, char **envp)
     t_cmd *cmd_list;
     t_token *token_list;
 
-    (void)envp;
     (void)ac;
     (void)av;
     data.environ = malloc(sizeof(t_linked));
@@ -68,7 +67,6 @@ int main(int ac, char **av, char **envp)
                 free(input);
                 continue;
             }
-            add_history(input);
             token_list = NULL;
             tokenize_input(input, &token_list);
             if (check_syntax_errors(token_list))
@@ -89,6 +87,7 @@ int main(int ac, char **av, char **envp)
             printf("\n\n");
             // free_tokens(token_list);
             // free_commands(cmd_list);
+            add_history(input);
             free_everything();
         }
     }
