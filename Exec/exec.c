@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/23 02:11:35 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/23 02:15:05 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,5 +318,7 @@ void exec(t_exec *data, t_cmd *input)
         last_exit_status = 128 + WTERMSIG(status);
       printf("-->%d\n", last_exit_status);
     }
+    usleep(100);
+    printf("-->%d\n", last_exit_status);
   }
 }
