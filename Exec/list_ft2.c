@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 01:39:55 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/20 20:07:34 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/23 23:48:34 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,20 @@ void remove_list(t_linked **list, char *key)
 }
 
 char *ft_getenv(t_linked *list, char *name)
+{
+    size_t len;
+
+    while (list)
+    {
+        len = key_return(list->key, name);
+        if (ft_strncmp(list->key, name, len) == 0)
+            return (list->value);
+        list = list->next;
+    }
+    return (NULL);
+}
+
+char *ft_getexport(t_linked *list, char *name)
 {
     size_t len;
 

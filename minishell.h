@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/24 00:06:34 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/23 23:49:44 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,8 +183,9 @@ void create_node(t_linked **list, char *key, char *value,
 void clear_list(t_linked **list);
 void remove_list(t_linked **list, char *key);
 char *ft_getenv(t_linked *list, char *name);
-void copy_environ(t_linked **list, t_linked *environ);
 int ft_get_export(t_linked *list, char *name);
+char *ft_getexport(t_linked *list, char *name);
+void copy_environ(t_linked **list, t_linked *environ);
 int list_size(t_linked *list);
 void print_error(char *s1, char *s2, char *s3, int value);
 
