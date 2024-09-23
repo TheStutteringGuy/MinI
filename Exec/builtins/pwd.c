@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/20 20:06:54 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/23 06:30:05 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void pwd_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 {
     (void)data;
     (void)input;
-    if (ft_getenv(data->environ, "PWD"))
-        printf("%s\n", ft_getenv(data->environ, "PWD"));
+    char cwd[PATH_MAX];
+
+    getcwd(cwd, PATH_MAX);
+    printf("%s\n", cwd);
 }
