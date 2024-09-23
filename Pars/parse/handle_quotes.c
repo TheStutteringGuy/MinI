@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/23 17:05:07 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/23 20:48:45 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,88 +18,29 @@ char *remove_quotes(char *token, t_linked *env_list)
 {
     size_t len;
     char *new_token;
-    int i, j = 0;
+    int i;
+    int j;
     char current_quote;
     int env_start;
     char *env_var;
     char *env_value;
+    char *str;
     size_t env_len;
-    size_t alloc_size;
-    size_t new_alloc_size;
     char *temp;
 
     len = ft_strlen(token);
-    alloc_size = len + 1;
-    new_token = malloc(alloc_size);
+    new_token = malloc(len + 1);
     if (!new_token)
     {
-        write(2, "Error: malloc failed\n", 22);
+        printf("Error: malloc failed\n");
         exit(1);
     }
     i = 0;
+    j = 0;
     current_quote = '\0';
     while (i < len)
     {
-        if (token[i] == '$' && (i + 1 < len) && (token[i + 1] == '\'' || token[i + 1] == '"'))
-        {
-            current_quote = token[i + 1];
-            i += 2;
-            if (current_quote == '\'')
-            {
-                while (i < len && token[i] != current_quote)
-                    new_token[j++] = token[i++];
-            }
-            else if (current_quote == '"')
-            {
-                while (i < len && token[i] != current_quote)
-                {
-                    if (token[i] == '$')
-                    {
-                        i++;
-                        env_start = i;
-                        while (i < len && (ft_isalnum(token[i]) || token[i] == '_' || token[i] == '?'))
-                            i++;
-                        env_var = ft_substr(token, env_start, i - env_start);
-                        env_value = ft_getenv(env_list, env_var);
-                        free(env_var);
-                        if (env_value)
-                        {
-                            env_len = ft_strlen(env_value);
-                            while (j + env_len + 1 >= alloc_size)
-                            {
-                                new_alloc_size = alloc_size * 2;
-                                temp = malloc(new_alloc_size);
-                                if (!temp)
-                                {
-                                    write(2, "Error: malloc failed\n", 22);
-                                    free(new_token);
-                                    exit(1);
-                                }
-                                ft_memcpy2(temp, new_token, j);
-                                free(new_token);
-                                new_token = temp;
-                                alloc_size = new_alloc_size;
-                            }
-                            ft_memcpy2(new_token + j, env_value, env_len);
-                            j += env_len;
-                        }
-                    }
-                    else if (token[i] == '\\' && i + 1 < len)
-                    {
-                        new_token[j++] = token[++i];
-                    }
-                    else
-                    {
-                        new_token[j++] = token[i++];
-                    }
-                }
-            }
-            if (i < len && token[i] == current_quote)
-                i++;
-            if (i < len && token[i] == '$')
-                new_token[j++] = token[i++];
-        }
-        else if ((token[i] == '"' || token[i] == '\'') && current_quote == '\0')
+        if ((token[i] == '"' || token[i] == '\'') && current_quote == '\0')
         {
             current_quote = token[i];
             i++;
@@ -111,40 +52,47 @@ char *remove_quotes(char *token, t_linked *env_list)
         }
         else if (token[i] == '$' && current_quote != '\'')
         {
-            if (i + 1 >= len || !(ft_isalnum(token[i + 1]) || token[i + 1] == '_'))
-            {
-                new_token[j++] = token[i++];
-            }
-            else
-            {
+            i++;
+            env_start = i;
+            while (i < len && (ft_isalnum(token[i]) || token[i] == '_' || token[i] == '?'))
                 i++;
-                env_start = i;
-                while (i < len && (ft_isalnum(token[i]) || token[i] == '_' || token[i] == '?'))
-                    i++;
-                env_var = ft_substr(token, env_start, i - env_start);
-                env_value = ft_getenv(env_list, env_var);
+            env_var = ft_substr(token, env_start, i - env_start);
+            if (ft_isdigit(env_var[0]))
+                return (ft_strdup(env_var + 1));
+            if (env_var[0] == '?' && env_var[1] == '\0')
+                return (ft_itoa(last_exit_status));
+            else if (env_var[0] == '?' && env_var[1] != '\0')
+            {
+                str = ft_itoa(last_exit_status);
+                env_var[0] = str[0];
+                return (env_var);
+            }
+            env_value = ft_getenv(env_list, env_var);
+            if (env_value == NULL)
+            {
                 free(env_var);
-                if (env_value)
+                free(new_token);
+                return (NULL);
+            }
+            free(env_var);
+            if (env_value)
+            {
+                env_len = ft_strlen(env_value);
+                temp = malloc(j + env_len + 1);
+                if (!temp)
                 {
-                    env_len = ft_strlen(env_value);
-                    while (j + env_len + 1 >= alloc_size)
-                    {
-                        new_alloc_size = alloc_size * 2;
-                        temp = malloc(new_alloc_size);
-                        if (!temp)
-                        {
-                            write(2, "Error: malloc failed\n", 22);
-                            free(new_token);
-                            exit(1);
-                        }
-                        ft_memcpy2(temp, new_token, j);
-                        free(new_token);
-                        new_token = temp;
-                        alloc_size = new_alloc_size;
-                    }
-                    ft_memcpy2(new_token + j, env_value, env_len);
-                    j += env_len;
+                    printf("Error: malloc failed\n");
+                    exit(1);
                 }
+                if (j > 0)
+                {
+                    ft_memcpy(temp, new_token, j);
+                }
+                ft_memcpy(&temp[j], env_value, env_len);
+                j += env_len;
+                temp[j] = '\0';
+                free(new_token);
+                new_token = temp;
             }
         }
         else if (token[i] == '\\' && current_quote == '"')
@@ -161,7 +109,7 @@ char *remove_quotes(char *token, t_linked *env_list)
         }
     }
     new_token[j] = '\0';
-    return (new_token);
+    return new_token;
 }
 
 char *handle_incorrect_quotes(char *token)
