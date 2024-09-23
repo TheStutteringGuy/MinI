@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/23 06:23:40 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:41:41 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,17 @@ int main(int ac, char **av, char **envp)
 
     (void)ac;
     (void)av;
-    data.environ = malloc(sizeof(t_linked));
-    if (!data.environ)
-    {
-        printf("data.environ failed\n");
-        exit(1);
-    }
-    data.export = malloc(sizeof(t_linked));
-    if (!data.export)
-    {
-        free(data.environ);
-        printf("data.export failed\n");
-        exit(1);
-    }
+
+    // Initialize linked lists to NULL
     data.environ = NULL;
-    env_list(&data.environ, envp);
     data.export = NULL;
+
+    // Create and populate environment variable list
+    env_list(&data.environ, envp);
+
+    // Create a copy of the environment variable list for exports
     copy_environ(&data.export, data.environ);
+
     while (1)
     {
         handle_sig();
@@ -61,7 +55,10 @@ int main(int ac, char **av, char **envp)
         {
             input = trim_spaces(input);
             if (input[0] == '\0')
+            {
+                free(input);
                 continue;
+            }
             if (!handle_incorrect_quotes(input))
             {
                 free(input);
@@ -75,21 +72,35 @@ int main(int ac, char **av, char **envp)
                 free(input);
                 continue;
             }
-            cmd_list = parse_tokens(token_list);
+
+            // Pass data.environ to parse_tokens function
+            cmd_list = parse_tokens(token_list, data.environ);
             if (cmd_list == NULL)
             {
-                free(cmd_list);
+                free_tokens(token_list);
+                free(input);
                 continue;
             }
             print_commands(cmd_list);
             printf("\n\n");
+
+            // Execute the parsed command list
             exec(&data, cmd_list);
+
             printf("\n\n");
-            // free_tokens(token_list);
-            // free_commands(cmd_list);
+
             add_history(input);
-            free_everything();
+
+            // Free memory associated with commands and tokens
+            free_commands(cmd_list);
+            free_tokens(token_list);
+            free(input); // Free input as well
         }
     }
+
+    // Free all memory and exit gracefully
+    free_environment(data.environ);
+    free_environment(data.export);
+
     return 0;
 }

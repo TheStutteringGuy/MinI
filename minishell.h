@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/23 00:36:35 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:45:23 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,10 +143,10 @@ int is_operator(char c);
 // parser includes
 t_cmd *create_new_command(t_token *token);
 void add_argument_to_command(t_cmd *current_cmd, t_token *token);
-void handle_redirections(t_cmd *current_cmd, t_token **current_token);
-void process_token(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected);
-t_cmd *parse_tokens(t_token *token_list);
-void process_redirection_or_pipe(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected);
+void handle_redirections(t_cmd *current_cmd, t_token **current_token, t_linked *env_list);
+void process_token(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected, t_linked *env_list);
+t_cmd *parse_tokens(t_token *token_list, t_linked *env_list);
+void process_redirection_or_pipe(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected, t_linked *env_list);
 void process_command_or_argument(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected);
 t_cmd *create_empty_command(void);
 char *expand_herdoc(char *str);
@@ -164,12 +164,10 @@ void free_commands(t_cmd *cmd_list);
 
 // quotes includes
 int check_syntax_errors(t_token *token_list);
-char *remove_quotes(char *token);
+char *remove_quotes(char *token, t_linked *env_list);
 char *handle_incorrect_quotes(char *token);
 char *trim_spaces(char *str);
 
-// env includes
-char *expand_env_var(char *token);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

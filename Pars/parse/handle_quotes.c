@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/23 01:35:29 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/23 17:05:07 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // Function to handle double quotes
 
-char *remove_quotes(char *token)
+char *remove_quotes(char *token, t_linked *env_list)
 {
     size_t len;
     char *new_token;
@@ -60,9 +60,8 @@ char *remove_quotes(char *token)
                         while (i < len && (ft_isalnum(token[i]) || token[i] == '_' || token[i] == '?'))
                             i++;
                         env_var = ft_substr(token, env_start, i - env_start);
-                        env_value = getenv(env_var);
+                        env_value = ft_getenv(env_list, env_var);
                         free(env_var);
-
                         if (env_value)
                         {
                             env_len = ft_strlen(env_value);
@@ -123,7 +122,7 @@ char *remove_quotes(char *token)
                 while (i < len && (ft_isalnum(token[i]) || token[i] == '_' || token[i] == '?'))
                     i++;
                 env_var = ft_substr(token, env_start, i - env_start);
-                env_value = getenv(env_var);
+                env_value = ft_getenv(env_list, env_var);
                 free(env_var);
                 if (env_value)
                 {
