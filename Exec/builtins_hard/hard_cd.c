@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/21 05:07:27 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/23 05:36:31 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ static int handle_arg(t_cmd *input)
     if (i > 1)
     {
         print_error("cd: too many arguments", NULL, NULL, 0);
-        last_exit_status = 1;
-        return (-1);
+        exit(1);
     }
 }
 
@@ -61,18 +60,25 @@ void cd_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 {
     char cwd[PATH_MAX];
 
-    if (input->arguments[0])
+    getcwd(cwd, PATH_MAX);
+    if (!input->arguments[0])
+    {
+        if (chdir(ft_getenv(data->environ, "HOME")) != 0)
+        {
+            print_error("cd", "HOME is not set", NULL, 1);
+            exit(1);
+        }
+    }
+    else
     {
         if (handle_arg(input) == -1)
             return;
         if (ft_strlen2(input->arguments[0]) == ft_strlen2("-") && ft_strncmp(input->arguments[0], "-", ft_strlen2(input->arguments[0])) == 0)
         {
-            getcwd(cwd, PATH_MAX);
             if (chdir(ft_getenv(data->environ, "OLDPWD")) != 0)
             {
-                print_error("cd", input->arguments[0], strerror(errno), 2);
-                last_exit_status = 1;
-                return;
+                print_error("cd", "OLDPWD is not set", NULL, 1);
+                exit(1);
             }
             update_environ(&data, cwd);
             return;
@@ -80,10 +86,8 @@ void cd_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
         if (chdir(input->arguments[0]) != 0)
         {
             print_error("cd", input->arguments[0], strerror(errno), 2);
-            last_exit_status = 1;
-            return;
+            exit(1);
         }
     }
-    getcwd(cwd, PATH_MAX);
-    printf("%s\n", cwd);
+    update_environ(&data, cwd);
 }
