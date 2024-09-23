@@ -6,95 +6,61 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:19:57 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/22 01:53:26 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/23 01:39:52 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 // Function to free tokens array
-void free_token(char **tokens)
+void	free_token(char **tokens)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (tokens[i])
-    {
-        free(tokens[i]);
-        i++;
-    }
-    free(tokens);
+	i = 0;
+	while (tokens[i])
+	{
+		free(tokens[i]);
+		i++;
+	}
+	free(tokens);
 }
 
 // Free the memory allocated for tokens
-void free_tokens(t_token *token_list)
+void	free_tokens(t_token *token_list)
 {
-    t_token *current;
-    t_token *next;
+	t_token	*current;
+	t_token	*next;
 
-    current = token_list;
-    while (current)
-    {
-        next = current->next;
-        free(current->value);
-        free(current);
-        current = next;
-    }
+	current = token_list;
+	while (current)
+	{
+		next = current->next;
+		free(current->value);
+		free(current);
+		current = next;
+	}
 }
 
-// Free the memory allocated for input files
-// void free_input_files(t_input_file *input_list)
-// {
-//     t_input_file *current;
-//     t_input_file *next;
-
-//     current = input_list;
-//     while (current)
-//     {
-//         next = current->next;
-//         free(current->filename);
-//         free(current);
-//         current = next;
-//     }
-// }
-
-// // Free the memory allocated for output files
-// void free_output_files(t_output_file *output_list)
-// {
-//     t_output_file *current;
-//     t_output_file *next;
-
-//     current = output_list;
-//     while (current)
-//     {
-//         next = current->next;
-//         free(current->filename);
-//         free(current);
-//         current = next;
-//     }
-// }
-
-void free_commands(t_cmd *cmd_list)
+void	free_commands(t_cmd *cmd_list)
 {
-    t_cmd *current;
-    t_cmd *next;
+	t_cmd	*current;
+	t_cmd	*next;
+	int		i;
 
-    current = cmd_list;
-    while (current)
-    {
-        next = current->next;
-        free(current->command);
-        int i;
-        i = 0;
-        while (current->arguments[i])
-        {
-            free(current->arguments[i]);
-            i++;
-        }
-        free(current->arguments);
-        // free_input_files(current->input_files);
-        // free_output_files(current->output_files);
-        free(current);
-        current = next;
-    }
+	current = cmd_list;
+	while (current)
+	{
+		next = current->next;
+		free(current->command);
+		i = 0;
+		while (current->arguments[i])
+		{
+			free(current->arguments[i]);
+			i++;
+		}
+		free(current->arguments);
+		free(current);
+		current = next;
+	}
 }
