@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/23 00:37:13 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/23 01:12:49 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,26 @@ char *remove_quotes(char *token)
 {
     size_t len;
     char *new_token;
-    int i, j;
+    int i, j = 0;
     char current_quote;
     int env_start;
     char *env_var;
     char *env_value;
     size_t env_len;
+    size_t alloc_size;
+    size_t new_alloc_size;
     char *temp;
 
     len = ft_strlen(token);
-    new_token = malloc(len + 1);
+    alloc_size = len + 1;
+    new_token = malloc(alloc_size);
     if (!new_token)
     {
-        printf("Error: malloc failed\n");
+        write(2, "Error: malloc failed\n", 22);
         exit(1);
     }
     i = 0;
-    j = 0;
     current_quote = '\0';
-
     while (i < len)
     {
         if (token[i] == '$' && (i + 1 < len) && (token[i + 1] == '\'' || token[i + 1] == '"'))
@@ -60,10 +61,26 @@ char *remove_quotes(char *token)
                         env_var = ft_substr(token, env_start, i - env_start);
                         env_value = getenv(env_var);
                         free(env_var);
+
                         if (env_value)
                         {
                             env_len = ft_strlen(env_value);
-                            ft_memcpy(new_token + j, env_value, env_len);
+                            while (j + env_len + 1 >= alloc_size)
+                            {
+                                new_alloc_size = alloc_size * 2;
+                                temp = malloc(new_alloc_size);
+                                if (!temp)
+                                {
+                                    write(2, "Error: malloc failed\n", 22);
+                                    free(new_token);
+                                    exit(1);
+                                }
+                                ft_memcpy2(temp, new_token, j);
+                                free(new_token);
+                                new_token = temp;
+                                alloc_size = new_alloc_size;
+                            }
+                            ft_memcpy2(new_token + j, env_value, env_len);
                             j += env_len;
                         }
                     }
@@ -110,7 +127,22 @@ char *remove_quotes(char *token)
                 if (env_value)
                 {
                     env_len = ft_strlen(env_value);
-                    ft_memcpy(new_token + j, env_value, env_len);
+                    while (j + env_len + 1 >= alloc_size)
+                    {
+                        new_alloc_size = alloc_size * 2;
+                        temp = malloc(new_alloc_size);
+                        if (!temp)
+                        {
+                            printf("Error: malloc failed\n");
+                            free(new_token);
+                            exit(1);
+                        }
+                        ft_memcpy2(temp, new_token, j);
+                        free(new_token);
+                        new_token = temp;
+                        alloc_size = new_alloc_size;
+                    }
+                    ft_memcpy2(new_token + j, env_value, env_len);
                     j += env_len;
                 }
             }
@@ -128,11 +160,9 @@ char *remove_quotes(char *token)
             new_token[j++] = token[i++];
         }
     }
-
     new_token[j] = '\0';
-    return new_token;
+    return (new_token);
 }
-
 
 char *handle_incorrect_quotes(char *token)
 {
@@ -161,4 +191,3 @@ char *handle_incorrect_quotes(char *token)
     }
     return (ft_strdup(token));
 }
-
