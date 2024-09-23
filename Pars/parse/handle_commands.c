@@ -6,14 +6,14 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:15 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/23 16:37:53 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/24 00:10:10 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 // Function to process COMMAND and ARGUMENT tokens
-void process_command_or_argument(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected)
+void process_command_or_argument(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected, t_exec *exec)
 {
     t_cmd *new_cmd;
 
@@ -44,7 +44,7 @@ void process_command_or_argument(t_cmd **cmd_list, t_cmd **current_cmd, t_token 
 }
 
 // Function to process PIPE, RED_IN, RED_OUT, APPEND, or HERDOC tokens
-void process_redirection_or_pipe(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected, t_linked *env_list)
+void process_redirection_or_pipe(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected, t_exec *exec)
 {
     t_cmd *new_cmd;
 
@@ -62,20 +62,19 @@ void process_redirection_or_pipe(t_cmd **cmd_list, t_cmd **current_cmd, t_token 
              (*current_token)->type == APPEND || (*current_token)->type == HERDOC)
     {
         if (*current_cmd)
-            handle_redirections(*current_cmd, current_token, env_list); // Pass env_list here
+            handle_redirections(*current_cmd, current_token, exec);
         else
         {
             *current_cmd = create_empty_command();
             if (!*cmd_list)
                 *cmd_list = *current_cmd;
-            handle_redirections(*current_cmd, current_token, env_list); // Pass env_list here
+            handle_redirections(*current_cmd, current_token, exec);
         }
     }
 }
 
-
 // Main function to process tokens
-void process_token(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected, t_linked *env_list)
+void process_token(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected, t_exec *exec)
 {
     char *expand_val;
     char *token_val;
@@ -85,21 +84,20 @@ void process_token(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_toke
     len = ft_strlen(token_val);
     if (token_val[0] == '\'' && token_val[len - 1] == '\'')
     {
-        (*current_token)->value = remove_quotes((*current_token)->value, env_list); // Pass env_list here
+        (*current_token)->value = remove_quotes((*current_token)->value, exec->environ);
         if ((*current_token)->value == NULL)
             return;
     }
     else if ((*current_token)->type == COMMAND || (*current_token)->type == ARGUMENT)
     {
-        (*current_token)->value = remove_quotes((*current_token)->value, env_list); // Pass env_list here
+        (*current_token)->value = remove_quotes((*current_token)->value, exec->environ);
         if ((*current_token)->value == NULL)
             return;
     }
     if ((*current_token)->type == COMMAND || (*current_token)->type == ARGUMENT)
-        process_command_or_argument(cmd_list, current_cmd, current_token, expected);
+        process_command_or_argument(cmd_list, current_cmd, current_token, expected, exec);
     else if ((*current_token)->type == PIPE || (*current_token)->type == RED_IN ||
              (*current_token)->type == RED_OUT || (*current_token)->type == APPEND ||
              (*current_token)->type == HERDOC)
-        process_redirection_or_pipe(cmd_list, current_cmd, current_token, expected, env_list); // Pass env_list here
+        process_redirection_or_pipe(cmd_list, current_cmd, current_token, expected, exec);
 }
-

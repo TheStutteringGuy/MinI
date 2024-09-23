@@ -6,14 +6,14 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/23 21:09:35 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/24 00:09:41 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 // Function to handle double quotes
-char *remove_quotes(char *token, t_linked *env_list)
+char *remove_quotes(char *token, t_exec *exec)
 {
     size_t len;
     char *new_token;
@@ -28,6 +28,8 @@ char *remove_quotes(char *token, t_linked *env_list)
     size_t str_len;
     char *temp;
 
+    if (!token || !exec)
+        return NULL;
     len = ft_strlen(token);
     new_token = malloc(len + 1);
     if (!new_token)
@@ -76,7 +78,7 @@ char *remove_quotes(char *token, t_linked *env_list)
                         env_var[0] = str[0];
                         return (env_var);
                     }
-                    env_value = ft_getenv(env_list, env_var);
+                    env_value = ft_get_export(exec, env_var);
                     free(env_var);
                     if (env_value == NULL)
                     {

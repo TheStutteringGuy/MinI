@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:10 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/23 16:38:11 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/24 00:10:30 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void add_argument_to_command(t_cmd *current_cmd, t_token *token)
     current_cmd->arguments = new_arguments;
 }
 
-void add_redirection(t_output_input **redirection, char *filename, int heredoc, char *delimiter, int append, int value, t_linked *env_list)
+void add_redirection(t_output_input **redirection, char *filename, int heredoc, char *delimiter, int append, int value, t_exec *exec)
 {
     t_output_input *new;
     t_output_input *iterate;
@@ -74,23 +74,20 @@ void add_redirection(t_output_input **redirection, char *filename, int heredoc, 
     new = malloc(sizeof(t_output_input));
     if (!new)
         return;
-    processed_filename = remove_quotes(filename, env_list); // Pass env_list here
+
+    // Use exec to access env_list
+    processed_filename = remove_quotes(filename, exec->environ);
     if (processed_filename == NULL)
         new->ambigious = 1;
     else
         new->ambigious = 0;
     new->whichis = value;
-    if (processed_filename == NULL)
-        new->filename = ft_strdup2(filename);
-    else
-        new->filename = ft_strdup2(processed_filename);
+    new->filename = ft_strdup2(processed_filename ? processed_filename : filename);
     new->append = append;
     new->heredoc = heredoc;
-    if (delimiter)
-        new->delimiter = ft_strdup2(delimiter);
-    else
-        new->delimiter = NULL;
+    new->delimiter = delimiter ? ft_strdup2(delimiter) : NULL;
     new->next = NULL;
+
     if (*redirection == NULL)
     {
         *redirection = new;
@@ -105,9 +102,8 @@ void add_redirection(t_output_input **redirection, char *filename, int heredoc, 
     return;
 }
 
-
 // Handle redirections
-void handle_redirections(t_cmd *current_cmd, t_token **current_token, t_linked *env_list)
+void handle_redirections(t_cmd *current_cmd, t_token **current_token, t_exec *exec)
 {
     t_token *token;
     t_token *next_token;
@@ -117,13 +113,13 @@ void handle_redirections(t_cmd *current_cmd, t_token **current_token, t_linked *
     if (next_token && (next_token->type == COMMAND || next_token->type == ARGUMENT))
     {
         if (token->type == RED_IN)
-            add_redirection(&current_cmd->redirection, next_token->value, 0, NULL, 0, 0, env_list);
+            add_redirection(&current_cmd->redirection, next_token->value, 0, NULL, 0, 0, exec);
         else if (token->type == HERDOC)
-            add_redirection(&current_cmd->redirection, next_token->value, 1, next_token->value, 0, 0, env_list);
+            add_redirection(&current_cmd->redirection, next_token->value, 1, next_token->value, 0, 0, exec);
         else if (token->type == RED_OUT)
-            add_redirection(&current_cmd->redirection, next_token->value, 0, NULL, 0, 1, env_list);
+            add_redirection(&current_cmd->redirection, next_token->value, 0, NULL, 0, 1, exec);
         else if (token->type == APPEND)
-            add_redirection(&current_cmd->redirection, next_token->value, 0, NULL, 1, 1, env_list);
+            add_redirection(&current_cmd->redirection, next_token->value, 0, NULL, 1, 1, exec);
 
         *current_token = next_token;
     }
@@ -133,7 +129,7 @@ void handle_redirections(t_cmd *current_cmd, t_token **current_token, t_linked *
 
 
 // Main parsing function that iterates over the token list
-t_cmd *parse_tokens(t_token *token_list, t_linked *env_list)
+t_cmd *parse_tokens(t_token *token_list, t_exec *exec)
 {
     t_cmd *cmd_list;
     t_cmd *current_cmd;
@@ -146,12 +142,11 @@ t_cmd *parse_tokens(t_token *token_list, t_linked *env_list)
     expected = COMMAND;
     while (current_token)
     {
-        process_token(&cmd_list, &current_cmd, &current_token, &expected, env_list); // Pass env_list here
+        process_token(&cmd_list, &current_cmd, &current_token, &expected, exec);
         current_token = current_token->next;
     }
     return cmd_list;
 }
-
 
 
 t_cmd *create_empty_command(void)

@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/23 16:41:41 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/24 00:09:12 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,10 @@ int main(int ac, char **av, char **envp)
 
     (void)ac;
     (void)av;
-
-    // Initialize linked lists to NULL
     data.environ = NULL;
     data.export = NULL;
-
-    // Create and populate environment variable list
     env_list(&data.environ, envp);
-
-    // Create a copy of the environment variable list for exports
     copy_environ(&data.export, data.environ);
-
     while (1)
     {
         handle_sig();
@@ -72,9 +65,7 @@ int main(int ac, char **av, char **envp)
                 free(input);
                 continue;
             }
-
-            // Pass data.environ to parse_tokens function
-            cmd_list = parse_tokens(token_list, data.environ);
+            cmd_list = parse_tokens(token_list, &data);
             if (cmd_list == NULL)
             {
                 free_tokens(token_list);
@@ -83,24 +74,15 @@ int main(int ac, char **av, char **envp)
             }
             print_commands(cmd_list);
             printf("\n\n");
-
-            // Execute the parsed command list
             exec(&data, cmd_list);
-
             printf("\n\n");
-
             add_history(input);
-
-            // Free memory associated with commands and tokens
             free_commands(cmd_list);
             free_tokens(token_list);
-            free(input); // Free input as well
+            free(input);
         }
     }
-
-    // Free all memory and exit gracefully
     free_environment(data.environ);
     free_environment(data.export);
-
     return 0;
 }
