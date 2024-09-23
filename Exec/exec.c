@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/23 04:07:57 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/23 04:19:10 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,8 @@ void handle_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
   int saved_fd;
   size_t len;
 
+  if (!input->command)
+    return ;
   len = ft_strlen2(input->command);
   if (len == ft_strlen2("pwd") && ft_strncmp(input->command, "pwd", ft_strlen2("pwd")) == 0)
     pwd_hard(data, input, read_fd, write_fd);
@@ -206,34 +208,24 @@ void child(t_exec *data, t_cmd *input, t_pipe *info, int id)
   read_fd = 0;
   write_fd = 1;
   if (id == 0)
-  {
-    // printf("%d\n", id);
     dup2(info->pipes[id][1], STDOUT_FILENO);
-    close_pipes(info, info->size - 1);
-    // execlp("ls", "ls", NULL);
-  }
   else if (id == info->size - 1)
-  {
-    // printf("%d\n", id);
     dup2(info->pipes[id - 1][0], STDIN_FILENO);
-    close_pipes(info, info->size - 1);
-    // execlp("cat", "cat", NULL);
-  }
   else
   {
-    // printf("%d\n", id);
     dup2(info->pipes[id - 1][0], STDIN_FILENO);
     dup2(info->pipes[id][1], STDOUT_FILENO);
-    close_pipes(info, info->size - 1);
-    // execlp("grep", "grep", "M", NULL);
   }
-  // close_pipes(info, info->size - 1);
-  // handle_input_output(data, input, &read_fd, &write_fd);
-  // if(read_fd != 0)
-  //   dup2(read_fd ,STDIN_FILENO);
-  // if (write_fd != 1)
-  //   dup2(write_fd, STDOUT_FILENO);
-  handle_hard(data, input, read_fd, write_fd);
+  close_pipes(info, info->size - 1);
+  handle_input_output(data, input, &read_fd, &write_fd);
+  if (read_fd == -1)
+      exit (1);
+  if(read_fd != 0)
+    dup2(read_fd ,STDIN_FILENO);
+  if (write_fd != 1)
+    dup2(write_fd, STDOUT_FILENO);
+  if (input->command)
+    handle_hard(data, input, read_fd, write_fd);
 }
 
 void forking_for_pipes(t_exec *data, t_cmd *input, t_pipe *info, int size)
