@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/22 07:30:06 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/23 02:11:35 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,8 +192,8 @@ void close_pipes(t_pipe *info, int size)
   i = 0;
   while (i < size)
   {
-    close(info->pipes[i][1]);
     close(info->pipes[i][0]);
+    close(info->pipes[i][1]);
     i++;
   }
 }
@@ -207,39 +207,33 @@ void child(t_exec *data, t_cmd *input, t_pipe *info, int id)
   write_fd = 1;
   if (id == 0)
   {
-    printf("111111111111111111111111111111111111 %d\n", id);
     // printf("%d\n", id);
     dup2(info->pipes[id][1], STDOUT_FILENO);
     close_pipes(info, info->size - 1);
-    execlp("ls", "ls", NULL);
+    // execlp("ls", "ls", NULL);
   }
   else if (id == info->size - 1)
   {
-    printf("33333333333333333333333333333333333333 %d\n", id);
-
     // printf("%d\n", id);
     dup2(info->pipes[id - 1][0], STDIN_FILENO);
-    // execlp("grep", "m", NULL);
     close_pipes(info, info->size - 1);
-    execlp("grep", "grep", "M", NULL);
+    // execlp("cat", "cat", NULL);
   }
   else
   {
-    printf("22222222222222222222222222222222222222222222222 %d\n", id);
-
     // printf("%d\n", id);
     dup2(info->pipes[id - 1][0], STDIN_FILENO);
     dup2(info->pipes[id][1], STDOUT_FILENO);
     close_pipes(info, info->size - 1);
-    execlp("ls", "ls", NULL);
+    // execlp("grep", "grep", "M", NULL);
   }
-  // close_pipes(info, info->size);
+  // close_pipes(info, info->size - 1);
   // handle_input_output(data, input, &read_fd, &write_fd);
   // if(read_fd != 0)
   //   dup2(read_fd ,STDIN_FILENO);
   // if (write_fd != 1)
   //   dup2(write_fd, STDOUT_FILENO);
-  // handle_hard(data, input, read_fd, write_fd);
+  handle_hard(data, input, read_fd, write_fd);
 }
 
 void forking_for_pipes(t_exec *data, t_cmd *input, t_pipe *info, int size)
@@ -253,12 +247,13 @@ void forking_for_pipes(t_exec *data, t_cmd *input, t_pipe *info, int size)
   {
     signal(SIGINT, SIG_DFL);
     signal(SIGQUIT, SIG_DFL);
-    child(data, input, info, ft_size(input) - size);
+    child(data, input, info, info->size - size);
     exit(0);
   }
   else
   {
-    info->pid_list[ft_size(input) - size] = id;
+    info->pid_list[info->size - size] = id;
+    input = input->next;
     forking_for_pipes(data, input, info, size - 1);
   }
 }
@@ -268,7 +263,6 @@ void initialize_pipes(t_pipe *info, int size)
   int i;
 
   i = 0;
-  printf("size %d\n", size);
   info->pipes = malloc(sizeof(int *) * size);
   if (!info->pipes)
   {
