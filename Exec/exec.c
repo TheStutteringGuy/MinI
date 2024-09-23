@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/23 02:15:05 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/23 04:07:57 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,20 +305,16 @@ void exec(t_exec *data, t_cmd *input)
     initialize_pipes(&info, info.size - 1);
     forking_for_pipes(data, input, &info, info.size);
     close_pipes(&info, info.size - 1);
-    while (TRUE)
+    i = 0;
+    while (i < info.size)
     {
-      if (waitpid(0, &status, 0) == -1)
-      {
-        if (errno == ECHILD)
-          break;
-      }
+      waitpid(info.pid_list[i], &status, 0);
       if (!WIFSIGNALED(status))
         last_exit_status = WEXITSTATUS(status);
       else
         last_exit_status = 128 + WTERMSIG(status);
-      printf("-->%d\n", last_exit_status);
+      i++;
     }
-    usleep(100);
     printf("-->%d\n", last_exit_status);
   }
 }
