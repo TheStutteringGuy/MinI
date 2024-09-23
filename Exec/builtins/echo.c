@@ -3,37 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/20 20:06:43 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/23 06:23:07 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static int handle_flag(t_exec *data, t_cmd *input, int *flag)
+static int handle_flag(t_cmd *input)
 {
     int i;
-    size_t len;
+    int j;
 
-    (void)data;
-    len = ft_strlen2("-n");
-    if (len != ft_strlen2(input->arguments[0]))
-        return (0);
-    if (len == ft_strlen2(input->arguments[0]) && ft_strncmp(input->arguments[0], "-n", ft_strlen2("-n")) != 0)
-        return (0);
-    *flag = 1;
-    i = 1;
+    i = 0;
     while (input->arguments[i] != NULL)
     {
-        if (len != ft_strlen2(input->arguments[i]))
+        j = 0;
+        if (input->arguments[i][j] == '-')
+        {
+            j++;
+            while (input->arguments[i][j] != '\0')
+            {
+                if (input->arguments[i][j] == 'n')
+                    j++;
+                else
+                    return (i);
+            }
+        }
+        else
             return (i);
-        if (len == ft_strlen2(input->arguments[i]) && ft_strncmp(input->arguments[i], "-n", ft_strlen2("-n")) != 0)
-            return (i);
-        ++i;
+        i++;
     }
-    return (i);
+    return (0);
 }
 
 void echo_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
@@ -44,7 +47,9 @@ void echo_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
     flag = 0;
     if (input->arguments[0])
     {
-        stop = handle_flag(data, input, &flag);
+        stop = handle_flag(input);
+        if (stop != 0)
+            flag = 1;
         while (input->arguments[stop] != NULL)
         {
             printf("%s ", input->arguments[stop]);
