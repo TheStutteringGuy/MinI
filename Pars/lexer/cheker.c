@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_env.c                                       :+:      :+:    :+:   */
+/*   cheker.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/20 01:20:13 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/22 01:53:41 by aahlaqqa         ###   ########.fr       */
+/*   Created: 2024/09/23 03:45:53 by aahlaqqa          #+#    #+#             */
+/*   Updated: 2024/09/23 03:46:00 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char *expand_env_var(char *token)
+int	is_operator(char c)
 {
-    char *env_var;
-    char *env_value;
+	return (c == '|' || c == '<' || c == '>');
+}
 
-    if (token[0] == '$')
-    {
-        if (ft_strcmp(token, "$?") == 0)
-            return (ft_itoa(last_exit_status));
-        if (ft_isdigit(token[1]))
-            return (ft_strdup(token + 2));
-        else
-        {
-            printf("Invalid env: %s\n", env_var);
-            return (ft_strdup(""));
-        }
-    }
-    return (ft_strdup(token));
+int	is_multi_operator(char *str)
+{
+	return ((str[0] == '<' && str[1] == '<') || (str[0] == '>'
+			&& str[1] == '>'));
 }

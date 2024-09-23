@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:01 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/22 01:53:03 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/23 03:46:53 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ t_token *create_token(t_type type, char *value)
     t_token *new_token;
 
     if (value == NULL)
-        return NULL;
+        return (NULL);
     new_token = malloc(sizeof(t_token));
     if (!new_token)
-        return NULL;
+        return (NULL);
     new_token->type = type;
     new_token->value = ft_strdup(value);
     new_token->next = NULL;
@@ -86,15 +86,6 @@ void handle_token(t_token **token_list, char *token, t_type *expected)
     free(processed_token);
 }
 
-int is_operator(char c)
-{
-    return (c == '|' || c == '<' || c == '>');
-}
-
-int is_multi_operator(char *str)
-{
-    return ((str[0] == '<' && str[1] == '<') || (str[0] == '>' && str[1] == '>'));
-}
 // Main function to tokenize input
 void tokenize_input(char *input, t_token **token_list)
 {

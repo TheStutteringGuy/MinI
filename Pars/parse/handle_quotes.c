@@ -6,13 +6,14 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/23 01:12:49 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/23 01:35:29 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 // Function to handle double quotes
+
 char *remove_quotes(char *token)
 {
     size_t len;
@@ -133,7 +134,7 @@ char *remove_quotes(char *token)
                         temp = malloc(new_alloc_size);
                         if (!temp)
                         {
-                            printf("Error: malloc failed\n");
+                            write(2, "Error: malloc failed\n", 22);
                             free(new_token);
                             exit(1);
                         }

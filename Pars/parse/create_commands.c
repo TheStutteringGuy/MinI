@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:10 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/22 01:53:37 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/23 03:37:45 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,20 @@ t_cmd *create_new_command(t_token *token)
     new_cmd = malloc(sizeof(t_cmd));
     if (!new_cmd)
     {
-        printf("malloc failed");
+        write(2, "malloc failed\n", 14);
         exit(1);
     }
     new_cmd->command = ft_strdup(token->value);
     new_cmd->arguments = malloc(sizeof(char *) * 2);
     if (!new_cmd->arguments)
     {
-        printf("malloc failed");
+        write(2, "malloc failed\n", 14);
         exit(1);
     }
     new_cmd->arguments[0] = NULL;
     new_cmd->redirection = NULL;
-    // new_cmd->input_files = NULL;
-    // new_cmd->output_files = NULL;
     new_cmd->next = NULL;
-    return new_cmd;
+    return (new_cmd);
 }
 
 // Add an argument to the current command
@@ -50,7 +48,7 @@ void add_argument_to_command(t_cmd *current_cmd, t_token *token)
     new_arguments = malloc(sizeof(char *) * (i + 2));
     if (!new_arguments)
     {
-        printf("malloc failed");
+        write(2, "malloc failed\n", 14);
         exit(1);
     }
     j = 0;
@@ -162,8 +160,6 @@ t_cmd *create_empty_command(void)
         cmd->command = NULL;
         cmd->arguments = NULL;
         cmd->redirection = NULL;
-        // cmd->input_files = NULL;
-        // cmd->output_files = NULL;
         cmd->next = NULL;
     }
     else

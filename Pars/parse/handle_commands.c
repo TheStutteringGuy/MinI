@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:15 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/22 01:54:34 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/23 01:36:12 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,7 @@ void process_command_or_argument(t_cmd **cmd_list, t_cmd **current_cmd, t_token 
     else if (*expected == ARGUMENT)
     {
         if (*current_cmd)
-        {
             add_argument_to_command(*current_cmd, *current_token);
-        }
     }
 }
 
@@ -88,22 +86,18 @@ void process_token(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_toke
     {
         (*current_token)->value = remove_quotes((*current_token)->value);
         if ((*current_token)->value == NULL)
-            return ;
+            return;
     }
     else if ((*current_token)->type == COMMAND || (*current_token)->type == ARGUMENT)
     {
         (*current_token)->value = remove_quotes((*current_token)->value);
         if ((*current_token)->value == NULL)
-            return ;
+            return;
     }
     if ((*current_token)->type == COMMAND || (*current_token)->type == ARGUMENT)
-    {
         process_command_or_argument(cmd_list, current_cmd, current_token, expected);
-    }
     else if ((*current_token)->type == PIPE || (*current_token)->type == RED_IN ||
              (*current_token)->type == RED_OUT || (*current_token)->type == APPEND ||
              (*current_token)->type == HERDOC)
-    {
         process_redirection_or_pipe(cmd_list, current_cmd, current_token, expected);
-    }
 }
