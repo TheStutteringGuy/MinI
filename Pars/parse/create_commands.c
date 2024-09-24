@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:10 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/24 00:10:30 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/24 03:38:50 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void add_redirection(t_output_input **redirection, char *filename, int heredoc, 
         return;
 
     // Use exec to access env_list
-    processed_filename = remove_quotes(filename, exec->environ);
+    processed_filename = remove_quotes(filename, exec);
     if (processed_filename == NULL)
         new->ambigious = 1;
     else

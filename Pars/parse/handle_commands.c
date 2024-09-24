@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:15 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/24 00:10:10 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/24 03:39:17 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,13 @@ void process_token(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_toke
     len = ft_strlen(token_val);
     if (token_val[0] == '\'' && token_val[len - 1] == '\'')
     {
-        (*current_token)->value = remove_quotes((*current_token)->value, exec->environ);
+        (*current_token)->value = remove_quotes((*current_token)->value, exec);
         if ((*current_token)->value == NULL)
             return;
     }
     else if ((*current_token)->type == COMMAND || (*current_token)->type == ARGUMENT)
     {
-        (*current_token)->value = remove_quotes((*current_token)->value, exec->environ);
+        (*current_token)->value = remove_quotes((*current_token)->value, exec);
         if ((*current_token)->value == NULL)
             return;
     }
