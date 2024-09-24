@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:15 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/24 03:39:17 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/24 19:03:04 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,13 @@ void process_command_or_argument(t_cmd **cmd_list, t_cmd **current_cmd, t_token 
 void process_redirection_or_pipe(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected, t_exec *exec)
 {
     t_cmd *new_cmd;
-
     if ((*current_token)->type == PIPE)
     {
+        if (!*current_cmd)
+        {
+            ft_error((*current_token)->value);
+            return;
+        }
         new_cmd = create_empty_command();
         if (*current_cmd)
             (*current_cmd)->next = new_cmd;
@@ -72,6 +76,7 @@ void process_redirection_or_pipe(t_cmd **cmd_list, t_cmd **current_cmd, t_token 
         }
     }
 }
+
 
 // Main function to process tokens
 void process_token(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected, t_exec *exec)

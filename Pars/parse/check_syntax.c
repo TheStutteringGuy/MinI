@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:06 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/23 03:40:43 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/24 18:49:20 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,5 @@ char	*trim_spaces(char *str)
 {
 	while (ft_isspace((unsigned char)*str))
 		str++;
-	return (str);
+	return (ft_strdup(str));
 }
