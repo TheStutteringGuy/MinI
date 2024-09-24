@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/24 03:36:14 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/24 17:58:58 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ char *remove_quotes(char *token, t_exec *exec)
         }
         else if (token[i] == '$')
         {
-            if (current_quote != '\'')
+            if (token[i] == '$' && (token[i + 1] == '\'' || token[i + 1] == '"'))
+                i++;
+            else if (current_quote != '\'')
             {
                 if (i + 1 < len && (ft_isalnum(token[i + 1]) || token[i + 1] == '_'))
                 {
