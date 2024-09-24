@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:10 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/24 03:38:50 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/24 19:33:35 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,20 +74,23 @@ void add_redirection(t_output_input **redirection, char *filename, int heredoc, 
     new = malloc(sizeof(t_output_input));
     if (!new)
         return;
-
-    // Use exec to access env_list
     processed_filename = remove_quotes(filename, exec);
     if (processed_filename == NULL)
         new->ambigious = 1;
     else
         new->ambigious = 0;
     new->whichis = value;
-    new->filename = ft_strdup2(processed_filename ? processed_filename : filename);
+    if (processed_filename != NULL)
+        new->filename = ft_strdup2(processed_filename);
+    else
+        new->filename = ft_strdup2(filename);
     new->append = append;
     new->heredoc = heredoc;
-    new->delimiter = delimiter ? ft_strdup2(delimiter) : NULL;
+    if (delimiter != NULL)
+        new->delimiter = ft_strdup2(delimiter);
+    else
+        new->delimiter = NULL;
     new->next = NULL;
-
     if (*redirection == NULL)
     {
         *redirection = new;
@@ -97,10 +100,11 @@ void add_redirection(t_output_input **redirection, char *filename, int heredoc, 
     iterate = *redirection;
     while (iterate->next)
         iterate = iterate->next;
+    
     iterate->next = new;
     free(processed_filename);
-    return;
 }
+
 
 // Handle redirections
 void handle_redirections(t_cmd *current_cmd, t_token **current_token, t_exec *exec)
