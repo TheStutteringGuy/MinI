@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/24 19:25:31 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/25 02:12:39 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,22 @@ int main(int ac, char **av, char **envp)
 
     (void)ac;
     (void)av;
+    data.environ = malloc(sizeof(t_linked));
+    if (!data.environ)
+    {
+        printf("data.environ failed\n");
+        exit(1);
+    }
+    data.export = malloc(sizeof(t_linked));
+    if (!data.export)
+    {
+        free(data.environ);
+        printf("data.export failed\n");
+        exit(1);
+    }
     data.environ = NULL;
-    data.export = NULL;
     env_list(&data.environ, envp);
+    data.export = NULL;
     copy_environ(&data.export, data.environ);
     while (1)
     {
