@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/23 23:49:44 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/25 02:20:43 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct s_output_input
     int append; // 0 if normal redirection, 1 if append
     int heredoc;
     char *delimiter;
+    int delimiter_expand;
     struct s_output_input *next;
 } t_output_input;
 
@@ -167,6 +168,7 @@ int check_syntax_errors(t_token *token_list);
 char *remove_quotes(char *token, t_exec *exec);
 char *handle_incorrect_quotes(char *token);
 char *trim_spaces(char *str);
+char *remove_delimiter_quotes(t_output_input *new, char *str);
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

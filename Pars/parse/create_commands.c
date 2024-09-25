@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:10 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/24 19:33:35 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/25 02:31:24 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ void add_argument_to_command(t_cmd *current_cmd, t_token *token)
     free(current_cmd->arguments);
     current_cmd->arguments = new_arguments;
 }
-
 void add_redirection(t_output_input **redirection, char *filename, int heredoc, char *delimiter, int append, int value, t_exec *exec)
 {
     t_output_input *new;
     t_output_input *iterate;
     char *processed_filename;
+    char *processed_delimiter;
 
     if (redirection == NULL)
         exit(1234);
@@ -87,7 +87,11 @@ void add_redirection(t_output_input **redirection, char *filename, int heredoc, 
     new->append = append;
     new->heredoc = heredoc;
     if (delimiter != NULL)
-        new->delimiter = ft_strdup2(delimiter);
+    {
+        processed_delimiter = remove_delimiter_quotes(new, delimiter);
+        new->delimiter = ft_strdup2(processed_delimiter);
+        free(processed_delimiter);
+    }
     else
         new->delimiter = NULL;
     new->next = NULL;
@@ -100,11 +104,10 @@ void add_redirection(t_output_input **redirection, char *filename, int heredoc, 
     iterate = *redirection;
     while (iterate->next)
         iterate = iterate->next;
-    
+
     iterate->next = new;
     free(processed_filename);
 }
-
 
 // Handle redirections
 void handle_redirections(t_cmd *current_cmd, t_token **current_token, t_exec *exec)
@@ -131,7 +134,6 @@ void handle_redirections(t_cmd *current_cmd, t_token **current_token, t_exec *ex
         write(2, "Error: Missing or invalid token after redirection\n", 51);
 }
 
-
 // Main parsing function that iterates over the token list
 t_cmd *parse_tokens(t_token *token_list, t_exec *exec)
 {
@@ -151,7 +153,6 @@ t_cmd *parse_tokens(t_token *token_list, t_exec *exec)
     }
     return cmd_list;
 }
-
 
 t_cmd *create_empty_command(void)
 {

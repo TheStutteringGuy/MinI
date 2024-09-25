@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:21 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/22 01:54:42 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/25 02:28:48 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,10 @@ void print_commands(t_cmd *cmd_list)
                     printf("false");
                 printf(", Delimiter = ");
                 if (input->delimiter)
-                    printf("%s\n", input->delimiter);
+                    printf("%s ", input->delimiter);
                 else
-                    printf("NULL\n");
+                    printf("NULL ");
+                printf("expand_delimiter: %d\n", input->delimiter_expand);
                 input = input->next;
             }
             else if (iterate->whichis != 0)
