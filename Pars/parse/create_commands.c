@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:10 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/25 02:31:24 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/25 03:22:39 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void add_redirection(t_output_input **redirection, char *filename, int heredoc, 
     char *processed_delimiter;
 
     if (redirection == NULL)
-        exit(1234);
+        exit(254);
     new = malloc(sizeof(t_output_input));
     if (!new)
         return;
