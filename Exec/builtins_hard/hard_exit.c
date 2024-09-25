@@ -6,13 +6,19 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/21 04:22:08 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/25 04:00:04 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void handle_arg(t_cmd *input)
+static void print_err(t_cmd *input)
+{
+    print_error("exit", input->arguments[0], "numeric argument required", 2);
+    exit(2);
+}
+
+static int handle_arg(t_cmd *input)
 {
     int i;
 
@@ -26,20 +32,27 @@ static void handle_arg(t_cmd *input)
     }
 }
 
-static void pars_arg(t_cmd *input)
+static int pars_arg(t_cmd *input)
 {
     int i;
 
     i = 0;
-    if (input->arguments[0][i] == '+' || input->arguments[0][i] == '-')
+    while ((input->arguments[0][i] >= 9 && input->arguments[0][i] <= 13) || input->arguments[0][i] == ' ')
         i++;
-    while (input->arguments[0][i] != '\0')
+    if (input->arguments[0][i] == '-' || input->arguments[0][i] == '+' || ft_isdigit(input->arguments[0][i]))
+        ++i;
+    else
+        print_err(input);
+    while ((input->arguments[0][i] <= 9 && input->arguments[0][i] >= 13) || input->arguments[0][i] != ' ')
     {
         if (ft_isdigit(input->arguments[0][i]) == 0)
-        {
-            print_error("exit", input->arguments[0], "numeric argument required", 2);
-            exit(2);
-        }
+            print_err(input);
+        ++i;
+    }
+    while (input->arguments[0][i] != '\0')
+    {
+        if ((input->arguments[0][i] <= 9 && input->arguments[0][i] >= 13) || input->arguments[0][i] != ' ')
+            print_err(input);
         ++i;
     }
 }
@@ -51,7 +64,7 @@ void exit_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
     {
         pars_arg(input);
         handle_arg(input);
-        exit(ft_atoi(input->arguments[0]));
+        exit(ft_atol(input->arguments[0]));
     }
     exit(last_exit_status);
 }

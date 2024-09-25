@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/25 02:20:43 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/25 04:00:24 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <limits.h>
 
 #define PATH_MAX 4096
 #define TRUE 1
@@ -190,6 +191,7 @@ char *ft_getexport(t_linked *list, char *name);
 void copy_environ(t_linked **list, t_linked *environ);
 int list_size(t_linked *list);
 void print_error(char *s1, char *s2, char *s3, int value);
+long    ft_atol(char *str);
 
 // BUILTINS :
 
