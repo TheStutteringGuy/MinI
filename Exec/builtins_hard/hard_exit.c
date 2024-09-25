@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/25 04:00:04 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/25 04:17:54 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int pars_arg(t_cmd *input)
         ++i;
     else
         print_err(input);
-    while ((input->arguments[0][i] <= 9 && input->arguments[0][i] >= 13) || input->arguments[0][i] != ' ')
+    while (((input->arguments[0][i] <= 9 && input->arguments[0][i] >= 13) || input->arguments[0][i] != ' ') && input->arguments[0][i] != '\0')
     {
         if (ft_isdigit(input->arguments[0][i]) == 0)
             print_err(input);
@@ -59,12 +59,15 @@ static int pars_arg(t_cmd *input)
 
 void exit_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 {
+    long exit_st;
+    
     (void)data;
     if (input->arguments[0])
     {
         pars_arg(input);
         handle_arg(input);
-        exit(ft_atol(input->arguments[0]));
+        exit_st = ft_atol(input->arguments[0]);
+        exit(exit_st);
     }
     exit(last_exit_status);
 }

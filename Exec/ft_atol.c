@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:58:18 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/25 03:55:30 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/25 04:27:39 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 long    ft_atol(char *str)
 {
-    long res;
-    long sign;
-    long i;
+    unsigned long res;
+    int sign;
+    int i;
 
     res = 0;
     sign = 1;
@@ -33,11 +33,12 @@ long    ft_atol(char *str)
     while (ft_isdigit(str[i]))
     {
         res = res * 10 + (str[i] - 48);
-        if ((sign == 1 && res > LONG_MAX) || sign == -1 && res < LONG_MIN)
+        if ((sign == 1 && res > 9223372036854775807) || (sign == -1 && res > 9223372036854775808))
         {
             print_error("exit", str, "numeric argument required", 2);
             exit(2);
         }
         i++;
     }
+    return (sign * res);
 }

@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/25 03:59:17 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/25 04:17:00 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ static int pars_arg(t_cmd *input)
     while ((input->arguments[0][i] >= 9 && input->arguments[0][i] <= 13) || input->arguments[0][i] == ' ')
         i++;
     if (input->arguments[0][i] == '-' || input->arguments[0][i] == '+' || ft_isdigit(input->arguments[0][i]))
-        ++i;
+        i++;
     else
         print_err(input);
-    while ((input->arguments[0][i] <= 9 && input->arguments[0][i] >= 13) || input->arguments[0][i] != ' ')
+    while (((input->arguments[0][i] <= 9 && input->arguments[0][i] >= 13) || input->arguments[0][i] != ' ') && input->arguments[0][i] != '\0')
     {
         if (ft_isdigit(input->arguments[0][i]) == 0)
             print_err(input);
@@ -60,13 +60,16 @@ static int pars_arg(t_cmd *input)
 
 void exit_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 {
+    long exit_st;
+    
     (void)data;
     if (input->arguments[0])
     {
         pars_arg(input);
         if (handle_arg(input) == -1)
             return;
-        exit(ft_atol(input->arguments[0]));
+        exit_st = ft_atol(input->arguments[0]);
+        exit(exit_st);
     }
     exit(last_exit_status);
 }
