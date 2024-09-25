@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:10 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/25 03:22:39 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:00:16 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,11 @@ t_cmd *parse_tokens(t_token *token_list, t_exec *exec)
     expected = COMMAND;
     while (current_token)
     {
+        if (current_token->type == PIPE && expected == COMMAND)
+        {
+            ft_error(current_token->value);
+            return (NULL);
+        }
         process_token(&cmd_list, &current_cmd, &current_token, &expected, exec);
         current_token = current_token->next;
     }
