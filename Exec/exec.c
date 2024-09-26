@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/23 06:45:30 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/25 04:49:23 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd
         }
         else
         {
-          *read_fd = open("HEREDOC", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
+          *read_fd = open("/tmp/HEREDOC", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
           if (*read_fd == -1)
           {
             print_error("Poblem in HEREDOC FILE", NULL, NULL, 0);
@@ -99,8 +99,8 @@ void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd
             free(after_pars);
           }
           close(*read_fd);
-          *read_fd = open("HEREDOC", O_CREAT | O_RDWR, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
-          unlink("HEREDOC");
+          *read_fd = open("/tmp/HEREDOC", O_CREAT | O_RDWR, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
+          unlink("/tmp/HEREDOC");
         }
       }
       else
