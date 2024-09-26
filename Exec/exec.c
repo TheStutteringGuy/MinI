@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/25 04:49:23 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/26 14:04:06 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,31 +76,13 @@ void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd
         }
         else
         {
-          *read_fd = open("/tmp/HEREDOC", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
+          *read_fd = open(iterate->heredoc_file, O_CREAT | O_RDWR, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
           if (*read_fd == -1)
           {
             print_error("Poblem in HEREDOC FILE", NULL, NULL, 0);
             exit(1);
           }
-          while (TRUE)
-          {
-            hered_inp = readline("> ");
-            if (!hered_inp)
-              break;
-            else if (ft_strlen2(hered_inp) == ft_strlen2(iterate->delimiter) && ft_strncmp(hered_inp, iterate->delimiter, ft_strlen2(iterate->delimiter)) == 0)
-            {
-              free(hered_inp);
-              break;
-            }
-            after_pars = expand_herdoc(hered_inp);
-            write(*read_fd, after_pars, ft_strlen2(after_pars));
-            write(*read_fd, "\n", 1);
-            free(hered_inp);
-            free(after_pars);
-          }
-          close(*read_fd);
-          *read_fd = open("/tmp/HEREDOC", O_CREAT | O_RDWR, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
-          unlink("/tmp/HEREDOC");
+          unlink(iterate->heredoc_file);
         }
       }
       else
@@ -278,6 +260,9 @@ void exec(t_exec *data, t_cmd *input)
   t_pipe info;
   int i;
 
+  if (handle_heredoc(data, &input) == -1)
+    return ;
+  handle_sig();
   if (!input->next)
   {
     read_fd = 0;
