@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/27 11:54:32 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/27 14:07:45 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ static size_t key_return(char *key, char *key2)
     return (len);
 }
 
-void    update_shlvl(t_linked **environ)
+void update_shlvl(t_linked **environ)
 {
     t_linked *iterate;
     size_t len;
-    int new_value;
-    char *new_shlvl;
+    char *new_value;
+    int new_shlvl;
 
     iterate = *environ;
     while (iterate)
@@ -48,11 +48,10 @@ void    update_shlvl(t_linked **environ)
         if (ft_strncmp(iterate->key, "SHLVL", len) == 0)
         {
             new_shlvl = ft_atoui(iterate->value) + 1;
-            if (new_shlvl < 0)
-                new_shlvl = 0;
-            else if (new_shlvl >= 1000)
+            printf("The Value: %d\n", new_shlvl);
+            if (new_shlvl >= 1000)
             {
-                printf("warning: shell level (%d) too high, resetting to 1\n", (int)ft_atoui(new_shlvl));
+                printf("warning: shell level (%d) too high, resetting to 1\n", new_shlvl);
                 new_shlvl = 1;
             }
             free(iterate->value);
@@ -60,7 +59,7 @@ void    update_shlvl(t_linked **environ)
             iterate->value = ft_substr(new_value, 0, ft_strlen2(new_value));
         }
         iterate = iterate->next;
-    } 
+    }
 }
 
 int main(int ac, char **av, char **envp)

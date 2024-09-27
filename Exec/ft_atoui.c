@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoui.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:51:04 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/27 11:59:49 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/27 14:22:14 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-unsigned int    ft_atoui(char *str)
+int ft_atoui(char *str)
 {
-    unsigned int res;
+    int res;
     int i;
     int j;
 
@@ -23,19 +23,22 @@ unsigned int    ft_atoui(char *str)
     while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
         i++;
     if (str[i] == '-')
-        return (0);
+        return (-1);
     if (str[i] == '+')
         i++;
     while (ft_isdigit(str[i]))
     {
         res = res * 10 + (str[i] - 48);
+        if (res >= 2147483647)
+            return (-1);
         i++;
     }
     while(str[i] != '\0')
     {
-        if (!ft_isdigit(str[i]) || (str[i] < 9 && str[i] > 13) || str[i] != ' ')
+        if ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
+            i++;
+        else
             return (0);
-        i++;
     }
     return (res);
 }
