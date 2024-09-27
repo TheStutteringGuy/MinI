@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/26 14:04:16 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/27 11:52:01 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,7 @@ int list_size(t_linked *list);
 void print_error(char *s1, char *s2, char *s3, int value);
 long    ft_atol(char *str);
 int    handle_heredoc(t_exec *data, t_cmd **input);
+unsigned int    ft_atoui(char *str);
 
 // BUILTINS :
 

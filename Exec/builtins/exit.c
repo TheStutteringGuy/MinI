@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/25 04:17:00 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/27 12:01:36 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int pars_arg(t_cmd *input)
         i++;
     else
         print_err(input);
-    while (((input->arguments[0][i] <= 9 && input->arguments[0][i] >= 13) || input->arguments[0][i] != ' ') && input->arguments[0][i] != '\0')
+    while (((input->arguments[0][i] < 9 && input->arguments[0][i] > 13) || input->arguments[0][i] != ' ') && input->arguments[0][i] != '\0')
     {
         if (ft_isdigit(input->arguments[0][i]) == 0)
             print_err(input);
@@ -52,7 +52,7 @@ static int pars_arg(t_cmd *input)
     }
     while (input->arguments[0][i] != '\0')
     {
-        if ((input->arguments[0][i] <= 9 && input->arguments[0][i] >= 13) || input->arguments[0][i] != ' ')
+        if ((input->arguments[0][i] < 9 && input->arguments[0][i] > 13) || input->arguments[0][i] != ' ')
             print_err(input);
         ++i;
     }
