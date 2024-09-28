@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/27 14:07:45 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/28 16:43:04 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int last_exit_status = 0;
 
 void free_everything()
 {
@@ -24,43 +23,7 @@ void input_null(char *input)
     free(input);
     exit(0);
 }
-static size_t key_return(char *key, char *key2)
-{
-    size_t len;
-
-    len = ft_strlen2(key);
-    if (len < ft_strlen2(key2))
-        len = ft_strlen2(key2);
-    return (len);
-}
-
-void update_shlvl(t_linked **environ)
-{
-    t_linked *iterate;
-    size_t len;
-    char *new_value;
-    int new_shlvl;
-
-    iterate = *environ;
-    while (iterate)
-    {
-        len = key_return(iterate->key, "SHLVL");
-        if (ft_strncmp(iterate->key, "SHLVL", len) == 0)
-        {
-            new_shlvl = ft_atoui(iterate->value) + 1;
-            printf("The Value: %d\n", new_shlvl);
-            if (new_shlvl >= 1000)
-            {
-                printf("warning: shell level (%d) too high, resetting to 1\n", new_shlvl);
-                new_shlvl = 1;
-            }
-            free(iterate->value);
-            new_value = ft_itoa(new_shlvl);
-            iterate->value = ft_substr(new_value, 0, ft_strlen2(new_value));
-        }
-        iterate = iterate->next;
-    }
-}
+int last_exit_status = 0;
 
 int main(int ac, char **av, char **envp)
 {
@@ -87,7 +50,6 @@ int main(int ac, char **av, char **envp)
     }
     data.environ = NULL;
     env_list(&data.environ, envp);
-    update_shlvl(&data.environ);
     data.export = NULL;
     copy_environ(&data.export, data.environ);
     while (1)
@@ -110,6 +72,7 @@ int main(int ac, char **av, char **envp)
                 continue;
             }
             token_list = NULL;
+            input = expand_befor_start(input, &data);
             tokenize_input(input, &token_list);
             if (check_syntax_errors(token_list))
             {
