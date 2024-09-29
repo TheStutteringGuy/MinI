@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/29 21:06:34 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/29 21:08:46 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ static int handle_arg(char *str, int *flag, t_cmd *input)
                 last_exit_status = 1;
                 return (-1);
             }
-            j++;
+              int flag;
+  j++;
         }
     }
     else
