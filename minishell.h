@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/29 21:44:58 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/29 21:58:43 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,15 +96,6 @@ typedef struct s_token
     char *value;
     struct s_token *next;
 } t_token;
-
-typedef struct s_tokenizer_state
-{
-    int in_quotes;
-    char current_quote;
-    char token[3000];
-    int token_len;
-    t_type expected;
-} t_tokenizer_state;
 
 
 // Struct for both output and input
