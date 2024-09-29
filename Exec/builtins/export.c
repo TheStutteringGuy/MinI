@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/21 04:28:09 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:06:34 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void handle_equal(t_exec *data, char *str)
 void handle_not(t_exec *data, t_linked **list, char *str)
 {
     see_if_it_exist(data, ft_substr(str, 0, ft_strlen2(str)));
-    create_node(list, ft_substr(str, 0, ft_strlen2(str)), ft_substr(str, 0, 0), 1);
+    create_node(list, ft_substr(str, 0, ft_strlen2(str)), ft_substr(str, 0, 0), 0);
 }
 
 void export_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
@@ -170,8 +170,10 @@ void export_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
     {
         if (*list->value != '\0')
             printf("declare -x %s=\"%s\"\n", list->key, list->value);
-        else
-            printf("declare -x %s=\n", list->key);
+        else if (*list->value == '\0' && list->flag == 1)
+            printf("declare -x %s=\"\"\n", list->key);
+        else if (*list->value == '\0' && list->flag == 0)
+            printf("declare -x %s\n", list->key);
         list = list->next;
     }
 }

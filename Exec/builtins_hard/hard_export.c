@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hard_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/21 04:27:09 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:06:19 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

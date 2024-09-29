@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/29 21:58:43 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/29 21:07:23 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_linked
 {
     char *key;
     char *value;
+    int flag;
     struct s_linked *next;
 } t_linked;
 
@@ -97,7 +98,6 @@ typedef struct s_token
     struct s_token *next;
 } t_token;
 
-
 // Struct for both output and input
 typedef struct s_output_input
 {
@@ -108,7 +108,7 @@ typedef struct s_output_input
     int heredoc;
     char *delimiter;
     int delimiter_expand;
-    char *heredoc_file; // where im gonna put the file name 
+    char *heredoc_file; // where im gonna put the file name
     struct s_output_input *next;
 } t_output_input;
 
@@ -134,8 +134,7 @@ void *ft_memset(void *s, int c, size_t n);
 char *ft_itoa(int n);
 int ft_isdigit(int c);
 char *ft_strjoin(char const *s1, char const *s2);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
-
+void *ft_memcpy(void *dest, const void *src, size_t n);
 
 int is_multi_operator(char *str);
 int is_operator(char c);
@@ -178,7 +177,6 @@ char *handle_incorrect_quotes(char *token);
 char *trim_spaces(char *str);
 char *remove_delimiter_quotes(t_output_input *new, char *str);
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // PROTOTYPES :
@@ -198,9 +196,9 @@ char *ft_getexport(t_linked *list, char *name);
 void copy_environ(t_linked **list, t_linked *environ);
 int list_size(t_linked *list);
 void print_error(char *s1, char *s2, char *s3, int value);
-long    ft_atol(char *str);
-int    handle_heredoc(t_exec *data, t_cmd **input);
-int    ft_atoui(char *str);
+long ft_atol(char *str);
+int handle_heredoc(t_exec *data, t_cmd **input);
+int ft_atoui(char *str);
 
 // BUILTINS :
 

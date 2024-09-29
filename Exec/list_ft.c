@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_ft.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 01:51:17 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/21 02:04:07 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:05:43 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,12 @@ void create_node(t_linked **list, char *key, char *value, int flag)
     new = malloc(sizeof(t_linked));
     new->key = key;
     new->value = value;
+    new->flag = flag;
     new->next = NULL;
     if (*list == NULL)
     {
         *list = new;
         return;
     }
-    if (flag == 0)
-        add_front(list, new);
-    else
-        add_back(list, new);
+    add_back(list, new);
 }

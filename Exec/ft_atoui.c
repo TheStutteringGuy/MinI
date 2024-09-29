@@ -6,11 +6,24 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:51:04 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/27 14:22:14 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/29 21:06:05 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static int check_minus(char *str, int i)
+{
+    if (str[i] == '-')
+        i++;
+    else
+        return (1);
+    while (ft_isdigit(str[i]))
+        i++;
+    if (str[i] == '\0' || str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+        return (-1);
+    return (0);
+}
 
 int ft_atoui(char *str)
 {
@@ -22,7 +35,9 @@ int ft_atoui(char *str)
     i = 0;
     while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
         i++;
-    if (str[i] == '-')
+    if (check_minus(str, i) == 0)
+        return (0);
+    else if (check_minus(str, i) == -1)
         return (-1);
     if (str[i] == '+')
         i++;
