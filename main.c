@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/28 16:43:04 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/29 14:19:53 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int main(int ac, char **av, char **envp)
             }
             token_list = NULL;
             input = expand_befor_start(input, &data);
+            printf("input ---> %s\n", input);
             tokenize_input(input, &token_list);
             if (check_syntax_errors(token_list))
             {

@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/28 16:41:56 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/29 21:44:58 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_exec
     t_linked *export;
     char **envp;
     char **arg;
+    int flag;
 } t_exec;
 
 typedef struct s_pipe
@@ -96,6 +97,16 @@ typedef struct s_token
     struct s_token *next;
 } t_token;
 
+typedef struct s_tokenizer_state
+{
+    int in_quotes;
+    char current_quote;
+    char token[3000];
+    int token_len;
+    t_type expected;
+} t_tokenizer_state;
+
+
 // Struct for both output and input
 typedef struct s_output_input
 {
@@ -134,15 +145,18 @@ int ft_isdigit(int c);
 char *ft_strjoin(char const *s1, char const *s2);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 
+
+int is_multi_operator(char *str);
+int is_operator(char c);
+
+char *expand_befor_start(char *input, t_exec *exec);
+
 // lexer includes
 t_token *create_token(t_type type, char *value);
 void add_token(t_token **head, t_token *new_token);
 t_type classify_token(char *token, t_type expected);
 void handle_token(t_token **token_list, char *token, t_type *expected);
 void tokenize_input(char *input, t_token **token_list);
-int is_multi_operator(char *str);
-int is_operator(char c);
-char *expand_befor_start(char *input, t_exec *exec);
 
 // parser includes
 t_cmd *create_new_command(t_token *token);

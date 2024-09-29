@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/24 17:58:58 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/29 20:50:17 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ char *remove_quotes(char *token, t_exec *exec)
     current_quote = '\0';
     while (i < len)
     {
-        if ((token[i] == '"' || token[i] == '\'') && current_quote == '\0')
+        if (exec->flag == 1)
+            return (ft_strdup2(token));
+        else if ((token[i] == '"' || token[i] == '\'') && current_quote == '\0')
         {
             current_quote = token[i];
             i++;
@@ -55,7 +57,10 @@ char *remove_quotes(char *token, t_exec *exec)
         else if (token[i] == '$')
         {
             if (token[i] == '$' && (token[i + 1] == '\'' || token[i + 1] == '"'))
-                i++;
+            {
+                while (token[i] == '$')
+                     i++;
+            }
             else if (current_quote != '\'')
             {
                 if (i + 1 < len && (ft_isalnum(token[i + 1]) || token[i + 1] == '_'))
