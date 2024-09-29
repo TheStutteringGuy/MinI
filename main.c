@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/29 14:19:53 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/29 21:11:15 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int main(int ac, char **av, char **envp)
     }
     data.environ = NULL;
     env_list(&data.environ, envp);
+    update_shlvl(&data.environ);
     data.export = NULL;
     copy_environ(&data.export, data.environ);
     while (1)

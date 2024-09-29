@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/29 21:07:23 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/29 21:11:02 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,7 @@ void print_error(char *s1, char *s2, char *s3, int value);
 long ft_atol(char *str);
 int handle_heredoc(t_exec *data, t_cmd **input);
 int ft_atoui(char *str);
+void update_shlvl(t_linked **environ);
 
 // BUILTINS :
 
