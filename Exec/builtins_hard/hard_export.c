@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/30 14:32:29 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/30 16:33:23 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,30 +49,42 @@ static void sort_list(t_linked **list)
     }
 }
 
-static void handle_arg(char *str, int *flag, t_cmd *input)
+static void print_err(char *str)
 {
-    int j;
+    print_error("export", str, "not a valid identifier", 2);
+    last_exit_status = 1;
+}
 
+static int handle_arg_1(char *str)
+{
     if (ft_isalpha(str[0]) == 0 && str[0] != '_')
     {
         print_error("export", str, "not a valid identifier", 2);
-        exit(1);
+        last_exit_status = 1;
+        return (-1);
     }
-    j = 1;
+    return (1);
+}
+
+static void handle_arg_2(char *str, int *flag, int j)
+{
     while (str[j] != '\0')
     {
         if (str[j] == '=')
             *flag = 1;
         j++;
     }
-    j = 1;
-    if (*flag == 1)
+}
+
+static int handle_arg_3(char *str, int flag, int j)
+{
+    if (flag == 1)
     {
         while (str[j] != '=')
         {
             if (ft_isalpha(str[j]) == 0 && ft_isdigit(str[j]) == 0 && str[j] != '_')
             {
-                print_error("export", str, "not a valid identifier", 2);
+                print_err(str);
                 exit(1);
             }
             j++;
@@ -84,13 +96,22 @@ static void handle_arg(char *str, int *flag, t_cmd *input)
         {
             if (ft_isalpha(str[j]) == 0 && ft_isdigit(str[j]) == 0 && str[j] != '_')
             {
-                print_error("export", str, "not a valid identifier", 2);
-                last_exit_status = 1;
+                print_err(str);
                 exit(1);
             }
             j++;
         }
     }
+}
+
+static void handle_arg(char *str, int *flag, t_cmd *input)
+{
+    int j;
+
+    handle_arg_1(str);
+    j = 1;
+    handle_arg_2(str, flag, j);
+    handle_arg_3(str, *flag, j);
 }
 
 static void see_if_it_exist(t_exec *data, char *str)

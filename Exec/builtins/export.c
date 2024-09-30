@@ -6,13 +6,13 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/30 13:41:29 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/30 17:31:36 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void ft_swap(t_linked *list1, t_linked *list2)
+static void ft_swap(t_linked *list1, t_linked *list2)
 {
     char *tmp_key;
     char *tmp_value;
@@ -26,7 +26,7 @@ void ft_swap(t_linked *list1, t_linked *list2)
     list2->value = tmp_value;
 }
 
-void sort_list(t_linked **list)
+static void sort_list(t_linked **list)
 {
     t_linked *iterat;
     t_linked *iterat2;
@@ -49,35 +49,44 @@ void sort_list(t_linked **list)
     }
 }
 
-static int handle_arg(char *str, int *flag, t_cmd *input)
+static void print_err(char *str)
 {
-    int j;
+    print_error("export", str, "not a valid identifier", 2);
+    last_exit_status = 1;
+}
 
+static int handle_arg_1(char *str)
+{
     if (ft_isalpha(str[0]) == 0 && str[0] != '_')
     {
         print_error("export", str, "not a valid identifier", 2);
         last_exit_status = 1;
         return (-1);
     }
-    j = 1;
+    return (1);
+}
+
+static void handle_arg_2(char *str, int *flag, int j)
+{
     while (str[j] != '\0')
     {
         if (str[j] == '=')
             *flag = 1;
         j++;
     }
-    j = 1;
-    if (*flag == 1)
+}
+
+static int handle_arg_3(char *str, int flag, int j)
+{
+    if (flag == 1)
     {
         while (str[j] != '=')
         {
             if (ft_isalpha(str[j]) == 0 && ft_isdigit(str[j]) == 0 && str[j] != '_')
             {
-                print_error("export", str, "not a valid identifier", 2);
-                last_exit_status = 1;
+                print_err(str);
                 return (-1);
             }
-            int flag;
             j++;
         }
     }
@@ -87,13 +96,24 @@ static int handle_arg(char *str, int *flag, t_cmd *input)
         {
             if (ft_isalpha(str[j]) == 0 && ft_isdigit(str[j]) == 0 && str[j] != '_')
             {
-                print_error("export", str, "not a valid identifier", 2);
-                last_exit_status = 1;
+                print_err(str);
                 return (-1);
             }
             j++;
         }
     }
+}
+
+static int handle_arg(char *str, int *flag, t_cmd *input)
+{
+    int j;
+
+    if (handle_arg_1(str) == -1)
+        return (-1);
+    j = 1;
+    handle_arg_2(str, flag, j);
+    if (handle_arg_3(str, *flag, j) == -1)
+        return (-1);
 }
 
 void see_if_it_exist(t_exec *data, char *str)
@@ -147,12 +167,15 @@ static void print_value(t_linked *list)
 {
     while (list)
     {
-        if (*list->value != '\0')
-            printf("declare -x %s=\"%s\"\n", list->key, list->value);
-        else if (*list->value == '\0' && list->flag == 1)
-            printf("declare -x %s=\"\"\n", list->key);
-        else if (*list->value == '\0' && list->flag == 0)
+        if (list->flag == 0)
             printf("declare -x %s\n", list->key);
+        else
+        {
+            if (*list->value != '\0')
+                printf("declare -x %s=\"%s\" %d\n", list->key, list->value, list->flag);
+            if (*list->value == '\0')
+                printf("declare -x %s=\"\" %d\n", list->key, list->flag);
+        }
         list = list->next;
     }
 }
