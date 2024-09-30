@@ -3,23 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   hard_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/23 05:57:11 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/30 15:25:35 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void update_pwd(t_exec **list)
+static void update_pwd_export(t_exec **list)
 {
     char cwd[PATH_MAX];
 
-    getcwd(cwd, PATH_MAX);
     char *key;
     t_linked *iterate;
 
+    getcwd(cwd, PATH_MAX);
+    key = "PWD";
+    iterate = (*list)->export;
+    while (iterate)
+    {
+        if (ft_strlen2(iterate->key) == ft_strlen2(key) && ft_strncmp(iterate->key, key, ft_strlen2(key)) == 0)
+        {
+            free(iterate->value);
+            iterate->value = ft_substr(cwd, 0, ft_strlen(cwd));
+            break;
+        }
+        iterate = iterate->next;
+    }
+}
+
+static void update_pwd(t_exec **list)
+{
+    char cwd[PATH_MAX];
+    char *key;
+    t_linked *iterate;
+
+    getcwd(cwd, PATH_MAX);
     key = "PWD";
     iterate = (*list)->environ;
     while (iterate)
@@ -32,29 +53,17 @@ static void update_pwd(t_exec **list)
         }
         iterate = iterate->next;
     }
-    iterate = (*list)->export;
-    while (iterate)
-    {
-        if (ft_strlen2(iterate->key) == ft_strlen2(key) && ft_strncmp(iterate->key, key, ft_strlen2(key)) == 0)
-        {
-            free(iterate->value);
-            iterate->value = ft_substr(cwd, 0, ft_strlen(cwd));
-            break;
-        }
-        iterate = iterate->next;
-    }
+    update_pwd_export(list);
 }
 
 static void update_environ(t_exec **list, char *cwd)
 {
-    char *key;
     t_linked *iterate;
 
-    key = "OLDPWD";
     iterate = (*list)->environ;
     while (iterate)
     {
-        if (ft_strlen2(iterate->key) == ft_strlen2(key) && ft_strncmp(iterate->key, key, ft_strlen2(key)) == 0)
+        if (ft_strlen2(iterate->key) == ft_strlen2("OLDPWD") && ft_strncmp(iterate->key, "OLDPWD", ft_strlen2("OLDPWD")) == 0)
         {
             free(iterate->value);
             iterate->value = ft_substr(cwd, 0, ft_strlen(cwd));
@@ -65,7 +74,7 @@ static void update_environ(t_exec **list, char *cwd)
     iterate = (*list)->export;
     while (iterate)
     {
-        if (ft_strlen2(iterate->key) == ft_strlen2(key) && ft_strncmp(iterate->key, key, ft_strlen2(key)) == 0)
+        if (ft_strlen2(iterate->key) == ft_strlen2("OLDPWD") && ft_strncmp(iterate->key, "OLDPWD", ft_strlen2("OLDPWD")) == 0)
         {
             free(iterate->value);
             iterate->value = ft_substr(cwd, 0, ft_strlen(cwd));
@@ -73,9 +82,10 @@ static void update_environ(t_exec **list, char *cwd)
         }
         iterate = iterate->next;
     }
+    update_pwd(list);
 }
 
-static int handle_arg(t_cmd *input)
+static void handle_arg(t_cmd *input)
 {
     int i;
 
@@ -89,40 +99,41 @@ static int handle_arg(t_cmd *input)
     }
 }
 
+static void cd_home(t_exec *data, t_cmd *input)
+{
+    if (chdir(ft_getenv(data->environ, "HOME")) != 0)
+    {
+        print_error("cd", "HOME is not set", NULL, 1);
+        exit(1);
+    }
+}
+
+static void cd_oldpwd(t_exec *data, t_cmd *input)
+{
+    if (chdir(ft_getenv(data->environ, "OLDPWD")) != 0)
+    {
+        print_error("cd", "OLDPWD is not set", NULL, 1);
+        exit(1);
+    }
+}
+
 void cd_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 {
     char cwd[PATH_MAX];
 
     getcwd(cwd, PATH_MAX);
     if (!input->arguments[0])
-    {
-        if (chdir(ft_getenv(data->environ, "HOME")) != 0)
-        {
-            print_error("cd", "HOME is not set", NULL, 1);
-            exit(1);
-        }
-    }
+        cd_home(data, input);
     else
     {
-        if (handle_arg(input) == -1)
-            return;
+        handle_arg(input);
         if (ft_strlen2(input->arguments[0]) == ft_strlen2("-") && ft_strncmp(input->arguments[0], "-", ft_strlen2(input->arguments[0])) == 0)
-        {
-            if (chdir(ft_getenv(data->environ, "OLDPWD")) != 0)
-            {
-                print_error("cd", "OLDPWD is not set", NULL, 1);
-                exit(1);
-            }
-            update_environ(&data, cwd);
-            update_pwd(&data);
-            return;
-        }
-        if (chdir(input->arguments[0]) != 0)
+            cd_oldpwd(data, input);
+        else if (chdir(input->arguments[0]) != 0)
         {
             print_error("cd", input->arguments[0], strerror(errno), 2);
             exit(1);
         }
     }
     update_environ(&data, cwd);
-    update_pwd(&data);
 }

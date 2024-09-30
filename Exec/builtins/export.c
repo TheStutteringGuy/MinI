@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/29 21:08:46 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/30 13:41:29 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ static int handle_arg(char *str, int *flag, t_cmd *input)
                 last_exit_status = 1;
                 return (-1);
             }
-              int flag;
-  j++;
+            int flag;
+            j++;
         }
     }
     else
@@ -143,6 +143,20 @@ void handle_not(t_exec *data, t_linked **list, char *str)
     create_node(list, ft_substr(str, 0, ft_strlen2(str)), ft_substr(str, 0, 0), 0);
 }
 
+static void print_value(t_linked *list)
+{
+    while (list)
+    {
+        if (*list->value != '\0')
+            printf("declare -x %s=\"%s\"\n", list->key, list->value);
+        else if (*list->value == '\0' && list->flag == 1)
+            printf("declare -x %s=\"\"\n", list->key);
+        else if (*list->value == '\0' && list->flag == 0)
+            printf("declare -x %s\n", list->key);
+        list = list->next;
+    }
+}
+
 void export_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 {
     t_linked *list;
@@ -167,14 +181,5 @@ void export_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
     }
     sort_list(&data->export);
     list = data->export;
-    while (list)
-    {
-        if (*list->value != '\0')
-            printf("declare -x %s=\"%s\"\n", list->key, list->value);
-        else if (*list->value == '\0' && list->flag == 1)
-            printf("declare -x %s=\"\"\n", list->key);
-        else if (*list->value == '\0' && list->flag == 0)
-            printf("declare -x %s\n", list->key);
-        list = list->next;
-    }
+    print_value(list);
 }
