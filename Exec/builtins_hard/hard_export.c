@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/30 16:33:23 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/30 17:55:03 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void ft_swap(t_linked *list1, t_linked *list2)
 {
     char *tmp_key;
     char *tmp_value;
+    int tmp_flag;
 
     tmp_key = list1->key;
     list1->key = list2->key;
@@ -24,6 +25,10 @@ static void ft_swap(t_linked *list1, t_linked *list2)
     tmp_value = list1->value;
     list1->value = list2->value;
     list2->value = tmp_value;
+    
+    tmp_flag = list1->flag;
+    list1->flag = list2->flag;
+    list2->flag = tmp_flag;
 }
 
 static void sort_list(t_linked **list)
@@ -52,18 +57,16 @@ static void sort_list(t_linked **list)
 static void print_err(char *str)
 {
     print_error("export", str, "not a valid identifier", 2);
-    last_exit_status = 1;
+    exit (1);
 }
 
-static int handle_arg_1(char *str)
+static void handle_arg_1(char *str)
 {
     if (ft_isalpha(str[0]) == 0 && str[0] != '_')
     {
         print_error("export", str, "not a valid identifier", 2);
-        last_exit_status = 1;
-        return (-1);
+        exit(1);
     }
-    return (1);
 }
 
 static void handle_arg_2(char *str, int *flag, int j)
@@ -76,17 +79,14 @@ static void handle_arg_2(char *str, int *flag, int j)
     }
 }
 
-static int handle_arg_3(char *str, int flag, int j)
+static void handle_arg_3(char *str, int flag, int j)
 {
     if (flag == 1)
     {
         while (str[j] != '=')
         {
             if (ft_isalpha(str[j]) == 0 && ft_isdigit(str[j]) == 0 && str[j] != '_')
-            {
                 print_err(str);
-                exit(1);
-            }
             j++;
         }
     }
@@ -95,16 +95,13 @@ static int handle_arg_3(char *str, int flag, int j)
         while (str[j] != '\0')
         {
             if (ft_isalpha(str[j]) == 0 && ft_isdigit(str[j]) == 0 && str[j] != '_')
-            {
                 print_err(str);
-                exit(1);
-            }
             j++;
         }
     }
 }
 
-static void handle_arg(char *str, int *flag, t_cmd *input)
+static int handle_arg(char *str, int *flag, t_cmd *input)
 {
     int j;
 
@@ -155,22 +152,25 @@ static void handle_equal(t_exec *data, char *str)
     create_node(&data->export, ft_substr(str, 0, j), ft_substr(str, z, y), 1);
 }
 
-static void handle_not(t_exec *data, t_linked **list, char *str)
+static void handle_not(t_exec *data, char *str)
 {
     see_if_it_exist(data, ft_substr(str, 0, ft_strlen2(str)));
-    create_node(list, ft_substr(str, 0, ft_strlen2(str)), ft_substr(str, 0, 0), 0);
+    create_node(&data->export, ft_substr(str, 0, ft_strlen2(str)), ft_substr(str, 0, 0), 0);
 }
 
 static void print_value(t_linked *list)
 {
     while (list)
     {
-        if (*list->value != '\0')
-            printf("declare -x %s=\"%s\"\n", list->key, list->value);
-        else if (*list->value == '\0' && list->flag == 1)
-            printf("declare -x %s=\"\"\n", list->key);
-        else if (*list->value == '\0' && list->flag == 0)
-            printf("declare -x %s\n", list->key);
+        if (list->flag == 0)
+            printf("declare -x %s %d\n", list->key, list->flag);
+        else
+        {
+            if (*list->value != '\0')
+                printf("declare -x %s=\"%s\" %d\n", list->key, list->value, list->flag);
+            if (*list->value == '\0')
+                printf("declare -x %s=\"%s\" %d\n", list->key, list->value, list->flag);
+        }
         list = list->next;
     }
 }
@@ -188,10 +188,11 @@ void export_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
         while (input->arguments[i])
         {
             handle_arg(input->arguments[i], &flag, input);
+            printf("%d\n", flag);
             if (flag == 1)
                 handle_equal(data, input->arguments[i]);
-            else
-                handle_not(data, &data->export, input->arguments[i]);
+            else if (flag == 0)
+                handle_not(data, input->arguments[i]);
             ++i;
         }
         return;
