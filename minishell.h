@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/29 21:11:02 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/09/30 14:07:36 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,8 +157,8 @@ t_cmd *parse_tokens(t_token *token_list, t_exec *exec);
 void process_redirection_or_pipe(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected, t_exec *exec);
 void process_command_or_argument(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_token, t_type *expected, t_exec *exec);
 t_cmd *create_empty_command(void);
-char *expand_herdoc(char *str);
 void ft_error(char *s1);
+char *expand_herdoc(char *str, t_exec *exec);
 
 // print include
 void print_commands(t_cmd *cmd_list);

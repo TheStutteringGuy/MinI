@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand_herdoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 21:02:15 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/25 02:19:41 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:11:41 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char *expand_herdoc(char *str)
+char *expand_herdoc(char *str, t_exec *exec)
 {
     char *res;
     char *env_value;
@@ -66,7 +66,7 @@ char *expand_herdoc(char *str)
                 while (j < len && (ft_isalnum(str[j]) || str[j] == '_'))
                     j++;
                 var_name = ft_substr(str, i + 1, j - i - 1);
-                env_value = getenv(var_name);
+                env_value = ft_getexport(exec, var_name);
                 free(var_name);
 
                 if (env_value)
