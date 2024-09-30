@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 10:30:08 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/27 10:55:44 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:15:11 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 //     signal_received = 1;
 // }
 
-static void here_document(t_cmd **input)
+static void here_document(t_exec *data, t_cmd **input)
 {
     t_output_input *iterate;
     t_cmd *curr;
@@ -51,7 +51,7 @@ static void here_document(t_cmd **input)
                         }
                         if (iterate->delimiter_expand = 1)
                         {
-                            after_pars = expand_herdoc(hered_inp);
+                            after_pars = expand_herdoc(hered_inp, data);
                             write(fd, after_pars, ft_strlen2(after_pars));
                             free(after_pars);
                         }
@@ -141,7 +141,7 @@ int handle_heredoc(t_exec *data, t_cmd **input)
     {
         signal(SIGINT, SIG_DFL);
         signal(SIGQUIT, SIG_IGN);
-        here_document(input);
+        here_document(data, input);
         exit(0);
     }
     else

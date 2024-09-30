@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_herdoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 21:02:15 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/30 14:11:41 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/09/30 13:17:57 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char *expand_herdoc(char *str, t_exec *exec)
                 while (j < len && (ft_isalnum(str[j]) || str[j] == '_'))
                     j++;
                 var_name = ft_substr(str, i + 1, j - i - 1);
-                env_value = ft_getexport(exec, var_name);
+                env_value = ft_getexport(exec->export, var_name);
                 free(var_name);
 
                 if (env_value)
