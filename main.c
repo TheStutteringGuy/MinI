@@ -6,11 +6,13 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/01 20:15:41 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/01 21:07:27 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int last_exit_status = 0;
 
 void free_everything_exec(t_exec *data)
 {
@@ -25,12 +27,6 @@ void input_null(char *input)
 
 void allocate_data(t_exec *data)
 {
-    data->last_exit_status = malloc(sizeof(int));
-    if (!data->last_exit_status)
-    {
-        printf("last_exit_status failed\n");
-        exit(1);
-    }
     data->environ = malloc(sizeof(t_linked));
     if (!data->environ)
     {

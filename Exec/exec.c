@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/01 20:19:13 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/01 21:10:20 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd
       if (iterate->ambigious == 1)
       {
         print_error(iterate->filename, "ambiguous redirect", NULL, 1);
-        *data->last_exit_status  = 1;
+        last_exit_status  = 1;
         *read_fd = -1;
         return;
       }
@@ -69,7 +69,7 @@ void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd
           else
           {
             print_error(iterate->filename, strerror(errno), NULL, 1);
-            *data->last_exit_status  = 1;
+            last_exit_status  = 1;
             *read_fd = -1;
             return;
           }
@@ -127,7 +127,6 @@ void handle_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
     execve_handle_simple(data, input, read_fd, write_fd);
   if (write_fd != 1)
     dup2(saved_fd, STDOUT_FILENO);
-  close(saved_fd);
 }
 
 void handle_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
@@ -221,8 +220,8 @@ void forking_for_pipes(t_exec *data, t_cmd *input, t_pipe *info, int size)
   {
     signal(SIGINT, SIG_DFL);
     signal(SIGQUIT, SIG_DFL);
-    child(data, input, info, info->size - size);
     update_(&data->environ, input);
+    child(data, input, info, info->size - size);
     exit(0);
   }
   else
@@ -271,9 +270,9 @@ void exec(t_exec *data, t_cmd *input)
     handle_input_output(data, input, &read_fd, &write_fd);
     if (read_fd == -1)
       return;
+    update_(&data->environ, input);
     if (input->command)
       handle_simple(data, input, read_fd, write_fd);
-    update_(&data->environ, input);
   }
   else
   {
@@ -290,9 +289,9 @@ void exec(t_exec *data, t_cmd *input)
     {
       waitpid(info.pid_list[i], &status, 0);
       if (!WIFSIGNALED(status))
-        *data->last_exit_status = WEXITSTATUS(status);
+        last_exit_status = WEXITSTATUS(status);
       else
-        *data->last_exit_status = 128 + WTERMSIG(status);
+        last_exit_status = 128 + WTERMSIG(status);
       i++;
     }
   }

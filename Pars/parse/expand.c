@@ -7,7 +7,7 @@ char *expand_befor_start(char *input, t_exec *exec)
 
     if (input[0] == '$')
     {
-        expand_value = ft_getexport(exec->export, input + 1);
+        expand_value = ft_getenv(exec->environ, input + 1);
         if (expand_value == NULL)
             return (ft_strdup2(input));
         if (expand_value[0] == '\'')

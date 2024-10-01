@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/01 20:23:55 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/01 21:08:44 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void sort_list(t_linked **list)
 static void print_err(t_exec *data,char *str)
 {
     print_error("export", str, "not a valid identifier", 2);
-    *data->last_exit_status  = 1;
+    last_exit_status  = 1;
 }
 
 static int handle_arg_1(t_exec *data, char *str)
@@ -65,7 +65,7 @@ static int handle_arg_1(t_exec *data, char *str)
     if (ft_isalpha(str[0]) == 0 && str[0] != '_')
     {
         print_error("export", str, "not a valid identifier", 2);
-        *data->last_exit_status  = 1;
+        last_exit_status  = 1;
         return (-1);
     }
     return (1);

@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/01 20:22:15 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/01 21:08:37 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int handle_arg(t_exec *data,t_cmd *input)
     if (i > 1)
     {
         print_error("exit", "too many arguments", NULL, 1);
-        *data->last_exit_status  = 1;
+        last_exit_status  = 1;
         return (-1);
     }
 }
@@ -71,5 +71,5 @@ void exit_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
         exit_st = ft_atol(input->arguments[0]);
         exit(exit_st);
     }
-    exit(*data->last_exit_status );
+    exit(last_exit_status );
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/29 20:50:17 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/01 21:14:45 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char *remove_quotes(char *token, t_exec *exec)
                         env_var[0] = str[0];
                         return (env_var);
                     }
-                    env_value = ft_getexport(exec->export, env_var);
+                    env_value = ft_getenv(exec->environ, env_var);
                     free(env_var);
                     if (env_value == NULL)
                     {

@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/01 20:15:32 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/01 21:13:20 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@
 
 #define PATH_MAX 4096
 #define TRUE 1
+
+extern int last_exit_status;
 
 // STRUCTS :
 
