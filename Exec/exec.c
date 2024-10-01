@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/29 21:06:12 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/01 19:44:44 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,7 @@ void forking_for_pipes(t_exec *data, t_cmd *input, t_pipe *info, int size)
     signal(SIGINT, SIG_DFL);
     signal(SIGQUIT, SIG_DFL);
     child(data, input, info, info->size - size);
+    update_(&data->environ, input);
     exit(0);
   }
   else
@@ -272,6 +273,7 @@ void exec(t_exec *data, t_cmd *input)
       return;
     if (input->command)
       handle_simple(data, input, read_fd, write_fd);
+    update_(&data->environ, input);
   }
   else
   {

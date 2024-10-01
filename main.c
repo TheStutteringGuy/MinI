@@ -6,12 +6,13 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/30 14:05:44 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/01 19:54:44 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int last_exit_status = 0;
 
 void free_everything()
 {
@@ -23,7 +24,28 @@ void input_null(char *input)
     free(input);
     exit(0);
 }
-int last_exit_status = 0;
+
+void allocate_data(t_exec *data)
+{
+    data->last_exit_status = malloc(sizeof(int));
+    if (!data->last_exit_status)
+    {
+        printf("last_exit_status failed\n");
+        exit(1);
+    }
+    data->environ = malloc(sizeof(t_linked));
+    if (!data->environ)
+    {
+        printf("environ failed\n");
+        exit(1);
+    }
+    data->export = malloc(sizeof(t_linked));
+    if (!data->export)
+    {
+        printf("export failed\n");
+        exit(1);
+    }
+}
 
 int main(int ac, char **av, char **envp)
 {
@@ -33,26 +55,13 @@ int main(int ac, char **av, char **envp)
     t_cmd *cmd_list;
     t_token *token_list;
 
-    (void)ac;
-    (void)av;
-    data.environ = malloc(sizeof(t_linked));
-    if (!data.environ)
-    {
-        printf("data.environ failed\n");
-        exit(1);
-    }
-    data.export = malloc(sizeof(t_linked));
-    if (!data.export)
-    {
-        free(data.environ);
-        printf("data.export failed\n");
-        exit(1);
-    }
+    allocate_data(&data);
     data.environ = NULL;
     env_list(&data.environ, envp);
     update_shlvl(&data.environ);
     data.export = NULL;
     copy_environ(&data.export, data.environ);
+    remove_list(&data.export, "_");
     while (1)
     {
         handle_sig();

@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/30 17:18:45 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/01 19:32:22 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_linked
 
 typedef struct s_exec
 {
+    int *last_exit_status;
     t_linked *environ;
     t_linked *export;
     char **envp;
@@ -200,6 +201,7 @@ long ft_atol(char *str);
 int handle_heredoc(t_exec *data, t_cmd **input);
 int ft_atoui(char *str);
 void update_shlvl(t_linked **environ);
+void update_(t_linked **list, t_cmd *input);
 
 // BUILTINS :
 
