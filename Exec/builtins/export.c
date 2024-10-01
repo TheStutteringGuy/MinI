@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/30 17:56:56 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/01 20:23:55 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,18 @@ static void sort_list(t_linked **list)
     }
 }
 
-static void print_err(char *str)
+static void print_err(t_exec *data,char *str)
 {
     print_error("export", str, "not a valid identifier", 2);
-    last_exit_status = 1;
+    *data->last_exit_status  = 1;
 }
 
-static int handle_arg_1(char *str)
+static int handle_arg_1(t_exec *data, char *str)
 {
     if (ft_isalpha(str[0]) == 0 && str[0] != '_')
     {
         print_error("export", str, "not a valid identifier", 2);
-        last_exit_status = 1;
+        *data->last_exit_status  = 1;
         return (-1);
     }
     return (1);
@@ -81,7 +81,7 @@ static void handle_arg_2(char *str, int *flag, int j)
     }
 }
 
-static int handle_arg_3(char *str, int flag, int j)
+static int handle_arg_3(t_exec *data,char *str, int flag, int j)
 {
     if (flag == 1)
     {
@@ -89,7 +89,7 @@ static int handle_arg_3(char *str, int flag, int j)
         {
             if (ft_isalpha(str[j]) == 0 && ft_isdigit(str[j]) == 0 && str[j] != '_')
             {
-                print_err(str);
+                print_err(data, str);
                 return (-1);
             }
             j++;
@@ -101,7 +101,7 @@ static int handle_arg_3(char *str, int flag, int j)
         {
             if (ft_isalpha(str[j]) == 0 && ft_isdigit(str[j]) == 0 && str[j] != '_')
             {
-                print_err(str);
+                print_err(data, str);
                 return (-1);
             }
             j++;
@@ -109,15 +109,15 @@ static int handle_arg_3(char *str, int flag, int j)
     }
 }
 
-static int handle_arg(char *str, int *flag, t_cmd *input)
+static int handle_arg(t_exec *data, char *str, int *flag, t_cmd *input)
 {
     int j;
 
-    if (handle_arg_1(str) == -1)
+    if (handle_arg_1(data, str) == -1)
         return (-1);
     j = 1;
     handle_arg_2(str, flag, j);
-    if (handle_arg_3(str, *flag, j) == -1)
+    if (handle_arg_3(data, str, *flag, j) == -1)
         return (-1);
 }
 
@@ -197,7 +197,7 @@ void export_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
     {
         while (input->arguments[i])
         {
-            if (handle_arg(input->arguments[i], &flag, input) == -1)
+            if (handle_arg(data, input->arguments[i], &flag, input) == -1)
                 return;
             printf("%d\n", flag);
             if (flag == 1)

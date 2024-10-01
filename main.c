@@ -6,15 +6,13 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/01 19:54:44 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/01 20:15:41 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int last_exit_status = 0;
-
-void free_everything()
+void free_everything_exec(t_exec *data)
 {
 }
 

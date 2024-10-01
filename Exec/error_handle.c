@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handle.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 01:39:52 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/21 02:12:47 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/01 19:58:54 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

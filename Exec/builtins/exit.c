@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/27 12:01:36 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/01 20:22:15 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void print_err(t_cmd *input)
     exit(2);
 }
 
-static int handle_arg(t_cmd *input)
+static int handle_arg(t_exec *data,t_cmd *input)
 {
     int i;
 
@@ -28,7 +28,7 @@ static int handle_arg(t_cmd *input)
     if (i > 1)
     {
         print_error("exit", "too many arguments", NULL, 1);
-        last_exit_status = 1;
+        *data->last_exit_status  = 1;
         return (-1);
     }
 }
@@ -66,10 +66,10 @@ void exit_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
     if (input->arguments[0])
     {
         pars_arg(input);
-        if (handle_arg(input) == -1)
+        if (handle_arg(data, input) == -1)
             return;
         exit_st = ft_atol(input->arguments[0]);
         exit(exit_st);
     }
-    exit(last_exit_status);
+    exit(*data->last_exit_status );
 }

@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/01 19:44:44 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/01 20:19:13 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd
       if (iterate->ambigious == 1)
       {
         print_error(iterate->filename, "ambiguous redirect", NULL, 1);
-        last_exit_status = 1;
+        *data->last_exit_status  = 1;
         *read_fd = -1;
         return;
       }
@@ -69,7 +69,7 @@ void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd
           else
           {
             print_error(iterate->filename, strerror(errno), NULL, 1);
-            last_exit_status = 1;
+            *data->last_exit_status  = 1;
             *read_fd = -1;
             return;
           }
@@ -290,9 +290,9 @@ void exec(t_exec *data, t_cmd *input)
     {
       waitpid(info.pid_list[i], &status, 0);
       if (!WIFSIGNALED(status))
-        last_exit_status = WEXITSTATUS(status);
+        *data->last_exit_status = WEXITSTATUS(status);
       else
-        last_exit_status = 128 + WTERMSIG(status);
+        *data->last_exit_status = 128 + WTERMSIG(status);
       i++;
     }
   }

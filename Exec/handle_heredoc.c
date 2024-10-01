@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 10:30:08 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/01 15:09:14 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/01 20:20:08 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int handle_heredoc(t_exec *data, t_cmd **input)
     if (size(*input) > 16)
     {
         print_error("maximum here-document count exceeded", NULL, NULL, 0);
-        last_exit_status = 2;
+        *data->last_exit_status  = 2;
         return (-1);
     }
     make_names(input);
@@ -149,10 +149,10 @@ int handle_heredoc(t_exec *data, t_cmd **input)
         signal(SIGINT, SIG_IGN);
         waitpid(id, &status, 0);
         if (!WIFSIGNALED(status))
-            last_exit_status = WEXITSTATUS(status);
+            *data->last_exit_status  = WEXITSTATUS(status);
         else
         {
-            last_exit_status = 128 + WTERMSIG(status);
+            *data->last_exit_status = 128 + WTERMSIG(status);
             return (-1);
         }
     }

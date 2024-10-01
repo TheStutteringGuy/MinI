@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/01 19:32:22 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/01 20:15:32 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ typedef struct s_pipe
 #include <stdbool.h>
 #include <stdarg.h>
 #include <stddef.h>
-
-extern int last_exit_status;
 
 // the enum used for the lexer and tokenization
 typedef enum s_type

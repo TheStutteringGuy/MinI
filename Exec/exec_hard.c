@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_hard.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 22:33:35 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/09/21 02:20:49 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/01 19:58:58 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
