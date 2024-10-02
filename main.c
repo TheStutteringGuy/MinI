@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/02 17:24:53 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/02 20:52:11 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,14 @@
 
 int last_exit_status = 0;
 
-void free_everything_exec(t_exec *data)
+void free_everything_data(t_exec *data)
 {
+    clear_list(&data->environ);
+    free(data->environ);
+    clear_list(&data->export);
+    free(data->export);   
 }
 
-void input_null(char *input)
-{
-    printf("exit\n"); // Ctrl+d Pressed
-    free(input);
-    exit(0);
-}
 
 void allocate_data(t_exec *data)
 {
@@ -61,7 +59,10 @@ int main(int ac, char **av, char **envp)
         handle_sig();
         input = readline("Minishell -> ");
         if (input == NULL)
-            input_null(input);
+        {
+            free(input);
+            break;
+        }
         else
         {
             input = trim_spaces(input);
@@ -102,5 +103,7 @@ int main(int ac, char **av, char **envp)
             free(input);
         }
     }
+    rl_clear_history();
+    free_everything_data(&data);
     return 0;
 }

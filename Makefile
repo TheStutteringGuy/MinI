@@ -6,14 +6,14 @@
 #    By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/20 01:20:40 by aahlaqqa          #+#    #+#              #
-#    Updated: 2024/10/02 17:15:06 by thestutteri      ###   ########.fr        #
+#    Updated: 2024/10/02 20:34:10 by thestutteri      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # BASIC SETTINGS :
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -w #-fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -w -fsanitize=address -g3
 RM = rm -rf
 
 ###########################################################################################

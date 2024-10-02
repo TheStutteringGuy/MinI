@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/01 21:46:29 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/02 21:16:37 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ typedef struct s_linked
 
 typedef struct s_exec
 {
-    int *last_exit_status;
     t_linked *environ;
     t_linked *export;
     char **envp;
