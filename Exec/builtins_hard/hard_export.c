@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/01 19:58:43 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/02 19:43:33 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,13 +163,13 @@ static void print_value(t_linked *list)
     while (list)
     {
         if (list->flag == 0)
-            printf("declare -x %s %d\n", list->key, list->flag);
+            printf("declare -x %s\n", list->key);
         else
         {
             if (*list->value != '\0')
-                printf("declare -x %s=\"%s\" %d\n", list->key, list->value, list->flag);
+                printf("declare -x %s=\"%s\"\n", list->key, list->value);
             if (*list->value == '\0')
-                printf("declare -x %s=\"%s\" %d\n", list->key, list->value, list->flag);
+                printf("declare -x %s=\"%s\"\n", list->key, list->value);
         }
         list = list->next;
     }

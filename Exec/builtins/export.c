@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/01 21:08:44 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/02 19:43:18 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,10 @@ static void handle_equal(t_exec *data, char *str)
 
 static void handle_not(t_exec *data, char *str)
 {
-    see_if_it_exist(data, ft_substr(str, 0, ft_strlen2(str)));
-    create_node(&data->export, ft_substr(str, 0, ft_strlen2(str)), ft_substr(str, 0, 0), 0);
+    if (ft_get_export(data->export, str) == 1)
+        return ;
+    else
+        create_node(&data->export, ft_substr(str, 0, ft_strlen2(str)), ft_substr(str, 0, 0), 0);
 }
 
 static void print_value(t_linked *list)
@@ -173,13 +175,13 @@ static void print_value(t_linked *list)
     while (list)
     {
         if (list->flag == 0)
-            printf("declare -x %s %d\n", list->key, list->flag);
+            printf("declare -x %s\n", list->key);
         else
         {
             if (*list->value != '\0')
-                printf("declare -x %s=\"%s\" %d\n", list->key, list->value, list->flag);
+                printf("declare -x %s=\"%s\"\n", list->key, list->value);
             if (*list->value == '\0')
-                printf("declare -x %s=\"%s\" %d\n", list->key, list->value, list->flag);
+                printf("declare -x %s=\"%s\"\n", list->key, list->value);
         }
         list = list->next;
     }
