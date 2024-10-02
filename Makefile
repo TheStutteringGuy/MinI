@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+         #
+#    By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/20 01:20:40 by aahlaqqa          #+#    #+#              #
-#    Updated: 2024/09/26 11:04:30 by aibn-ich         ###   ########.fr        #
+#    Updated: 2024/10/02 17:15:06 by thestutteri      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 

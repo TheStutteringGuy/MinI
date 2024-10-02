@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/01 21:10:20 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/02 17:31:21 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,46 @@ void copy_environ(t_linked **list, t_linked *environ)
   }
 }
 
-void env_list(t_linked **list, char **envp)
+static size_t key_return(char *key, char *key2)
+{
+  size_t len;
+
+  len = ft_strlen2(key);
+  if (len < ft_strlen2(key2))
+    len = ft_strlen2(key2);
+  return (len);
+}
+
+void check_necess(t_linked **list, char **av)
+{
+  t_linked *curr;
+  int flags[3];
+  char cwd[PATH_MAX];
+
+  getcwd(cwd, PATH_MAX);
+  flags[0] = 0;
+  flags[1] = 0;
+  flags[2] = 0;
+  curr = *list;
+  while (curr)
+  {
+    if (ft_strlen2(curr->key) == ft_strlen2("PWD") && ft_strncmp(curr->key, "PWD", ft_strlen2("PWD")) == 0)
+      flags[0] = 1;
+    if (ft_strlen2(curr->key) == ft_strlen2("SHLVL") && ft_strncmp(curr->key, "SHLVL", ft_strlen2("PWD")) == 0)
+      flags[1] = 1;
+    if (ft_strlen2(curr->key) == ft_strlen2("_") && ft_strncmp(curr->key, "_", ft_strlen2("PWD")) == 0)
+      flags[2] = 1;
+    curr = curr->next;
+  }
+  if (flags[0] == 0)
+    create_node(list, ft_substr("PWD", 0, ft_strlen2("PWD")), ft_substr(cwd, 0, ft_strlen2(cwd)), 1);
+  if (flags[1] == 0)
+    create_node(list, ft_substr("SHLVL", 0, ft_strlen2("SHLVL")), ft_substr("0", 0, ft_strlen2("0")), 1);
+  if (flags[2] == 0)
+    create_node(list, ft_substr("_", 0, ft_strlen2("_")), ft_substr(av[0], 0, ft_strlen2(av[0])), 1);
+}
+
+void env_list(t_linked **list, char **envp, char **av)
 {
   int i;
   int j;
@@ -40,6 +79,7 @@ void env_list(t_linked **list, char **envp)
     create_node(list, ft_substr(envp[i], 0, j), ft_substr(envp[i], y, ft_strlen2(envp[i])), 1);
     i++;
   }
+  check_necess(list, av);
 }
 
 void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd)
@@ -56,7 +96,7 @@ void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd
       if (iterate->ambigious == 1)
       {
         print_error(iterate->filename, "ambiguous redirect", NULL, 1);
-        last_exit_status  = 1;
+        last_exit_status = 1;
         *read_fd = -1;
         return;
       }
@@ -69,7 +109,7 @@ void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd
           else
           {
             print_error(iterate->filename, strerror(errno), NULL, 1);
-            last_exit_status  = 1;
+            last_exit_status = 1;
             *read_fd = -1;
             return;
           }
@@ -261,7 +301,7 @@ void exec(t_exec *data, t_cmd *input)
   int i;
 
   if (handle_heredoc(data, &input) == -1)
-    return ;
+    return;
   handle_sig();
   if (!input->next)
   {

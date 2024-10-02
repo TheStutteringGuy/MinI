@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/01 21:13:20 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/01 21:46:29 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ char *remove_delimiter_quotes(t_output_input *new, char *str);
 
 void handle_sig(void);
 const char *prompt(char *prompt_char);
-void env_list(t_linked **list, char **envp);
+void env_list(t_linked **list, char **envp, char **av);
 void exec(t_exec *data, t_cmd *input);
 void execve_handle_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd);
 void create_node(t_linked **list, char *key, char *value,

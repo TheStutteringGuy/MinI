@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/30 15:25:35 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/02 17:53:07 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,46 @@ static void update_pwd(t_exec **list)
     update_pwd_export(list);
 }
 
+static void check_oldpwd(t_exec **list, char *cwd)
+{
+    t_linked *iterate;
+    int flag;
+
+    flag = 0;
+    iterate = (*list)->environ;
+    while (iterate)
+    {
+        if (ft_strlen2(iterate->key) == ft_strlen2("OLDPWD") && ft_strncmp(iterate->key, "OLDPWD", ft_strlen2("OLDPWD")) == 0)
+            flag = 1;
+        iterate = iterate->next;
+    }
+    if (flag == 1)
+        return ;
+    else
+    {
+        create_node(&(*list)->environ, ft_substr("OLDPWD", 0, ft_strlen2("OLDPWD")), ft_substr(cwd, 0, ft_strlen2(cwd)), 1);
+        create_node(&(*list)->export, ft_substr("OLDPWD", 0, ft_strlen2("OLDPWD")), ft_substr(cwd, 0, ft_strlen2(cwd)), 1);
+        return ;
+    }
+}
+
+static void update_export(t_exec **list, char *cwd)
+{
+    t_linked *iterate;
+
+    iterate = (*list)->export;
+    while (iterate)
+    {
+        if (ft_strlen2(iterate->key) == ft_strlen2("OLDPWD") && ft_strncmp(iterate->key, "OLDPWD", ft_strlen2("OLDPWD")) == 0)
+        {
+            free(iterate->value);
+            iterate->value = ft_substr(cwd, 0, ft_strlen(cwd));
+            break;
+        }
+        iterate = iterate->next;
+    }
+}
+
 static void update_environ(t_exec **list, char *cwd)
 {
     t_linked *iterate;
@@ -71,17 +111,7 @@ static void update_environ(t_exec **list, char *cwd)
         }
         iterate = iterate->next;
     }
-    iterate = (*list)->export;
-    while (iterate)
-    {
-        if (ft_strlen2(iterate->key) == ft_strlen2("OLDPWD") && ft_strncmp(iterate->key, "OLDPWD", ft_strlen2("OLDPWD")) == 0)
-        {
-            free(iterate->value);
-            iterate->value = ft_substr(cwd, 0, ft_strlen(cwd));
-            break;
-        }
-        iterate = iterate->next;
-    }
+    update_export(list, cwd);
     update_pwd(list);
 }
 
@@ -108,11 +138,12 @@ static void cd_home(t_exec *data, t_cmd *input)
     }
 }
 
-static void cd_oldpwd(t_exec *data, t_cmd *input)
+static void cd_oldpwd(t_exec **data, t_cmd *input, char *cwd)
 {
-    if (chdir(ft_getenv(data->environ, "OLDPWD")) != 0)
+    if (chdir(ft_getenv((*data)->environ, "OLDPWD")) != 0)
     {
         print_error("cd", "OLDPWD is not set", NULL, 1);
+        check_oldpwd(data, cwd);
         exit(1);
     }
 }
@@ -128,7 +159,7 @@ void cd_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
     {
         handle_arg(input);
         if (ft_strlen2(input->arguments[0]) == ft_strlen2("-") && ft_strncmp(input->arguments[0], "-", ft_strlen2(input->arguments[0])) == 0)
-            cd_oldpwd(data, input);
+            cd_oldpwd(&data, input, cwd);
         else if (chdir(input->arguments[0]) != 0)
         {
             print_error("cd", input->arguments[0], strerror(errno), 2);
