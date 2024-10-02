@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:06:15 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/01 19:58:08 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/02 22:00:04 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,16 @@ void update_(t_linked **list, t_cmd *input)
     int i;
 
     i = 0;
+    if (!input->command && !input->arguments)
+    {
+        update(list, "");
+        return ;
+    }
     if (!input->arguments[0])
-        new_value = input->command;
+    {
+        if (input->command)
+            new_value = input->command;
+    }
     else
     {
         while (input->arguments[i + 1] != NULL)

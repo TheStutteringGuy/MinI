@@ -6,13 +6,19 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:58:18 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/01 19:59:35 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/02 23:06:26 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-long    ft_atol(char *str)
+static void exit_(char *str)
+{
+    print_error("exit", str, "numeric argument required", 2);
+    exit(2);
+}
+
+long ft_atol(char *str)
 {
     unsigned long res;
     int sign;
@@ -34,10 +40,7 @@ long    ft_atol(char *str)
     {
         res = res * 10 + (str[i] - 48);
         if ((sign == 1 && res > 9223372036854775807) || (sign == -1 && res > 9223372036854775808))
-        {
-            print_error("exit", str, "numeric argument required", 2);
-            exit(2);
-        }
+            exit_(str);
         i++;
     }
     return (sign * res);

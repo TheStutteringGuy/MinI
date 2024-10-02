@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:51:04 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/01 19:59:47 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/02 23:05:17 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@ static int check_minus(char *str, int i)
     if (str[i] == '\0' || str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
         return (-1);
     return (0);
+}
+
+static int skip_(char *str, int i)
+{
+    while (str[i] != '\0')
+    {
+        if ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
+            i++;
+        else
+            return (0);
+    }
+    return (1);
 }
 
 int ft_atoui(char *str)
@@ -48,12 +60,7 @@ int ft_atoui(char *str)
             return (-1);
         i++;
     }
-    while(str[i] != '\0')
-    {
-        if ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
-            i++;
-        else
-            return (0);
-    }
+    if (skip_(str, i) == 0)
+        return (0);
     return (res);
 }
