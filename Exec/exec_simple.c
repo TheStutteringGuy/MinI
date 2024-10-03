@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 02:21:40 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/02 20:00:46 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/03 19:22:43 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,30 +103,17 @@ static void ft_handle_function(char *str, int *flag)
     }
 }
 
-static void child_function(t_exec *data, t_cmd *input)
+static void child_funtion_2(t_exec *data, t_cmd *input, char *inp)
 {
-    char **split;
-    char *inp;
-    char *check;
     int i;
-    int flag;
+    char **split;
     char *join;
-
-    inp = ft_substr("", 0, 0);
-    flag = 0;
+    char *check;
+    
     i = 0;
-    ft_handle_function(input->command, &flag);
-    if (flag == 1)
-        ft_acces(data, input);
-    if (ft_getenv(data->export, "PATH"))
-        inp = ft_getenv(data->export, "PATH");
-    if (*inp == '\0')
-        return;
     split = ft_split(inp, ':');
     while (split[i])
     {
-        void *ft_memcpy2(void *dest, const void *src, size_t n);
-
         join = ft_strjoin2(split[i], "/");
         check = ft_strjoin2(join, input->command);
         free(join);
@@ -142,6 +129,22 @@ static void child_function(t_exec *data, t_cmd *input)
     exit(127);
 }
 
+static void child_function(t_exec *data, t_cmd *input)
+{
+    int flag;
+    char *inp;
+    
+    inp = ft_substr("", 0, 0);
+    flag = 0;
+    ft_handle_function(input->command, &flag);
+    if (flag == 1)
+        ft_acces(data, input);
+    inp = ft_getenv(data->export, "PATH");
+    if (inp == NULL)
+        return;
+    child_funtion_2(data, input, inp);
+}
+
 static void turn(char **envp, t_linked *list)
 {
     char *join;
@@ -155,6 +158,22 @@ static void turn(char **envp, t_linked *list)
         free(join);
         j++;
         list = list->next;
+    }
+}
+
+static void exec_child(t_exec *data, t_cmd *input, int id)
+{
+    int status;
+
+    signal(SIGINT, SIG_IGN);
+    waitpid(id, &status, 0);
+    if (!WIFSIGNALED(status))
+        last_exit_status = WEXITSTATUS(status);
+    else
+    {
+        last_exit_status = 128 + WTERMSIG(status);
+        if (WTERMSIG(status) == SIGINT)
+            printf("\n");
     }
 }
 
@@ -180,12 +199,5 @@ void execve_handle_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
         exit(0);
     }
     else
-    {
-        signal(SIGINT, SIG_IGN);
-        waitpid(id, &status, 0);
-        if (!WIFSIGNALED(status))
-            last_exit_status  = WEXITSTATUS(status);
-        else
-            last_exit_status  = 128 + WTERMSIG(status);
-    }
+        exec_child(data, input, id);
 }

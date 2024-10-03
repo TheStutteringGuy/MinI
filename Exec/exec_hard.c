@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 22:33:35 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/01 19:58:58 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/03 19:24:06 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,25 +94,14 @@ static void ft_handle_function(char *str, int *flag)
     }
 }
 
-static void child_function(t_exec *data, t_cmd *input)
+static void child_funtion_2(t_exec *data, t_cmd *input, char *inp)
 {
-    char **split;
-    char *inp;
-    char *check;
     int i;
-    int flag;
+    char **split;
     char *join;
-
-    inp = ft_substr("", 0, 0);
-    flag = 0;
+    char *check;
+    
     i = 0;
-    ft_handle_function(input->command, &flag);
-    if (flag == 1)
-        ft_acces(data, input);
-    if (ft_getenv(data->export, "PATH"))
-        inp = ft_getenv(data->export, "PATH");
-    if (*inp == '\0')
-        return;
     split = ft_split(inp, ':');
     while (split[i])
     {
@@ -129,6 +118,22 @@ static void child_function(t_exec *data, t_cmd *input)
     }
     print_error(input->command, "command not found\n", NULL, 1);
     exit(127);
+}
+
+static void child_function(t_exec *data, t_cmd *input)
+{
+    int flag;
+    char *inp;
+    
+    inp = ft_substr("", 0, 0);
+    flag = 0;
+    ft_handle_function(input->command, &flag);
+    if (flag == 1)
+        ft_acces(data, input);
+    inp = ft_getenv(data->export, "PATH");
+    if (inp == NULL)
+        return;
+    child_funtion_2(data, input, inp);
 }
 
 static void turn(char **envp, t_linked *list)
@@ -153,7 +158,6 @@ void execve_handle_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
     int i;
     int status;
 
-    (void)input;
     i = list_size(data->environ);
     data->envp = malloc(sizeof(char *) * (i + 1));
     data->envp[i] = NULL;

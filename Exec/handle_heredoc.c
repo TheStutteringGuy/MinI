@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 10:30:08 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/01 21:08:07 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/03 17:24:09 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,31 +75,40 @@ static void here_document(t_exec *data, t_cmd *curr)
     }
 }
 
+static void make_name_2(t_output_input **list)
+{
+    t_output_input *iterate;
+    static int i;
+    char *join;
+    char *itoa_;
+
+    i = 0;
+    iterate = *list;
+    while (iterate)
+    {
+        if (iterate->heredoc == true)
+        {
+            itoa_ = ft_itoa(i);
+            join = ft_strjoin2("/tmp/heredoc", itoa_);
+            free(itoa_);
+            iterate->heredoc_file = ft_substr(join, 0, ft_strlen2(join));
+            free(join);
+            i++;
+        }
+        iterate = iterate->next;
+    }
+}
+
 static void make_names(t_cmd **input)
 {
     t_cmd *curr;
     t_output_input *iterate;
-    int i;
-    char c;
-    char *join;
-
-    i = 0;
+    
     curr = *input;
     while (curr)
     {
         iterate = curr->redirection;
-        while (iterate)
-        {
-            if (iterate->heredoc == true)
-            {
-                c = i + 48;
-                join = ft_strjoin2("/tmp/heredoc", &c);
-                iterate->heredoc_file = ft_substr(join, 0, ft_strlen2(join));
-                i++;
-                free(join);
-            }
-            iterate = iterate->next;
-        }
+        make_name_2(&iterate);
         curr = curr->next;
     }
 }

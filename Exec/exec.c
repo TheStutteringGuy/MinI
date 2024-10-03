@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/02 22:25:51 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/03 18:17:20 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,51 @@ void env_list(t_linked **list, char **envp, char **av)
   check_necess(list, av);
 }
 
+static int handle_input(t_output_input *iterate, int *read_fd)
+{
+  if (iterate->heredoc == false)
+  {
+    if (access(iterate->filename, F_OK | R_OK) == 0)
+      *read_fd = open(iterate->filename, O_RDONLY);
+    else
+    {
+      print_error(iterate->filename, strerror(errno), NULL, 1);
+      last_exit_status = 1;
+      *read_fd = -1;
+      return (-1);
+    }
+  }
+  else
+  {
+    *read_fd = open(iterate->heredoc_file, O_CREAT | O_RDWR, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
+    if (*read_fd == -1)
+    {
+      print_error("Poblem in HEREDOC FILE", NULL, NULL, 0);
+      exit(1);
+    }
+    unlink(iterate->heredoc_file);
+  }
+  return (0);
+}
+
+static void handle_output(t_output_input *iterate, int *write_fd)
+{
+  if (iterate->append == true)
+    *write_fd = open(iterate->filename, O_CREAT | O_RDWR | O_APPEND, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
+  else
+    *write_fd = open(iterate->filename, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
+}
+
+static void handle_ambigious(t_output_input *iterate, int *read_fd)
+{
+  print_error(iterate->filename, "ambiguous redirect", NULL, 1);
+  last_exit_status = 1;
+  *read_fd = -1;
+}
+
 void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd)
 {
   t_output_input *iterate;
-  char *hered_inp;
-  char *after_pars;
 
   iterate = input->redirection;
   if (iterate != NULL)
@@ -95,49 +135,20 @@ void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd
     {
       if (iterate->ambigious == 1 && !iterate->heredoc)
       {
-        print_error(iterate->filename, "ambiguous redirect", NULL, 1);
-        last_exit_status = 1;
-        *read_fd = -1;
+        handle_ambigious(iterate, read_fd);
         return;
       }
       if (iterate->whichis == false)
       {
-        if (iterate->heredoc == false)
-        {
-          if (access(iterate->filename, F_OK | R_OK) == 0)
-            *read_fd = open(iterate->filename, O_RDONLY);
-          else
-          {
-            print_error(iterate->filename, strerror(errno), NULL, 1);
-            last_exit_status = 1;
-            *read_fd = -1;
-            return;
-          }
-        }
-        else
-        {
-          *read_fd = open(iterate->heredoc_file, O_CREAT | O_RDWR, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
-          if (*read_fd == -1)
-          {
-            print_error("Poblem in HEREDOC FILE", NULL, NULL, 0);
-            exit(1);
-          }
-          unlink(iterate->heredoc_file);
-        }
+        if (handle_input(iterate, read_fd) == -1)
+          return;
       }
       else
-      {
-        if (iterate->append == true)
-          *write_fd = open(iterate->filename, O_CREAT | O_RDWR | O_APPEND, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
-        else
-          *write_fd = open(iterate->filename, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
-      }
+        handle_output(iterate, write_fd);
       iterate = iterate->next;
     }
     return;
   }
-  *read_fd = 0;
-  *write_fd = 1;
 }
 
 void handle_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
@@ -299,8 +310,6 @@ void exec_(t_exec *data, t_cmd *input)
   signal(SIGINT, SIG_IGN);
   info.size = ft_size(input);
   info.pid_list = malloc(sizeof(pid_t) * info.size);
-  if (!info.pid_list)
-    return;
   initialize_pipes(&info, info.size - 1);
   forking_for_pipes(data, input, &info, info.size);
   close_pipes(&info, info.size - 1);
@@ -311,7 +320,11 @@ void exec_(t_exec *data, t_cmd *input)
     if (!WIFSIGNALED(status))
       last_exit_status = WEXITSTATUS(status);
     else
+    {
       last_exit_status = 128 + WTERMSIG(status);
+      if (WTERMSIG(status) == SIGINT)
+        printf("\n");
+    }
     i++;
   }
 }
@@ -321,9 +334,12 @@ void exec(t_exec *data, t_cmd *input)
   pid_t id;
   int write_fd;
   int read_fd;
-  
+
   if (handle_heredoc(data, &input) == -1)
+  {
+    printf("\n");
     return;
+  }
   handle_sig();
   if (!input->next)
   {

@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/03 01:17:48 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/03 18:11:56 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int main(int ac, char **av, char **envp)
             print_commands(cmd_list);
             printf("\n\n");
             exec(&data, cmd_list);
-            printf("\n\n");
             add_history(input);
             free_commands(cmd_list);
             free_tokens(token_list);
