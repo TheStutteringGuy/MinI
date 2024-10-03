@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 22:33:35 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/03 19:24:06 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/03 19:41:27 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,23 @@ static char **case_one(char *str)
     return (arg);
 }
 
+static int print_err_()
+{
+    print_error("Failed to allocate arg", NULL, NULL, 0);
+    exit(0);
+}
+
+static int array_size(char **array)
+{
+    int i;
+
+    i = 0;
+    while (array[i])
+        i++;
+    ++i;
+    return (i);
+}
+
 static char **join_to_array(char *str, char **array)
 {
     int total;
@@ -39,16 +56,10 @@ static char **join_to_array(char *str, char **array)
         argv = case_one(str);
         return (argv);
     }
-    total = 0;
-    while (array[total])
-        total++;
-    ++total;
+    total = array_size(array);
     argv = malloc(sizeof(char *) * (total + 1));
     if (!argv)
-    {
-        print_error("Failed to allocate arg", NULL, NULL, 0);
-        exit(0);
-    }
+        print_err_();
     argv[total] = NULL;
     argv[0] = ft_substr(str, 0, ft_strlen2(str));
     j = 0;
@@ -100,7 +111,7 @@ static void child_funtion_2(t_exec *data, t_cmd *input, char *inp)
     char **split;
     char *join;
     char *check;
-    
+
     i = 0;
     split = ft_split(inp, ':');
     while (split[i])
@@ -124,7 +135,7 @@ static void child_function(t_exec *data, t_cmd *input)
 {
     int flag;
     char *inp;
-    
+
     inp = ft_substr("", 0, 0);
     flag = 0;
     ft_handle_function(input->command, &flag);
