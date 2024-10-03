@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 19:53:34 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/01 20:03:09 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/03 01:03:24 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void update_shlvl(t_linked **environ)
             free(iterate->value);
             new_value = ft_itoa(new_shlvl);
             iterate->value = ft_substr(new_value, 0, ft_strlen2(new_value));
+            free(new_value);
         }
         iterate = iterate->next;
     }

@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/03 00:00:50 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/03 01:17:48 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,6 @@ void free_everything_data(t_exec *data)
     free(data->export);   
 }
 
-
-void allocate_data(t_exec *data)
-{
-    data->environ = malloc(sizeof(t_linked));
-    if (!data->environ)
-    {
-        printf("environ failed\n");
-        exit(1);
-    }
-    data->export = malloc(sizeof(t_linked));
-    if (!data->export)
-    {
-        printf("export failed\n");
-        exit(1);
-    }
-}
-
 int main(int ac, char **av, char **envp)
 {
     char *input;
@@ -47,11 +30,10 @@ int main(int ac, char **av, char **envp)
     t_cmd *cmd_list;
     t_token *token_list;
 
-    allocate_data(&data);
     data.environ = NULL;
+    data.export = NULL;
     env_list(&data.environ, envp, av);
     update_shlvl(&data.environ);
-    data.export = NULL;
     copy_environ(&data.export, data.environ);
     remove_list(&data.export, "_");
     while (1)
@@ -59,10 +41,7 @@ int main(int ac, char **av, char **envp)
         handle_sig();
         input = readline("Minishell -> ");
         if (input == NULL)
-        {
-            free(input);
             break;
-        }
         else
         {
             input = trim_spaces(input);
@@ -103,7 +82,7 @@ int main(int ac, char **av, char **envp)
             free(input);
         }
     }
-    rl_clear_history();
     free_everything_data(&data);
-    exit(ft_atol(last_exit_status));
+    rl_clear_history();
+    exit(last_exit_status);
 }
