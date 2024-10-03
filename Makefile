@@ -6,7 +6,7 @@
 #    By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/20 01:20:40 by aahlaqqa          #+#    #+#              #
-#    Updated: 2024/10/03 17:22:50 by thestutteri      ###   ########.fr        #
+#    Updated: 2024/10/03 23:21:08 by thestutteri      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SRCS_Pars = Pars/*.c Pars/lexer/*.c Pars/parse/*.c
 
 # TheStutteringGUy Srcs:
 
-SRCS_Exec = Exec/*.c Exec/get_next_line/*.c Exec/builtins/*.c Exec/builtins_hard/*.c
+SRCS_Exec = Exec/*.c Exec/get_next_line/*.c Exec/builtins/*.c Exec/builtins_hard/*.c Exec/builtins_helper/*.c Exec/exec/*.c
 
 FLAGS = -L Exec/Libft -lft
 

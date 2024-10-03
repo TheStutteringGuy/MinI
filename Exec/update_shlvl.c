@@ -6,21 +6,11 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 19:53:34 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/03 01:03:24 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/03 23:24:35 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static size_t key_return(char *key, char *key2)
-{
-    size_t len;
-
-    len = ft_strlen2(key);
-    if (len < ft_strlen2(key2))
-        len = ft_strlen2(key2);
-    return (len);
-}
 
 void update_shlvl(t_linked **environ)
 {

@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/03 18:11:56 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/03 23:19:40 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int main(int ac, char **av, char **envp)
                 continue;
             }
             print_commands(cmd_list);
-            printf("\n\n");
+            printf("\n");
             exec(&data, cmd_list);
             add_history(input);
             free_commands(cmd_list);

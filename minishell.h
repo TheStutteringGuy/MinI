@@ -6,14 +6,13 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/02 21:16:37 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/03 23:37:07 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include <stdio.h>
 #include "Exec/Libft/libft.h"
 #include "Exec/get_next_line/get_next_line.h"
@@ -63,7 +62,8 @@ typedef struct s_pipe
     pid_t *pid_list;
 } t_pipe;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -120,7 +120,6 @@ typedef struct s_cmd
     t_output_input *redirection;
     struct s_cmd *next;
 } t_cmd;
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 char *ft_strdup(const char *s);
 size_t ft_strlen(const char *s);
@@ -177,7 +176,7 @@ char *handle_incorrect_quotes(char *token);
 char *trim_spaces(char *str);
 char *remove_delimiter_quotes(t_output_input *new, char *str);
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // PROTOTYPES :
 
@@ -212,6 +211,7 @@ void exit_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd);
 void export_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd);
 void unset_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd);
 
+
 // BUILTINS HARD :
 
 void pwd_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd);
@@ -222,5 +222,36 @@ void exit_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd);
 void export_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd);
 void unset_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd);
 void execve_handle_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd);
+
+// EXEC :
+
+////////
+void update_environ(t_exec **list, char *cwd);
+void ft_swap(t_linked *list1, t_linked *list2);
+void sort_list(t_linked **list);
+void print_err(t_exec *data,char *str);
+void see_if_it_exist(t_exec *data, char *str);
+void handle_not(t_exec *data, char *str);
+void handle_equal(t_exec *data, char *str);
+void print_value(t_linked *list);
+void child(t_exec *data, t_cmd *input);
+size_t key_return(char *key, char *key2);
+void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd);
+void initialize_pipes(t_pipe *info, int size);
+void forking_for_pipes(t_exec *data, t_cmd *input, t_pipe *info, int size);
+void child__(t_exec *data, t_cmd *input, t_pipe *info, int id);
+void close_pipes(t_pipe *info, int size);
+int ft_size(t_cmd *iterate);
+void handle_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd);
+void ft_acces(t_exec *data, t_cmd *input);
+char **join_to_array(char *str, char **array);
+int array_size(char **array);
+int print_err_();
+char **case_one(char *str);
+void turn(char **envp, t_linked *list);
+void child_function(t_exec *data, t_cmd *input);
+void child_funtion_2(t_exec *data, t_cmd *input, char *inp);
+void ft_handle_function(char *str, int *flag);
+////////
 
 #endif

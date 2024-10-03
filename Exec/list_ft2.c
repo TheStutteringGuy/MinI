@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 01:39:55 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/02 18:13:08 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/03 23:14:36 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int list_size(t_linked *list)
     return (i);
 }
 
-static size_t key_return(char *key, char *key2)
+size_t key_return(char *key, char *key2)
 {
     size_t len;
 
@@ -75,46 +75,4 @@ void remove_list(t_linked **list, char *key)
         prev = prev->next;
         iterate = iterate->next;
     }
-}
-
-char *ft_getenv(t_linked *list, char *name)
-{
-    size_t len;
-
-    while (list)
-    {
-        len = key_return(list->key, name);
-        if (ft_strncmp(list->key, name, len) == 0)
-            return (list->value);
-        list = list->next;
-    }
-    return (NULL);
-}
-
-char *ft_getexport(t_linked *list, char *name)
-{
-    size_t len;
-
-    while (list)
-    {
-        len = key_return(list->key, name);
-        if (ft_strncmp(list->key, name, len) == 0)
-            return (list->value);
-        list = list->next;
-    }
-    return (NULL);
-}
-
-int ft_get_export(t_linked *list, char *name)
-{
-    size_t len;
-
-    while (list)
-    {
-        len = key_return(list->key, name);
-        if (ft_strncmp(list->key, name, len) == 0)
-            return (1);
-        list = list->next;
-    }
-    return (0);
 }
