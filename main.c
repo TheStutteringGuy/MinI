@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/02 20:52:11 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/03 00:00:50 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,5 @@ int main(int ac, char **av, char **envp)
     }
     rl_clear_history();
     free_everything_data(&data);
-    return 0;
+    exit(ft_atol(last_exit_status));
 }
