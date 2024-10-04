@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/04 17:50:10 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/04 19:19:10 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,6 @@ void exit_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd);
 void export_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd);
 void unset_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd);
 
-
 // BUILTINS HARD :
 
 void pwd_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd);
@@ -239,7 +238,7 @@ void execve_handle_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd);
 void update_environ(t_exec **list, char *cwd);
 void ft_swap(t_linked *list1, t_linked *list2);
 void sort_list(t_linked **list);
-void print_err(t_exec *data,char *str);
+void print_err(t_exec *data, char *str);
 void see_if_it_exist(t_exec *data, char *str);
 void handle_not(t_exec *data, char *str);
 void handle_equal(t_exec *data, char *str);
