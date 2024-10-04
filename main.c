@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/03 23:19:40 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/04 17:42:54 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void free_everything_data(t_exec *data)
     clear_list(&data->environ);
     free(data->environ);
     clear_list(&data->export);
-    free(data->export);   
+    free(data->export);
 }
 
 int main(int ac, char **av, char **envp)
@@ -44,6 +44,10 @@ int main(int ac, char **av, char **envp)
             break;
         else
         {
+            if (input[0] == '$' && ft_isdigit(input[1]))
+                input = ft_strdup2(input + 2);
+            if (input[1] == '?' && input[2] == '\0')
+                input = ft_itoa(last_exit_status);
             input = trim_spaces(input);
             if (input[0] == '\0')
             {
@@ -56,9 +60,7 @@ int main(int ac, char **av, char **envp)
                 continue;
             }
             token_list = NULL;
-            input = expand_befor_start(input, &data);
-            printf("input ---> %s\n", input);
-            tokenize_input(input, &token_list);
+            tokenize_input(input, &token_list, &data);
             if (check_syntax_errors(token_list))
             {
                 free_tokens(token_list);

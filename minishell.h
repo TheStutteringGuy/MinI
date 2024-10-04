@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/04 14:56:52 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/04 17:50:10 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ typedef struct s_exec
     char **envp;
     char **arg;
     int flag;
+    int delimiter;
+    int quote;
 } t_exec;
 
 typedef struct s_pipe
@@ -145,7 +147,9 @@ t_token *create_token(t_type type, char *value);
 void add_token(t_token **head, t_token *new_token);
 t_type classify_token(char *token, t_type expected);
 void handle_token(t_token **token_list, char *token, t_type *expected);
-void tokenize_input(char *input, t_token **token_list);
+void tokenize_input(char *input, t_token **token_list, t_exec *exec);
+int check_for_char(int c);
+char *check_string(char *input);
 
 // parser includes
 t_cmd *create_new_command(t_token *token);
@@ -158,6 +162,10 @@ void process_command_or_argument(t_cmd **cmd_list, t_cmd **current_cmd, t_token 
 t_cmd *create_empty_command(void);
 void ft_error(char *s1);
 char *expand_herdoc(char *str, t_exec *exec);
+void malloc_error();
+int check_quotes(char *input, t_exec *exec);
+char *expand_env_simple(char *input, t_exec *exec);
+char *expand(char *input, t_exec *exec);
 
 // print include
 void print_commands(t_cmd *cmd_list);
@@ -175,6 +183,8 @@ char *remove_quotes(char *token, t_exec *exec);
 char *handle_incorrect_quotes(char *token);
 char *trim_spaces(char *str);
 char *remove_delimiter_quotes(t_output_input *new, char *str);
+int check_quotes(char *input, t_exec *exec);
+char *handle_multiple_env(char *input, t_exec *exec);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

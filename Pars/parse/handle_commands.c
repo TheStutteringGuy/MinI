@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:15 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/28 21:31:51 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/04 17:40:42 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ void process_token(t_cmd **cmd_list, t_cmd **current_cmd, t_token **current_toke
     }
     else if ((*current_token)->type == COMMAND || (*current_token)->type == ARGUMENT)
     {
-        (*current_token)->value = remove_quotes((*current_token)->value, exec);
         if ((*current_token)->value == NULL)
             return;
     }
