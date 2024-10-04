@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 23:12:51 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/03 23:17:41 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/04 18:57:57 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,32 @@ static int handle_input(t_output_input *iterate, int *read_fd)
   return (0);
 }
 
-static void handle_output(t_output_input *iterate, int *write_fd)
+static int handle_output(t_output_input *iterate, int *write_fd)
 {
+  struct stat info;
+
+  if (stat(iterate->filename, &info) == 0)
+  {
+    if (S_ISDIR(info.st_mode) != 0)
+    {
+      print_error(iterate->filename, "Is a directory", NULL, 1);
+      last_exit_status = 1;
+      *write_fd = -1;
+      return (-1);
+    }
+  }
   if (iterate->append == true)
     *write_fd = open(iterate->filename, O_CREAT | O_RDWR | O_APPEND, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
   else
     *write_fd = open(iterate->filename, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
+  if (*write_fd == -1)
+  {
+      print_error(iterate->filename, strerror(errno), NULL, 1);
+      last_exit_status = 1;
+      *write_fd = -1;
+      return (-1);
+  }
+  return (0);
 }
 
 static void handle_ambigious(t_output_input *iterate, int *read_fd)
@@ -59,24 +79,24 @@ void handle_input_output(t_exec *data, t_cmd *input, int *read_fd, int *write_fd
   t_output_input *iterate;
 
   iterate = input->redirection;
-  if (iterate != NULL)
+  while (iterate)
   {
-    while (iterate)
+    if (iterate->ambigious == 1 && !iterate->heredoc)
     {
-      if (iterate->ambigious == 1 && !iterate->heredoc)
-      {
-        handle_ambigious(iterate, read_fd);
-        return;
-      }
-      if (iterate->whichis == false)
-      {
-        if (handle_input(iterate, read_fd) == -1)
-          return;
-      }
-      else
-        handle_output(iterate, write_fd);
-      iterate = iterate->next;
+      handle_ambigious(iterate, read_fd);
+      return;
     }
-    return;
+    if (iterate->whichis == false)
+    {
+      if (handle_input(iterate, read_fd) == -1)
+        return;
+    }
+    else
+    {
+      if (handle_output(iterate, write_fd) == -1)
+        return;
+    }
+    iterate = iterate->next;
   }
+  return;
 }

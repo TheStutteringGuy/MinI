@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/03 23:22:16 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/04 18:43:33 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ void exec(t_exec *data, t_cmd *input)
     write_fd = 1;
     handle_input_output(data, input, &read_fd, &write_fd);
     if (read_fd == -1)
+      return;
+    if (write_fd == -1)
       return;
     update_(&data->environ, input);
     if (input->command)

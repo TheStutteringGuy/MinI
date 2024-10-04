@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 23:31:01 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/03 23:33:23 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/04 18:36:56 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,16 @@ char **join_to_array(char *str, char **array)
 
 void ft_acces(t_exec *data, t_cmd *input)
 {
+    struct stat info;
+
+    if (stat(input->command, &info) == 0)
+    {
+        if (S_ISDIR(info.st_mode) != 0)
+        {
+            print_error(input->command, "Is a directory", NULL, 1);
+            exit(126);
+        }
+    }
     if (access(input->command, F_OK | X_OK) == 0)
     {
         data->arg = join_to_array(input->command, input->arguments);
