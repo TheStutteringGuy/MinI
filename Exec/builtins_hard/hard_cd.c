@@ -6,34 +6,11 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/03 22:00:44 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/04 14:58:35 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-static void check_oldpwd(t_exec **list, char *cwd)
-{
-    t_linked *iterate;
-    int flag;
-
-    flag = 0;
-    iterate = (*list)->environ;
-    while (iterate)
-    {
-        if (ft_strlen2(iterate->key) == ft_strlen2("OLDPWD") && ft_strncmp(iterate->key, "OLDPWD", ft_strlen2("OLDPWD")) == 0)
-            flag = 1;
-        iterate = iterate->next;
-    }
-    if (flag == 1)
-        return ;
-    else
-    {
-        create_node(&(*list)->environ, ft_substr("OLDPWD", 0, ft_strlen2("OLDPWD")), ft_substr(cwd, 0, ft_strlen2(cwd)), 1);
-        create_node(&(*list)->export, ft_substr("OLDPWD", 0, ft_strlen2("OLDPWD")), ft_substr(cwd, 0, ft_strlen2(cwd)), 1);
-        return ;
-    }
-}
 
 static void handle_arg(t_cmd *input)
 {
@@ -63,7 +40,6 @@ static void cd_oldpwd(t_exec **data, t_cmd *input, char *cwd)
     if (chdir(ft_getenv((*data)->environ, "OLDPWD")) != 0)
     {
         print_error("cd", "OLDPWD is not set", NULL, 1);
-        check_oldpwd(data, cwd);
         exit(1);
     }
 }

@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/03 23:37:07 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/04 14:56:52 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,6 +252,7 @@ void turn(char **envp, t_linked *list);
 void child_function(t_exec *data, t_cmd *input);
 void child_funtion_2(t_exec *data, t_cmd *input, char *inp);
 void ft_handle_function(char *str, int *flag);
+int check_oldpwd(t_exec **list, char *cwd);
 ////////
 
 #endif

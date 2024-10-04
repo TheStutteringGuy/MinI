@@ -6,7 +6,7 @@
 #    By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/20 01:20:40 by aahlaqqa          #+#    #+#              #
-#    Updated: 2024/10/03 23:53:48 by thestutteri      ###   ########.fr        #
+#    Updated: 2024/10/03 23:56:59 by thestutteri      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SRCS_Pars = Pars/*.c Pars/lexer/*.c Pars/parse/*.c
 
 # TheStutteringGUy Srcs:
 
-SRCS_Exec = Exec/builtins/cd.c Exec/builtins_helper/cd_helper.c Exec/builtins/echo.c                   			  \
+SRCS_Exec = Exec/builtins/cd.c Exec/builtins_helper/cd_helper.c Exec/builtins/echo.c Exec/update_shlvl.c          \
  			Exec/builtins/env.c Exec/error_handle.c Exec/exec/exec.c Exec/exec/exec_.c Exec/exec/exec_handle.c     \
   			Exec/exec/exec_list.c Exec/builtins/exit.c Exec/builtins/export.c Exec/builtins_helper/export_helper.c  \
    			Exec/builtins_helper/export_helper2.c Exec/ft_atol.c Exec/ft_atoui.c Exec/get_next_line/get_next_line.c  \
@@ -35,7 +35,6 @@ SRCS_Exec = Exec/builtins/cd.c Exec/builtins_helper/cd_helper.c Exec/builtins/ec
   			Exec/builtins_hard/hard_exit.c Exec/builtins_hard/hard_export.c Exec/builtins_hard/hard_pwd.c               \
     		Exec/exec/hard_simple_help.c Exec/exec/hard_simple_help2.c Exec/builtins_hard/hard_unset.c Exec/list_ft.c    \
 			Exec/list_ft2.c Exec/list_ft3.c Exec/builtins/pwd.c Exec/exec/simple.c Exec/builtins/unset.c Exec/update_.c   \
-	 		Exec/update_shlvl.c \
 
 FLAGS = -L Exec/Libft -lft
 

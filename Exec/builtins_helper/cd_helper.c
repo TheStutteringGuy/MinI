@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 21:59:29 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/03 22:00:09 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/04 14:56:11 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,9 @@ void update_environ(t_exec **list, char *cwd)
 {
     t_linked *iterate;
 
+    update_pwd(list);
+    if (check_oldpwd(list, cwd) == 0)
+        return ;
     iterate = (*list)->environ;
     while (iterate)
     {
@@ -89,5 +92,4 @@ void update_environ(t_exec **list, char *cwd)
         iterate = iterate->next;
     }
     update_export(list, cwd);
-    update_pwd(list);
 }

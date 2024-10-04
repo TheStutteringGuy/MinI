@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 01:39:55 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/03 23:14:36 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/04 15:15:10 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void delete_one(t_linked **list)
     return;
 }
 
-void remove_list(t_linked **list, char *key)
+int case_one__(t_linked **list, char *key)
 {
     t_linked *iterate;
     t_linked *prev;
@@ -58,6 +58,20 @@ void remove_list(t_linked **list, char *key)
     iterate = *list;
     len = key_return(iterate->key, key);
     if (ft_strncmp(iterate->key, key, len) == 0)
+    {
+        delete_one(list);
+        return (1);
+    }
+    return (0);
+}
+
+void remove_list(t_linked **list, char *key)
+{
+    t_linked *iterate;
+    t_linked *prev;
+    size_t len;
+
+    if (case_one__(list, key) == 1)
         return;
     prev = *list;
     iterate = (*list)->next;
