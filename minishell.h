@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/04 19:19:10 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/05 17:38:27 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,6 +262,10 @@ void child_function(t_exec *data, t_cmd *input);
 void child_funtion_2(t_exec *data, t_cmd *input, char *inp);
 void ft_handle_function(char *str, int *flag);
 int check_oldpwd(t_exec **list, char *cwd);
+void handle_plus(t_exec *data, char *str);
+void handle_arg_4(t_exec *data, char *str, int *flag, int j);
+void handle_arg_2(char *str, int *flag, int j);
+void handle_join(t_exec *data, char *str);
 ////////
 
 #endif

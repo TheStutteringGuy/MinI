@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 19:53:34 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/03 23:24:35 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/05 01:06:26 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void update_shlvl(t_linked **environ)
         if (ft_strncmp(iterate->key, "SHLVL", len) == 0)
         {
             new_shlvl = ft_atoui(iterate->value) + 1;
-            printf("The Value: %d\n", new_shlvl);
             if (new_shlvl >= 1000)
             {
                 printf("warning: shell level (%d) too high, resetting to 1\n", new_shlvl);
