@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:01 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/04 22:00:44 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/05 01:32:16 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,43 @@ void handle_token(t_token **token_list, char *token, t_type *expected)
     free(processed_token);
 }
 
+void handle_quote(char input, t_exec *exec)
+{
+    if (input == '"')
+        exec->quote = 2;
+    else
+        exec->quote = 1;
+    if (exec->delimiter == 0)
+        exec->delimiter = input;
+    else if (input == exec->delimiter)
+    {
+        exec->delimiter = 0;
+    }
+}
+
+void copy_token(char *token, int *token_len, t_token **token_list, t_type expected)
+{
+    if (*token_len > 0)
+    {
+        token[*token_len] = '\0';
+        handle_token(token_list, token, &expected);
+        *token_len = 0;
+    }
+}
+
+void finalize_token(t_token **token_list, char *token, int *token_len, t_type expected)
+{
+    token[*token_len] = '\0';
+    handle_token(token_list, token, &expected);
+    *token_len = 0;
+}
+
+void add_multi_operator(char *token, const char *input, int *token_len, int *i)
+{
+    token[(*token_len)++] = input[(*i)++];
+    token[(*token_len)++] = input[*i];
+}
+
 // Main function to tokenize input
 void tokenize_input(char *input, t_token **token_list, t_exec *exec)
 {
@@ -114,41 +151,20 @@ void tokenize_input(char *input, t_token **token_list, t_exec *exec)
     while (input[i] != '\0')
     {
         if ((input[i] == '\'' || input[i] == '"') && (exec->delimiter == 0 || input[i] == exec->delimiter))
-        {
-            if (input[i] == '"')
-                exec->quote = 2;
-            else
-                exec->quote = 1;
-            if (exec->delimiter == 0)
-                exec->delimiter = input[i];
-            else if (input[i] == exec->delimiter)
-            {
-                exec->delimiter = 0;
-            }
-        }
+            handle_quote(input[i], exec);
         else if (ft_isspace(input[i]) && exec->delimiter == 0)
+            copy_token(token, &token_len, token_list, expected);
+        else if ((is_operator(input[i]) || is_multi_operator(&input[i])) && exec->delimiter == 0)
         {
             if (token_len > 0)
-            {
-                token[token_len] = '\0';
-                handle_token(token_list, token, &expected);
-                token_len = 0;
-            }
+                finalize_token(token_list, token, &token_len, expected);
+            if (is_multi_operator(&input[i]))
+                add_multi_operator(token, input, &token_len, &i);
+            else
+                token[token_len++] = input[i];
+            finalize_token(token_list, token, &token_len, expected);
         }
-        else if (is_multi_operator(&input[i]) && exec->delimiter == 0)
-        {
-            if (token_len > 0)
-            {
-                token[token_len] = '\0';
-                handle_token(token_list, token, &expected);
-                token_len = 0;
-            }
-            token[token_len++] = input[i++];
-            token[token_len++] = input[i];
-            token[token_len] = '\0';
-            handle_token(token_list, token, &expected);
-            token_len = 0;
-        }
+
         else if (input[i] == '$' && input[i + 1] == '?')
         {
             token[token_len++] = input[i++];
@@ -157,76 +173,58 @@ void tokenize_input(char *input, t_token **token_list, t_exec *exec)
             handle_token(token_list, token, &expected);
             token_len = 0;
         }
-        else if (is_operator(input[i]) && exec->delimiter == 0)
-        {
-            if (token_len > 0)
-            {
-                token[token_len] = '\0';
-                handle_token(token_list, token, &expected);
-                token_len = 0;
-            }
-            token[token_len++] = input[i];
-            token[token_len] = '\0';
-            handle_token(token_list, token, &expected);
-            token_len = 0;
-        }
         else if (input[i] == '$' && (exec->delimiter == 0 || exec->delimiter != '\''))
         {
             if (exec->delimiter == 0 && exec->quote == 1)
-            {
                 exec->quote = 2;
-            }
             while (input[i] == '$')
             {
                 i++;
                 j = 0;
                 while (input[i] && check_for_char(input[i]))
-                {
-                    temp[j] = input[i];
-                    i++;
-                    j++;
-                }
+                    temp[j++] = input[i++];
                 temp[j] = '\0';
                 res = expand(temp, exec);
-
                 if (res && *res != '\0')
                 {
                     k = 0;
-                    while (res[k] != '\0')
+                    if (input[i] == '$' && input[i + 1] == '\0')
                     {
-                        if (ft_isspace(res[k]))
+                        while (res[k] != '\0')
+                            token[token_len++] = res[k++];
+                    }
+                    else
+                    {
+                        while (res[k] != '\0')
                         {
-                            while (res[k] != '\0')
+                            if (ft_isspace(res[k]))
                             {
-                                if (ft_isspace(res[k]))
+                                while (res[k] != '\0')
                                 {
-                                    if (token_len > 0)
+                                    if (ft_isspace(res[k]))
                                     {
-                                        token[token_len] = '\0';
-                                        handle_token(token_list, token, &expected);
-                                        token_len = 0;
+                                        if (token_len > 0)
+                                        {
+                                            token[token_len] = '\0';
+                                            handle_token(token_list, token, &expected);
+                                            token_len = 0;
+                                        }
                                     }
+                                    else
+                                        token[token_len++] = res[k];
+                                    k++;
                                 }
-                                else
-                                {
-                                    token[token_len++] = res[k];
-                                }
-                                k++;
+                                break;
                             }
-                            break;
+                            else
+                                token[token_len++] = res[k];
+                            k++;
                         }
-                        else
-                        {
-                            token[token_len++] = res[k];
-                        }
-                        k++;
                     }
                 }
                 if (input[i] == '$' && check_for_char(input[i + 1]))
-                {
                     continue;
-                }
-                else if (input[i] == '$')
+                else if (input[i] == '$' && input[i + 1] != '\0')
                 {
                     token[token_len] = '$';
                     token_len++;
@@ -242,9 +240,7 @@ void tokenize_input(char *input, t_token **token_list, t_exec *exec)
             i--;
         }
         else
-        {
             token[token_len++] = input[i];
-        }
         i++;
     }
     if (token_len > 0)
