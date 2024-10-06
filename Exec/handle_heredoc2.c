@@ -6,72 +6,80 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 23:00:24 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/03 23:02:12 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/06 19:48:38 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void here_document_3(t_exec *data, t_output_input *iterate, int fd, char *hered_inp)
+static int	check__(char *hered_inp, char *delimiter)
 {
-    char *after_pars;
-
-    if (iterate->delimiter_expand = 1)
-    {
-        after_pars = expand_herdoc(hered_inp, data);
-        write(fd, after_pars, ft_strlen2(after_pars));
-        free(after_pars);
-    }
-    else
-        write(fd, hered_inp, ft_strlen2(hered_inp));
-    write(fd, "\n", 1);
-    free(hered_inp);
+	return ((ft_strlen2(hered_inp) == ft_strlen2(delimiter)
+			&& ft_strncmp(hered_inp, delimiter, ft_strlen2(delimiter)) == 0));
 }
 
-static void here_document_2(t_exec *data, t_output_input *iterate)
+static void	here_document_3(t_exec *data, t_output_input *iterate, int fd,
+		char *hered_inp)
 {
-    int fd;
-    char *hered_inp;
+	char	*after_pars;
 
-    while (iterate)
-    {
-        if (iterate->heredoc == true)
-        {
-            fd = open(iterate->heredoc_file, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
-            while (TRUE)
-            {
-                hered_inp = readline("> ");
-                if (!hered_inp)
-                    break;
-                else if (ft_strlen2(hered_inp) == ft_strlen2(iterate->delimiter) && ft_strncmp(hered_inp, iterate->delimiter, ft_strlen2(iterate->delimiter)) == 0)
-                {
-                    free(hered_inp);
-                    break;
-                }
-                here_document_3(data, iterate, fd, hered_inp);
-            }
-            close(fd);
-        }
-        iterate = iterate->next;
-    }
+	if (iterate->delimiter_expand == 1)
+	{
+		after_pars = expand_herdoc(hered_inp, data);
+		write(fd, after_pars, ft_strlen2(after_pars));
+		free(after_pars);
+	}
+	else
+		write(fd, hered_inp, ft_strlen2(hered_inp));
+	write(fd, "\n", 1);
+	free(hered_inp);
 }
 
-static void here_document(t_exec *data, t_cmd *curr)
+static void	here_document_2(t_exec *data, t_output_input *iterate)
 {
-    t_output_input *iterate;
+	int		fd;
+	char	*hered_inp;
 
-    while (curr)
-    {
-        iterate = curr->redirection;
-        here_document_2(data, iterate);
-        curr = curr->next;
-    }
+	while (iterate)
+	{
+		if (iterate->heredoc == true)
+		{
+			fd = open(iterate->heredoc_file, O_CREAT | O_RDWR | O_TRUNC,
+					S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR);
+			while (TRUE)
+			{
+				hered_inp = readline("> ");
+				if (!hered_inp)
+					break ;
+				else if (check__(hered_inp, iterate->delimiter) != 0)
+				{
+					free(hered_inp);
+					break ;
+				}
+				here_document_3(data, iterate, fd, hered_inp);
+			}
+			close(fd);
+		}
+		iterate = iterate->next;
+	}
 }
 
-void child(t_exec *data, t_cmd *input)
+static void	here_document(t_exec *data, t_cmd *curr)
 {
-    signal(SIGINT, SIG_DFL);
-    signal(SIGQUIT, SIG_IGN);
-    here_document(data, input);
-    exit(0);
+	t_output_input	*iterate;
+
+	while (curr)
+	{
+		iterate = curr->redirection;
+		here_document_2(data, iterate);
+		curr = curr->next;
+	}
+}
+
+void	child(t_exec *data, t_cmd *input)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
+	here_document(data, input);
+	exit(0);
 }

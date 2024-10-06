@@ -12,15 +12,15 @@
 
 #include "../../minishell.h"
 
-void env_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
+void	env_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 {
-    t_linked *iterat;
+	t_linked	*iterat;
 
-    (void)input;
-    iterat = data->environ;
-    while (iterat != NULL)
-    {
-        printf("%s=%s\n", iterat->key, iterat->value);
-        iterat = iterat->next;
-    }
+	(void)input;
+	iterat = data->environ;
+	while (iterat != NULL)
+	{
+		printf("%s=%s\n", iterat->key, iterat->value);
+		iterat = iterat->next;
+	}
 }

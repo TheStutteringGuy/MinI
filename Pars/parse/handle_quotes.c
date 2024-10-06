@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/04 17:49:46 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/06 00:43:58 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ char *check_string(char *input)
         if (ft_isdigit(input[1]))
             return (ft_strdup2(input + 2));
         if (input[1] == '?' && input[2] == '\0')
-            return (ft_itoa(last_exit_status));
+            return (ft_itoa(g_last_exit_status));
         if (input[1] == '?' && input[2] != '\0')
         {
-            str = ft_itoa(last_exit_status);
+            str = ft_itoa(g_last_exit_status);
             last_status_len = ft_strlen(str);
             result_size = last_status_len + ft_strlen2(input + 2) + 1;
             result = malloc(result_size);
@@ -115,7 +115,7 @@ char *handle_incorrect_quotes(char *token)
     if (single_quotes % 2 != 0 || double_quotes % 2 != 0)
     {
         write(2, "Syntax error: unclosed quotes\n", 31);
-        last_exit_status = 130;
+        g_last_exit_status = 130;
         return (NULL);
     }
     return (ft_strdup(token));

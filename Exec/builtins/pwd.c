@@ -12,12 +12,12 @@
 
 #include "../../minishell.h"
 
-void pwd_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
+void	pwd_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 {
-    (void)data;
-    (void)input;
-    char cwd[PATH_MAX];
+	char	cwd[PATH_MAX];
 
-    getcwd(cwd, PATH_MAX);
-    printf("%s\n", cwd);
+	(void)data;
+	(void)input;
+	getcwd(cwd, PATH_MAX);
+	printf("%s\n", cwd);
 }

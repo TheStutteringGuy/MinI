@@ -12,18 +12,18 @@
 
 #include "../../minishell.h"
 
-void unset_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
+void	unset_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    if (input->arguments[0])
-    {
-        while (input->arguments[i] != NULL)
-        {
-            remove_list(&data->environ, input->arguments[i]);
-            remove_list(&data->export, input->arguments[i]);
-            i++;
-        }
-    }
+	i = 0;
+	if (input->arguments[0])
+	{
+		while (input->arguments[i] != NULL)
+		{
+			remove_list(&data->environ, input->arguments[i]);
+			remove_list(&data->export, input->arguments[i]);
+			i++;
+		}
+	}
 }

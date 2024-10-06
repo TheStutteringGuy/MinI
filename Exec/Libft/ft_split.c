@@ -61,7 +61,7 @@ static char	*ft_fillarray(char const *s, int *j, char c)
 		len++;
 		(*j)++;
 	}
-	substr = malloc (sizeof(char) * (len + 1));
+	substr = malloc(sizeof(char) * (len + 1));
 	if (!substr)
 		return (NULL);
 	x = 0;

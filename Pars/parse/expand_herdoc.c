@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 21:02:15 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/01 21:11:09 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/06 00:43:58 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char *expand_herdoc(char *str, t_exec *exec)
         {
             if (str[i + 1] == '?')
             {
-                status_str = ft_itoa(last_exit_status);
+                status_str = ft_itoa(g_last_exit_status);
                 res = ft_strjoin(res, status_str);
                 free(status_str);
                 i += 2;

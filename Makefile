@@ -6,7 +6,7 @@
 #    By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/20 01:20:40 by aahlaqqa          #+#    #+#              #
-#    Updated: 2024/10/05 16:34:08 by thestutteri      ###   ########.fr        #
+#    Updated: 2024/10/06 20:17:08 by thestutteri      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ SRCS_Exec = Exec/builtins/cd.c Exec/builtins_helper/cd_helper.c Exec/builtins/ec
   			Exec/builtins_hard/hard_exit.c Exec/builtins_hard/hard_export.c Exec/builtins_hard/hard_pwd.c               \
     		Exec/exec/hard_simple_help.c Exec/exec/hard_simple_help2.c Exec/builtins_hard/hard_unset.c Exec/list_ft.c    \
 			Exec/list_ft2.c Exec/list_ft3.c Exec/builtins/pwd.c Exec/exec/simple.c Exec/builtins/unset.c Exec/update_.c   \
-			Exec/builtins_helper/export_4.c Exec/builtins_helper/export_helper3.c
+			Exec/builtins_helper/export_4.c Exec/builtins_helper/export_helper3.c Exec/exec/exec_list2.c	   	   		   \
 
 FLAGS = -L Exec/Libft -lft
 

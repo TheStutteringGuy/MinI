@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:06 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/28 21:46:21 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/06 00:43:58 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_pipe_errors(t_token *current)
 	if (current->type == PIPE && current->next == NULL)
 	{
 		ft_error(current->value);
-		last_exit_status = 2;
+		g_last_exit_status = 2;
 		return (1);
 	}
 	else if (current->type == PIPE && current->next->type != COMMAND
@@ -31,7 +31,7 @@ int	check_pipe_errors(t_token *current)
 			|| after_red->type == APPEND)
 		{
 			ft_error(current->value);
-			last_exit_status = 2;
+			g_last_exit_status = 2;
 			return (1);
 		}
 	}
@@ -50,7 +50,7 @@ int	check_redirection_errors(t_token *current)
 				|| current->next->type == HERDOC))
 		{
 			ft_error(current->value);
-			last_exit_status = 2;
+			g_last_exit_status = 2;
 			return (1);
 		}
 	}
