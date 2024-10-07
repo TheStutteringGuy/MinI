@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 22:01:26 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/07 01:41:36 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 20:27:30 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	sort_list(t_linked **list)
 
 void	print_err(t_exec *data, char *str)
 {
+	(void)data;
 	print_error("export", str, "not a valid identifier", 2);
 	g_last_exit_status = 1;
 }

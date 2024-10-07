@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 01:39:55 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/04 15:15:10 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 20:31:58 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	delete_one(t_linked **list)
 int	case_one__(t_linked **list, char *key)
 {
 	t_linked	*iterate;
-	t_linked	*prev;
 	size_t		len;
 
 	iterate = *list;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hard_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/23 06:24:37 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/07 18:34:37 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,12 @@ static int	handle_flag(t_cmd *input)
 	return (0);
 }
 
-void	echo_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
+void	echo_hard(t_exec *data, t_cmd *input)
 {
 	int	stop;
 	int	flag;
 
+	(void)data;
 	flag = 0;
 	if (input->arguments[0])
 	{

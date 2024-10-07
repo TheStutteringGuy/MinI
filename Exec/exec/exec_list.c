@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 23:15:55 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/06 20:17:49 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 20:17:55 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ void	check_necess(t_linked **list, char **av)
 		if (check___(curr->key, "SHLVL"))
 			flags[1] = 1;
 		if (check___(curr->key, "_"))
-			;
-		flags[2] = 1;
+			flags[2] = 1;
 		curr = curr->next;
 	}
 	create_necess(list, av, flags, cwd);

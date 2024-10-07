@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 23:12:51 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/07 01:41:36 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 20:15:24 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	handle_input_output(t_exec *data, t_cmd *input, int *read_fd,
 {
 	t_output_input	*iterate;
 
+	(void)data;
 	iterate = input->redirection;
 	while (iterate)
 	{

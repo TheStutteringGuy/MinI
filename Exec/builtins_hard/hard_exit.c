@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/07 01:41:36 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 20:31:36 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	print_err__(t_cmd *input)
 	exit(2);
 }
 
-static int	handle_arg(t_cmd *input)
+static void	handle_arg(t_cmd *input)
 {
 	int	i;
 
@@ -32,7 +32,7 @@ static int	handle_arg(t_cmd *input)
 	}
 }
 
-static int	pars_arg(t_cmd *input)
+static void	pars_arg(t_cmd *input)
 {
 	int	i;
 
@@ -61,7 +61,7 @@ static int	pars_arg(t_cmd *input)
 	}
 }
 
-void	exit_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
+void	exit_hard(t_exec *data, t_cmd *input)
 {
 	long	exit_st;
 

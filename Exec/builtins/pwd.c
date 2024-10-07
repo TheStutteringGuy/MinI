@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/23 06:30:05 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/07 18:28:55 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	pwd_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
+void	pwd_simple(t_exec *data, t_cmd *input)
 {
 	char	cwd[PATH_MAX];
 

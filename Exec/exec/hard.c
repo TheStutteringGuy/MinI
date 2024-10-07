@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 22:33:35 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/03 23:32:33 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 20:31:08 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void	execve_handle_hard(t_exec *data, t_cmd *input, int read_fd,
 		int write_fd)
 {
-	pid_t	id;
 	int		i;
-	int		status;
 
+	(void)read_fd;
+	(void)write_fd;
 	i = list_size(data->environ);
 	data->envp = malloc(sizeof(char *) * (i + 1));
 	data->envp[i] = NULL;

@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 11:51:04 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/02 23:05:17 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 20:30:04 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	ft_atoui(char *str)
 {
 	int	res;
 	int	i;
-	int	j;
 
 	res = 0;
 	i = 0;

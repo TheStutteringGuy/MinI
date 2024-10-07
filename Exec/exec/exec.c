@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/07 01:41:36 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 20:14:17 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,19 @@ void	handle_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 	if (write_fd != 1)
 		dup2(write_fd, STDOUT_FILENO);
 	if (check__(input->command, "pwd"))
-		pwd_simple(data, input, read_fd, write_fd);
+		pwd_simple(data, input);
 	else if (check__(input->command, "env"))
-		env_simple(data, input, read_fd, write_fd);
+		env_simple(data, input);
 	else if (check__(input->command, "echo"))
-		echo_simple(data, input, read_fd, write_fd);
+		echo_simple(data, input);
 	else if (check__(input->command, "cd"))
-		cd_simple(data, input, read_fd, write_fd);
+		cd_simple(data, input);
 	else if (check__(input->command, "exit"))
-		exit_simple(data, input, read_fd, write_fd);
+		exit_simple(data, input);
 	else if (check__(input->command, "export"))
-		export_simple(data, input, read_fd, write_fd);
+		export_simple(data, input);
 	else if (check__(input->command, "unset"))
-		unset_simple(data, input, read_fd, write_fd);
+		unset_simple(data, input);
 	else
 		execve_handle_simple(data, input, read_fd, write_fd);
 	if (write_fd != 1)
@@ -48,25 +48,22 @@ void	handle_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 
 void	handle_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
 {
-	int		saved_fd;
-	size_t	len;
-
 	if (!input->command)
 		return ;
 	if (check__(input->command, "pwd"))
-		pwd_hard(data, input, read_fd, write_fd);
+		pwd_hard(data, input);
 	else if (check__(input->command, "env"))
-		env_hard(data, input, read_fd, write_fd);
+		env_hard(data, input);
 	else if (check__(input->command, "echo"))
-		echo_hard(data, input, read_fd, write_fd);
+		echo_hard(data, input);
 	else if (check__(input->command, "cd"))
-		cd_hard(data, input, read_fd, write_fd);
+		cd_hard(data, input);
 	else if (check__(input->command, "exit"))
-		exit_hard(data, input, read_fd, write_fd);
+		exit_hard(data, input);
 	else if (check__(input->command, "export"))
-		export_hard(data, input, read_fd, write_fd);
+		export_hard(data, input);
 	else if (check__(input->command, "unset"))
-		unset_hard(data, input, read_fd, write_fd);
+		unset_hard(data, input);
 	else
 		execve_handle_hard(data, input, read_fd, write_fd);
 }
@@ -101,7 +98,6 @@ void	exec_(t_exec *data, t_cmd *input)
 
 void	exec(t_exec *data, t_cmd *input)
 {
-	pid_t	id;
 	int		write_fd;
 	int		read_fd;
 

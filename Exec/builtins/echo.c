@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/23 06:23:07 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/07 18:34:21 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,13 @@ static int	handle_flag(t_cmd *input)
 	return (0);
 }
 
-void	echo_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
+void	echo_simple(t_exec *data, t_cmd *input)
 {
 	int	stop;
 	int	flag;
 
 	flag = 0;
+	(void)data;
 	if (input->arguments[0])
 	{
 		stop = handle_flag(input);

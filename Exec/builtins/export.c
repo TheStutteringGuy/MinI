@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/07 01:41:36 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 20:27:10 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static int	handle_arg_1(t_exec *data, char *str)
 {
+	(void)data;
 	if (ft_isalpha(str[0]) == 0 && str[0] != '_')
 	{
 		print_error("export", str, "not a valid identifier", 2);
@@ -34,6 +35,7 @@ static int	handle_arg_4_(t_exec *data, char *str, int j)
 		}
 		j++;
 	}
+	return (0);
 }
 
 static int	handle_arg_3(t_exec *data, char *str, int flag, int j)
@@ -68,6 +70,7 @@ static int	handle_arg(t_exec *data, char *str, int *flag, t_cmd *input)
 {
 	int	j;
 
+	(void)input;
 	if (handle_arg_1(data, str) == -1)
 		return (-1);
 	j = 1;
@@ -87,7 +90,7 @@ static int	handle_arg(t_exec *data, char *str, int *flag, t_cmd *input)
 	return (0);
 }
 
-void	export_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
+void	export_simple(t_exec *data, t_cmd *input)
 {
 	t_linked	*list;
 	int			flag;

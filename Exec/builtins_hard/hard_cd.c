@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/04 14:58:35 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 18:31:12 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static void	handle_arg(t_cmd *input)
 
 static void	cd_home(t_exec *data, t_cmd *input)
 {
+	(void)input;
 	if (chdir(ft_getenv(data->environ, "HOME")) != 0)
 	{
 		print_error("cd", "HOME is not set", NULL, 1);
@@ -37,6 +38,8 @@ static void	cd_home(t_exec *data, t_cmd *input)
 
 static void	cd_oldpwd(t_exec **data, t_cmd *input, char *cwd)
 {
+	(void)input;
+	(void)cwd;
 	if (chdir(ft_getenv((*data)->environ, "OLDPWD")) != 0)
 	{
 		print_error("cd", "OLDPWD is not set", NULL, 1);
@@ -44,7 +47,7 @@ static void	cd_oldpwd(t_exec **data, t_cmd *input, char *cwd)
 	}
 }
 
-void	cd_hard(t_exec *data, t_cmd *input, int read_fd, int write_fd)
+void	cd_hard(t_exec *data, t_cmd *input)
 {
 	char	cwd[PATH_MAX];
 

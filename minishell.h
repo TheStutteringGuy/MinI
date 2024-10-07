@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/07 01:41:36 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 18:33:38 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,39 +232,25 @@ void update_(t_linked **list, t_cmd *input);
 
 // BUILTINS :
 
-void pwd_simple(t_exec *data, t_cmd *input, int read_fd,
-				int write_fd);
-void env_simple(t_exec *data, t_cmd *input, int read_fd,
-				int write_fd);
-void echo_simple(t_exec *data, t_cmd *input, int read_fd,
-				 int write_fd);
-void cd_simple(t_exec *data, t_cmd *input, int read_fd,
-			   int write_fd);
-void exit_simple(t_exec *data, t_cmd *input, int read_fd,
-				 int write_fd);
-void export_simple(t_exec *data, t_cmd *input,
-				   int read_fd, int write_fd);
-void unset_simple(t_exec *data, t_cmd *input,
-				  int read_fd, int write_fd);
+void pwd_simple(t_exec *data, t_cmd *input);
+void env_simple(t_exec *data, t_cmd *input);
+void echo_simple(t_exec *data, t_cmd *input);
+void cd_simple(t_exec *data, t_cmd *input);
+void exit_simple(t_exec *data, t_cmd *input);
+void export_simple(t_exec *data, t_cmd *input);
+void unset_simple(t_exec *data, t_cmd *input);
 
 // BUILTINS HARD :
 
-void pwd_hard(t_exec *data, t_cmd *input, int read_fd,
-			  int write_fd);
-void env_hard(t_exec *data, t_cmd *input, int read_fd,
-			  int write_fd);
-void echo_hard(t_exec *data, t_cmd *input, int read_fd,
-			   int write_fd);
-void cd_hard(t_exec *data, t_cmd *input, int read_fd,
-			 int write_fd);
-void exit_hard(t_exec *data, t_cmd *input, int read_fd,
-			   int write_fd);
-void export_hard(t_exec *data, t_cmd *input, int read_fd,
-				 int write_fd);
-void unset_hard(t_exec *data, t_cmd *input, int read_fd,
-				int write_fd);
-void execve_handle_hard(t_exec *data, t_cmd *input,
-						int read_fd, int write_fd);
+void pwd_hard(t_exec *data, t_cmd *input);
+void env_hard(t_exec *data, t_cmd *input);
+void echo_hard(t_exec *data, t_cmd *input);
+void cd_hard(t_exec *data, t_cmd *input);
+void exit_hard(t_exec *data, t_cmd *input);
+void export_hard(t_exec *data, t_cmd *input);
+void unset_hard(t_exec *data, t_cmd *input);
+void	execve_handle_hard(t_exec *data, t_cmd *input, int read_fd,
+		int write_fd);
 
 // EXEC :
 

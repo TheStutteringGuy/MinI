@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/07 01:41:36 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 18:27:38 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	handle_arg(t_exec *data, t_cmd *input)
 	int	i;
 
 	i = 0;
+	(void)data;
 	while (input->arguments[i] != NULL)
 		++i;
 	if (i > 1)
@@ -31,10 +32,12 @@ static int	handle_arg(t_exec *data, t_cmd *input)
 		g_last_exit_status = 1;
 		return (-1);
 	}
+	return (0);
 }
 
 static int	cd_home(t_exec *data, t_cmd *input)
 {
+	(void)input;
 	if (chdir(ft_getenv(data->environ, "HOME")) != 0)
 	{
 		print_error("cd", "HOME is not set", NULL, 1);
@@ -46,6 +49,8 @@ static int	cd_home(t_exec *data, t_cmd *input)
 
 static int	cd_oldpwd(t_exec **data, t_cmd *input, char *cwd)
 {
+	(void)input;
+	(void)cwd;
 	if (chdir(ft_getenv((*data)->environ, "OLDPWD")) != 0)
 	{
 		print_error("cd", "OLDPWD is not set", NULL, 1);
@@ -55,7 +60,7 @@ static int	cd_oldpwd(t_exec **data, t_cmd *input, char *cwd)
 	return (1);
 }
 
-void	cd_simple(t_exec *data, t_cmd *input, int read_fd, int write_fd)
+void	cd_simple(t_exec *data, t_cmd *input)
 {
 	char	cwd[PATH_MAX];
 
