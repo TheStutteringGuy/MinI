@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:01 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/07 01:39:00 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 13:59:27 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,10 +216,20 @@ void expand_env_var(char *input, t_helpe *helpe, t_token **token_list, t_exec *e
     int j;
 
     j = 0;
-    exec->expand == 0;
+    exec->expand = 0;
     while (input[helpe->i] == '$')
     {
         (helpe->i)++;
+        if (input[helpe->i] == '?')
+        {
+            res = ft_itoa(g_last_exit_status);
+            if (res == NULL)
+                exec->expand = 1;
+            helpe->i++;
+            handle_expansion_result(input, helpe, res, token_list);
+            free(res);
+            return;
+        }
         j = 0;
         while (input[helpe->i] && check_for_char(input[helpe->i]))
             temp[j++] = input[(helpe->i)++];
@@ -306,9 +316,9 @@ void tokenize_input(char *input, t_token **token_list, t_exec *exec)
         if ((input[helpe->i] == '\'' || input[helpe->i] == '"') && (exec->delimiter == 0 || input[helpe->i] == exec->delimiter) && exec->not == 0)
             handle_quote(input[helpe->i], exec);
         else if (ft_isspace(input[helpe->i]) && exec->delimiter == 0)
-            copy_token(helpe->token, &helpe->token_len, token_list, *helpe->expected, &exec->not);
+            copy_token(helpe->token, &helpe->token_len, token_list, *helpe->expected, &exec->not );
         else if ((is_operator(input[helpe->i]) || is_multi_operator(&input[helpe->i])) && exec->delimiter == 0)
-            handle_operators_logic(input, helpe, token_list, &exec->not);
+            handle_operators_logic(input, helpe, token_list, &exec->not );
         else if (input[helpe->i] == '$' && (exec->delimiter == 0 || exec->delimiter != '\'') && exec->not == 0)
             handle_dollar_sign_logic(input, helpe, token_list, exec);
         else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/07 01:40:44 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 16:09:49 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ char *remove_quotes(char *token, t_exec *exec)
             if (token[i] == '$' && (token[i + 1] == '\'' || token[i + 1] == '"'))
             {
                 while (token[i] == '$')
-                     i++;
+                    i++;
             }
             else if (current_quote != '\'')
             {
@@ -142,6 +142,11 @@ char *remove_quotes(char *token, t_exec *exec)
                         free(new_token);
                         return (NULL);
                     }
+                    if (ft_strchr(env_value, ' ') != NULL)
+                    {
+                        free(new_token);
+                        return (NULL);
+                    }
                     env_len = ft_strlen(env_value);
                     temp = malloc(j + env_len + 1);
                     if (!temp)
@@ -158,6 +163,11 @@ char *remove_quotes(char *token, t_exec *exec)
                     temp[j] = '\0';
                     free(new_token);
                     new_token = temp;
+                    if (i < len && token[i] == '$')
+                    {
+                        new_token[j++] = '$';
+                        i++;
+                    }
                 }
                 else if (i + 1 < len && token[i + 1] == '?')
                 {
@@ -180,6 +190,7 @@ char *remove_quotes(char *token, t_exec *exec)
                 i++;
             }
         }
+
         else if (token[i] == '\\' && current_quote == '"')
         {
             i++;
@@ -195,7 +206,6 @@ char *remove_quotes(char *token, t_exec *exec)
     }
     new_token[j] = '\0';
     return new_token;
-
 }
 
 char *handle_incorrect_quotes(char *token)
