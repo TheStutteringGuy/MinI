@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/07 16:09:49 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/07 17:41:36 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,53 +120,38 @@ char *remove_quotes(char *token, t_exec *exec)
                     while (i < len && (ft_isalnum(token[i]) || token[i] == '_' || token[i] == '?'))
                         i++;
                     env_var = ft_substr(token, env_start, i - env_start);
-                    if (ft_isdigit(env_var[0]))
-                    {
-                        return (ft_strdup(env_var + 1));
-                    }
-                    if (env_var[0] == '?' && env_var[1] == '\0')
-                    {
-                        free(env_var);
-                        return (ft_itoa(g_last_exit_status));
-                    }
-                    else if (env_var[0] == '?' && env_var[1] != '\0')
-                    {
-                        str = ft_itoa(g_last_exit_status);
-                        env_var[0] = str[0];
-                        return (env_var);
-                    }
                     env_value = ft_getexport(exec->export, env_var);
                     free(env_var);
                     if (env_value == NULL)
                     {
                         free(new_token);
-                        return (NULL);
+                        return NULL;
                     }
-                    if (ft_strchr(env_value, ' ') != NULL)
+                    if (i < len && token[i] == '$' && token[i + 1] == '\0')
+                    {
+                        env_len = ft_strlen(env_value);
+                        temp = malloc(j + env_len + 2);
+                        if (!temp)
+                        {
+                            printf("Error: malloc failed\n");
+                            exit(1);
+                        }
+                        if (j > 0)
+                        {
+                            ft_memcpy(temp, new_token, j);
+                        }
+                        ft_memcpy(&temp[j], env_value, env_len);
+                        temp[j + env_len] = '$';
+                        j += env_len + 1;
+                        temp[j] = '\0';
+                        free(new_token);
+                        new_token = temp;
+                        i++;
+                    }
+                    else
                     {
                         free(new_token);
-                        return (NULL);
-                    }
-                    env_len = ft_strlen(env_value);
-                    temp = malloc(j + env_len + 1);
-                    if (!temp)
-                    {
-                        printf("Error: malloc failed\n");
-                        exit(1);
-                    }
-                    if (j > 0)
-                    {
-                        ft_memcpy(temp, new_token, j);
-                    }
-                    ft_memcpy(&temp[j], env_value, env_len);
-                    j += env_len;
-                    temp[j] = '\0';
-                    free(new_token);
-                    new_token = temp;
-                    if (i < len && token[i] == '$')
-                    {
-                        new_token[j++] = '$';
-                        i++;
+                        return NULL;
                     }
                 }
                 else if (i + 1 < len && token[i + 1] == '?')
@@ -190,7 +175,6 @@ char *remove_quotes(char *token, t_exec *exec)
                 i++;
             }
         }
-
         else if (token[i] == '\\' && current_quote == '"')
         {
             i++;
