@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/07 21:19:07 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/07 23:43:21 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,14 +113,16 @@ char *remove_quotes(char *token, t_exec *exec)
                     env_var = ft_substr(token, env_start, i - env_start);
                     env_value = ft_getexport(exec->export, env_var);
                     free(env_var);
+
                     if (env_value == NULL)
                     {
-                        free(new_token);
-                        return NULL;
+                        continue;
                     }
-                    if (i < len && token[i] == '$' && token[i + 1] == '\0')
+
+                    size_t env_len = ft_strlen(env_value);
+
+                    if (i < len && token[i] == '$' && (i + 1 == len || token[i + 1] == '\0'))
                     {
-                        size_t env_len = ft_strlen(env_value);
                         temp = malloc(j + env_len + 2);
                         if (!temp)
                         {
@@ -147,7 +149,6 @@ char *remove_quotes(char *token, t_exec *exec)
                             return NULL;
                         }
 
-                        size_t env_len = ft_strlen(env_value);
                         ft_memcpy(&new_token[j], env_value, env_len);
                         j += env_len;
                     }
@@ -163,7 +164,7 @@ char *remove_quotes(char *token, t_exec *exec)
                 }
                 else
                 {
-                    new_token[j++] = '$';
+
                     i++;
                 }
             }
