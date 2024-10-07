@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 22:01:26 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/07 20:27:30 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 21:57:19 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,11 @@ void	print_err(t_exec *data, char *str)
 void	see_if_it_exist(t_exec *data, char *str)
 {
 	t_linked	*iterate;
+	t_linked	*iterate2;
 
 	iterate = data->export;
-	if (ft_get_export(iterate, str) == 1)
+	iterate2 = data->environ;
+	if (ft_get_export(iterate, str) == 1 || ft_get_export(iterate2, str) == 1)
 	{
 		remove_list(&data->environ, str);
 		remove_list(&data->export, str);

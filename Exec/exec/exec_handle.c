@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 23:12:51 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/07 20:15:24 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 21:16:14 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,15 +92,16 @@ void	handle_input_output(t_exec *data, t_cmd *input, int *read_fd,
 		}
 		if (iterate->whichis == false)
 		{
+			check_r(*read_fd);
 			if (handle_input(iterate, read_fd) == -1)
 				return ;
 		}
 		else
 		{
+			check_w(*write_fd);
 			if (handle_output(iterate, write_fd) == -1)
 				return ;
 		}
 		iterate = iterate->next;
 	}
-	return ;
 }

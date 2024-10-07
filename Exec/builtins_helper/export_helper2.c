@@ -6,70 +6,75 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 22:07:43 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/06 00:49:49 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 22:49:57 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	handle_plus(t_exec *data, char *str)
+void	handle_plus(t_exec *data, char *s)
 {
-	int		i;
-	int		j;
-	int		y;
-	int		z;
-	char	*key;
+	t_norminette	n;
 
-	i = 0;
-	while (str[i] != '+')
-		i++;
-	key = ft_substr(str, 0, i);
-	if (ft_get_export(data->export, key) == 1)
+	n.i = 0;
+	while (s[n.i] != '+')
+		n.i++;
+	n.key = ft_substr(s, 0, n.i);
+	if (ft_strncmp(n.key, "_", ft_strlen2(n.key)) == 0)
 	{
-		handle_join(data, str);
+		free(n.key);
 		return ;
 	}
-	free(key);
-	j = i;
-	i += 2;
-	z = i;
-	y = 0;
-	while (str[i++])
-		y++;
-	create_node(&data->environ, ft_substr(str, 0, j), ft_substr(str, z, y), 1);
-	create_node(&data->export, ft_substr(str, 0, j), ft_substr(str, z, y), 1);
+	if (ft_get_export(data->export, n.key) == 1)
+	{
+		handle_join(data, s);
+		return ;
+	}
+	free(n.key);
+	n.j = n.i;
+	n.i += 2;
+	n.z = n.i;
+	n.y = 0;
+	while (s[n.i++])
+		n.y++;
+	creat_node(&data->environ, ft_substr(s, 0, n.j), ft_substr(s, n.z, n.y), 1);
+	creat_node(&data->export, ft_substr(s, 0, n.j), ft_substr(s, n.z, n.y), 1);
 }
 
 void	handle_equal(t_exec *data, char *str)
 {
-	int	i;
-	int	j;
-	int	y;
-	int	z;
+	t_norminette	info;
+	char			*key;
 
-	i = 0;
-	while (str[i] != '=')
-		i++;
-	j = i;
-	z = j + 1;
-	y = 0;
-	if (str[i + 1] == '\"')
+	info.i = 0;
+	while (str[info.i] != '=')
+		info.i++;
+	info.j = info.i;
+	info.z = info.j + 1;
+	info.y = 0;
+	info.i = info.z;
+	while (str[info.i++] != '\0')
+		info.y++;
+	key = ft_substr(str, 0, info.j);
+	if (ft_strncmp(key, "_", ft_strlen2(key)) == 0)
 	{
-		y -= 1;
-		z++;
+		free(key);
+		return ;
 	}
-	i = z;
-	while (str[i++] != '\0')
-		y++;
-	see_if_it_exist(data, ft_substr(str, 0, j));
-	create_node(&data->environ, ft_substr(str, 0, j), ft_substr(str, z, y), 1);
-	create_node(&data->export, ft_substr(str, 0, j), ft_substr(str, z, y), 1);
+	see_if_it_exist(data, ft_substr(str, 0, info.j));
+	creat_node(&data->environ, ft_substr(str, 0, info.j), ft_substr(str,
+			info.z, info.y), 1);
+	creat_node(&data->export, ft_substr(str, 0, info.j), ft_substr(str, info.z,
+			info.y), 1);
 }
 
 void	handle_not(t_exec *data, char *str)
 {
-	see_if_it_exist(data, ft_substr(str, 0, ft_strlen2(str)));
-	create_node(&data->export, ft_substr(str, 0, ft_strlen2(str)),
+	if (ft_strncmp(str, "_", ft_strlen2(str)) == 0)
+		return ;
+	if (ft_get_export(data->export, str) == 1)
+		return ;
+	creat_node(&data->export, ft_substr(str, 0, ft_strlen2(str)),
 		ft_substr(str, 0, 0), 0);
 }
 

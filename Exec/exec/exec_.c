@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 23:08:35 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/06 00:49:59 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 21:36:41 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	child__(t_exec *data, t_cmd *input, t_pipe *info, int id)
 		dup2(write_fd, STDOUT_FILENO);
 	if (input->command)
 		handle_hard(data, input, read_fd, write_fd);
+	update_(&data->environ, input);
 }
 
 void	forking_for_pipes(t_exec *data, t_cmd *input, t_pipe *info, int size)
@@ -77,7 +78,6 @@ void	forking_for_pipes(t_exec *data, t_cmd *input, t_pipe *info, int size)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		update_(&data->environ, input);
 		child__(data, input, info, info->size - size);
 		exit(0);
 	}

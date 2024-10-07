@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 20:12:51 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/06 20:20:28 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 22:49:51 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	check_oldpwd__(t_linked **list)
 		iterate = iterate->next;
 	}
 	if (flag == 0)
-		create_node(list, ft_substr("OLDPWD", 0, ft_strlen2("OLDPWD")),
+		creat_node(list, ft_substr("OLDPWD", 0, ft_strlen2("OLDPWD")),
 			ft_substr("", 0, 0), 0);
 }
 
@@ -35,7 +35,7 @@ void	copy_environ(t_linked **list, t_linked *environ)
 {
 	while (environ != NULL)
 	{
-		create_node(list, ft_substr(environ->key, 0, ft_strlen2(environ->key)),
+		creat_node(list, ft_substr(environ->key, 0, ft_strlen2(environ->key)),
 			ft_substr(environ->value, 0, ft_strlen2(environ->value)), 1);
 		environ = environ->next;
 	}

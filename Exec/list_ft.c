@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 01:51:17 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/03 01:05:54 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 22:49:51 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	add_back(t_linked **list, t_linked *new)
 	iterat->next = new;
 }
 
-void	create_node(t_linked **list, char *key, char *value, int flag)
+void	creat_node(t_linked **list, char *key, char *value, int flag)
 {
 	t_linked	*new;
 

@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 00:58:18 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/07 20:38:10 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 22:54:53 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ long	ft_atol(char *str)
 	while (ft_isdigit(str[i]))
 	{
 		res = res * 10 + (str[i] - 48);
-		if ((sign == 1 && res > (unsigned long)9223372036854775807) || (sign == -1
-				&& res > (unsigned long)(9223372036854775807 + 1)))
+		if ((sign == 1 && res > LONG_MAX) || (sign == -1
+				&& res > ((unsigned long)LONG_MAX + 1)))
 			exit_(str);
 		i++;
 	}

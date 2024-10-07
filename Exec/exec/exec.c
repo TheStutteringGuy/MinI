@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/07 20:14:17 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 22:07:49 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ void	exec_(t_exec *data, t_cmd *input)
 
 void	exec(t_exec *data, t_cmd *input)
 {
-	int		write_fd;
-	int		read_fd;
+	int	write_fd;
+	int	read_fd;
 
 	if (handle_heredoc(data, &input) == -1)
 	{
@@ -112,13 +112,13 @@ void	exec(t_exec *data, t_cmd *input)
 		read_fd = 0;
 		write_fd = 1;
 		handle_input_output(data, input, &read_fd, &write_fd);
-		if (read_fd == -1)
-			return ;
-		if (write_fd == -1)
+		if (read_fd == -1 || write_fd == -1)
 			return ;
 		update_(&data->environ, input);
 		if (input->command)
 			handle_simple(data, input, read_fd, write_fd);
+		update_(&data->environ, input);
+		check_w_r(write_fd, read_fd);
 	}
 	else
 		exec_(data, input);

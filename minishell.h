@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/07 18:33:38 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 22:52:39 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_norminette
 	int j;
 	int y;
 	int z;
+	char *key;
 } t_norminette;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -213,7 +214,7 @@ void env_list(t_linked **list, char **envp, char **av);
 void exec(t_exec *data, t_cmd *input);
 void execve_handle_simple(t_exec *data, t_cmd *input,
 						  int read_fd, int write_fd);
-void create_node(t_linked **list, char *key, char *value,
+void creat_node(t_linked **list, char *key, char *value,
 				 int flag);
 void clear_list(t_linked **list);
 void remove_list(t_linked **list, char *key);
@@ -292,6 +293,9 @@ void handle_arg_4(t_exec *data, char *str, int *flag,
 				  int j);
 void handle_arg_2(char *str, int *flag, int j);
 void handle_join(t_exec *data, char *str);
+void check_w_r(int write_fd, int read_fd);
+void check_r(int read_fd);
+void check_w(int write_fd);
 ////////
 
 #endif

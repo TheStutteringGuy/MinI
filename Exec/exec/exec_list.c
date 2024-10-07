@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 23:15:55 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/07 20:17:55 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 22:49:51 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ static int	check___(char *key, char *str)
 static void	create_necess(t_linked **list, char **av, int *flags, char *cwd)
 {
 	if (flags[0] == 0)
-		create_node(list, ft_substr("PWD", 0, ft_strlen2("PWD")), ft_substr(cwd,
+		creat_node(list, ft_substr("PWD", 0, ft_strlen2("PWD")), ft_substr(cwd,
 				0, ft_strlen2(cwd)), 1);
 	if (flags[1] == 0)
-		create_node(list, ft_substr("SHLVL", 0, ft_strlen2("SHLVL")),
+		creat_node(list, ft_substr("SHLVL", 0, ft_strlen2("SHLVL")),
 			ft_substr("0", 0, ft_strlen2("0")), 1);
 	if (flags[2] == 0)
-		create_node(list, ft_substr("_", 0, ft_strlen2("_")), ft_substr(av[0],
+		creat_node(list, ft_substr("_", 0, ft_strlen2("_")), ft_substr(av[0],
 				0, ft_strlen2(av[0])), 1);
 }
 
@@ -71,7 +71,7 @@ void	env_list(t_linked **list, char **envp, char **av)
 			j++;
 		}
 		y = j + 1;
-		create_node(list, ft_substr(envp[i], 0, j), ft_substr(envp[i], y,
+		creat_node(list, ft_substr(envp[i], 0, j), ft_substr(envp[i], y,
 				ft_strlen2(envp[i])), 1);
 		i++;
 	}

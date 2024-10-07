@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 21:59:29 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/06 19:52:21 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 22:49:51 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	check_oldpwd(t_exec **list, char *cwd)
 	{
 		remove_list(&(*list)->export, ft_substr("OLDPWD", 0,
 				ft_strlen2("OLDPWD")));
-		create_node(&(*list)->environ, ft_substr("OLDPWD", 0,
+		creat_node(&(*list)->environ, ft_substr("OLDPWD", 0,
 				ft_strlen2("OLDPWD")), ft_substr(cwd, 0, ft_strlen2(cwd)), 1);
-		create_node(&(*list)->export, ft_substr("OLDPWD", 0,
+		creat_node(&(*list)->export, ft_substr("OLDPWD", 0,
 				ft_strlen2("OLDPWD")), ft_substr(cwd, 0, ft_strlen2(cwd)), 1);
 		return (0);
 	}
