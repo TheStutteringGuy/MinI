@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/07 17:41:36 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/07 21:19:07 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int check_quotes(char *input, t_exec *exec)
     else
         return (0);
 }
-
 char *remove_quotes(char *token, t_exec *exec)
 {
     size_t len;
@@ -73,9 +72,6 @@ char *remove_quotes(char *token, t_exec *exec)
     int env_start;
     char *env_var;
     char *env_value;
-    char *str;
-    size_t env_len;
-    size_t str_len;
     char *temp;
 
     if (!token || !exec)
@@ -106,12 +102,7 @@ char *remove_quotes(char *token, t_exec *exec)
         }
         else if (token[i] == '$')
         {
-            if (token[i] == '$' && (token[i + 1] == '\'' || token[i + 1] == '"'))
-            {
-                while (token[i] == '$')
-                    i++;
-            }
-            else if (current_quote != '\'')
+            if (current_quote != '\'')
             {
                 if (i + 1 < len && (ft_isalnum(token[i + 1]) || token[i + 1] == '_'))
                 {
@@ -129,7 +120,7 @@ char *remove_quotes(char *token, t_exec *exec)
                     }
                     if (i < len && token[i] == '$' && token[i + 1] == '\0')
                     {
-                        env_len = ft_strlen(env_value);
+                        size_t env_len = ft_strlen(env_value);
                         temp = malloc(j + env_len + 2);
                         if (!temp)
                         {
@@ -150,15 +141,22 @@ char *remove_quotes(char *token, t_exec *exec)
                     }
                     else
                     {
-                        free(new_token);
-                        return NULL;
+                        if (ft_strchr(env_value, ' '))
+                        {
+                            free(new_token);
+                            return NULL;
+                        }
+
+                        size_t env_len = ft_strlen(env_value);
+                        ft_memcpy(&new_token[j], env_value, env_len);
+                        j += env_len;
                     }
                 }
                 else if (i + 1 < len && token[i + 1] == '?')
                 {
                     i += 2;
-                    str = ft_itoa(g_last_exit_status);
-                    str_len = ft_strlen(str);
+                    char *str = ft_itoa(g_last_exit_status);
+                    size_t str_len = ft_strlen(str);
                     ft_memcpy(&new_token[j], str, str_len);
                     j += str_len;
                     free(str);
