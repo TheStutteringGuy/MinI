@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:10 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/09/28 21:47:50 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/07 01:40:20 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ void add_redirection(t_output_input **redirection, char *filename, int heredoc, 
         return;
     processed_filename = remove_quotes(filename, exec);
     if (processed_filename == NULL)
+    {
         new->ambigious = 1;
+    }
     else
         new->ambigious = 0;
     new->whichis = value;
@@ -104,7 +106,6 @@ void add_redirection(t_output_input **redirection, char *filename, int heredoc, 
     iterate = *redirection;
     while (iterate->next)
         iterate = iterate->next;
-
     iterate->next = new;
     free(processed_filename);
 }
@@ -127,11 +128,12 @@ void handle_redirections(t_cmd *current_cmd, t_token **current_token, t_exec *ex
             add_redirection(&current_cmd->redirection, next_token->value, 0, NULL, 0, 1, exec);
         else if (token->type == APPEND)
             add_redirection(&current_cmd->redirection, next_token->value, 0, NULL, 1, 1, exec);
-
         *current_token = next_token;
     }
     else
+    {
         write(2, "Error: Missing or invalid token after redirection\n", 51);
+    }
 }
 
 // Main parsing function that iterates over the token list

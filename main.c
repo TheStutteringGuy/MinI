@@ -6,15 +6,15 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/06 00:43:58 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/07 01:42:23 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		g_last_exit_status = 0;
+int g_last_exit_status = 0;
 
-void	free_everything_data(t_exec *data)
+void free_everything_data(t_exec *data)
 {
 	clear_list(&data->environ);
 	free(data->environ);
@@ -22,13 +22,13 @@ void	free_everything_data(t_exec *data)
 	free(data->export);
 }
 
-int	main(int ac, char **av, char **envp)
+int main(int ac, char **av, char **envp)
 {
-	char	*input;
-	t_cmd	*parsed_cmd;
-	t_exec	data;
-	t_cmd	*cmd_list;
-	t_token	*token_list;
+	char *input;
+	t_cmd *parsed_cmd;
+	t_exec data;
+	t_cmd *cmd_list;
+	t_token *token_list;
 
 	data.environ = NULL;
 	data.export = NULL;
@@ -41,7 +41,7 @@ int	main(int ac, char **av, char **envp)
 		handle_sig();
 		input = readline("Minishell -> ");
 		if (input == NULL)
-			break ;
+			break;
 		else
 		{
 			if (input[0] == '$' && ft_isdigit(input[1]))
@@ -52,27 +52,37 @@ int	main(int ac, char **av, char **envp)
 			if (input[0] == '\0')
 			{
 				free(input);
-				continue ;
+				continue;
 			}
 			if (!handle_incorrect_quotes(input))
 			{
 				free(input);
-				continue ;
+				continue;
 			}
 			token_list = NULL;
 			tokenize_input(input, &token_list, &data);
+
+			// t_token *iterate;
+			// iterate = token_list;
+			// while(iterate)
+			// {
+			//     printf("%s %d\n", iterate->value, iterate->type);
+			//     iterate = iterate->next;
+			// }
+			// continue;
+
 			if (check_syntax_errors(token_list))
 			{
 				free_tokens(token_list);
 				free(input);
-				continue ;
+				continue;
 			}
 			cmd_list = parse_tokens(token_list, &data);
 			if (cmd_list == NULL)
 			{
 				free_tokens(token_list);
 				free(input);
-				continue ;
+				continue;
 			}
 			print_commands(cmd_list);
 			printf("\n");

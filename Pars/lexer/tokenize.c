@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:01 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/05 01:32:16 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/07 01:39:00 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,21 @@ void handle_quote(char input, t_exec *exec)
     }
 }
 
-void copy_token(char *token, int *token_len, t_token **token_list, t_type expected)
+void free_helpe(t_helpe *helpe)
+{
+    free(helpe->token);
+    free(helpe->expected);
+    free(helpe);
+    return;
+}
+
+void copy_token(char *token, int *token_len, t_token **token_list, t_type expected, int *flag)
 {
     if (*token_len > 0)
     {
         token[*token_len] = '\0';
         handle_token(token_list, token, &expected);
+        *flag = 0;
         *token_len = 0;
     }
 }
@@ -123,129 +132,189 @@ void add_multi_operator(char *token, const char *input, int *token_len, int *i)
     token[(*token_len)++] = input[*i];
 }
 
+void update_quote(t_exec *exec)
+{
+    if (exec->delimiter == 0 && exec->quote == 1)
+        exec->quote = 2;
+}
+
+void append_dollar_and_handle(t_helpe *helpe, t_token **token_list)
+{
+    helpe->token[helpe->token_len++] = '$';
+    helpe->token[helpe->token_len] = '\0';
+    handle_token(token_list, helpe->token, helpe->expected);
+    helpe->token_len = 0;
+}
+
+void handle_dollar_at_end(char *res, t_helpe *helpe, t_token **token_list)
+{
+    int k = 0;
+
+    while (res[k] != '\0')
+        helpe->token[helpe->token_len++] = res[k++];
+    append_dollar_and_handle(helpe, token_list);
+}
+
+void handle_result_input(char *res, t_helpe *helpe, t_token **token_list)
+{
+    int k;
+
+    k = 0;
+    while (res[k] != '\0')
+    {
+        if (ft_isspace(res[k]))
+        {
+            if (helpe->token_len > 0)
+            {
+                helpe->token[helpe->token_len] = '\0';
+                handle_token(token_list, helpe->token, helpe->expected);
+                helpe->token_len = 0;
+            }
+            while (ft_isspace(res[k]))
+                k++;
+        }
+        else
+            helpe->token[helpe->token_len++] = res[k++];
+    }
+}
+
+void check_next_characters(char *input, t_helpe *helpe)
+{
+    if (input[helpe->i] == '$' && check_for_char(input[helpe->i + 1]))
+        return;
+    else if (input[helpe->i] == '$' && input[helpe->i + 1] != '\0')
+        helpe->token[helpe->token_len++] = '$';
+}
+
+void handle_expansion_result(char *input, t_helpe *helpe, char *res, t_token **token_list)
+{
+    int is_dollar_at_end;
+
+    is_dollar_at_end = 0;
+    if (input[helpe->i] == '$' && input[helpe->i + 1] == '\0')
+    {
+        is_dollar_at_end = 1;
+        (helpe->i)++;
+    }
+    if (res && *res != '\0')
+    {
+        if (is_dollar_at_end)
+        {
+            handle_dollar_at_end(res, helpe, token_list);
+            return;
+        }
+        handle_result_input(res, helpe, token_list);
+    }
+    check_next_characters(input, helpe);
+}
+
+void expand_env_var(char *input, t_helpe *helpe, t_token **token_list, t_exec *exec)
+{
+    char temp[3000];
+    char *res;
+    char *copy;
+    int j;
+
+    j = 0;
+    exec->expand == 0;
+    while (input[helpe->i] == '$')
+    {
+        (helpe->i)++;
+        j = 0;
+        while (input[helpe->i] && check_for_char(input[helpe->i]))
+            temp[j++] = input[(helpe->i)++];
+        temp[j] = '\0';
+        res = expand(temp, exec);
+        if (res == NULL)
+            exec->expand = 1;
+        handle_expansion_result(input, helpe, res, token_list);
+    }
+}
+
+t_helpe *initialize_helper(char *input)
+{
+    t_helpe *helpe;
+
+    helpe = malloc(sizeof(t_helpe));
+    if (!helpe)
+        return NULL;
+    helpe->i = 0;
+    helpe->token_len = 0;
+    helpe->token = malloc(3000 * sizeof(char));
+    if (!helpe->token)
+    {
+        free(helpe);
+        return NULL;
+    }
+    helpe->expected = malloc(sizeof(t_type));
+    if (!helpe->expected)
+    {
+        free(helpe->token);
+        free(helpe);
+        return NULL;
+    }
+    *helpe->expected = COMMAND;
+    return helpe;
+}
+
+void handle_operators_logic(char *input, t_helpe *helpe, t_token **token_list, int *flag)
+{
+    if (helpe->token_len > 0)
+        finalize_token(token_list, helpe->token, &helpe->token_len, *helpe->expected);
+    if (is_multi_operator(&input[helpe->i]))
+        add_multi_operator(helpe->token, input, &helpe->token_len, &helpe->i);
+    else
+        helpe->token[helpe->token_len++] = input[helpe->i];
+    finalize_token(token_list, helpe->token, &helpe->token_len, *helpe->expected);
+    *flag = 1;
+}
+
+void finalize_tokens(t_helpe *helpe, t_token **token_list)
+{
+    if (helpe->token_len > 0)
+    {
+        helpe->token[helpe->token_len] = '\0';
+        handle_token(token_list, helpe->token, helpe->expected);
+    }
+}
+
+void handle_dollar_sign_logic(char *input, t_helpe *helpe, t_token **token_list, t_exec *exec)
+{
+    update_quote(exec);
+    expand_env_var(input, helpe, token_list, exec);
+    if (input[helpe->i] == '\0' && input[helpe->i - 1] == '$')
+    {
+        helpe->token[helpe->token_len] = '$';
+        helpe->token_len++;
+    }
+    helpe->i--;
+}
+
 // Main function to tokenize input
 void tokenize_input(char *input, t_token **token_list, t_exec *exec)
 {
-    int i;
-    int j;
-    int k;
-    int in_quotes;
-    char current_quote;
-    char token[3000];
-    int token_len;
-    char temp[3000];
-    char *res;
-    t_type expected;
-    size_t len;
+    t_helpe *helpe;
 
-    i = 0;
-    j = 0;
-    in_quotes = 0;
-    len = ft_strlen2(input);
-    current_quote = '\0';
-    token_len = 0;
-    expected = COMMAND;
-    res = malloc(len + 1);
+    helpe = initialize_helper(input);
+    if (!helpe)
+        return;
     exec->delimiter = 0;
     exec->quote = 0;
-    while (input[i] != '\0')
+    exec->not = 0;
+    while (input[helpe->i] != '\0')
     {
-        if ((input[i] == '\'' || input[i] == '"') && (exec->delimiter == 0 || input[i] == exec->delimiter))
-            handle_quote(input[i], exec);
-        else if (ft_isspace(input[i]) && exec->delimiter == 0)
-            copy_token(token, &token_len, token_list, expected);
-        else if ((is_operator(input[i]) || is_multi_operator(&input[i])) && exec->delimiter == 0)
-        {
-            if (token_len > 0)
-                finalize_token(token_list, token, &token_len, expected);
-            if (is_multi_operator(&input[i]))
-                add_multi_operator(token, input, &token_len, &i);
-            else
-                token[token_len++] = input[i];
-            finalize_token(token_list, token, &token_len, expected);
-        }
-
-        else if (input[i] == '$' && input[i + 1] == '?')
-        {
-            token[token_len++] = input[i++];
-            token[token_len++] = input[i];
-            token[token_len] = '\0';
-            handle_token(token_list, token, &expected);
-            token_len = 0;
-        }
-        else if (input[i] == '$' && (exec->delimiter == 0 || exec->delimiter != '\''))
-        {
-            if (exec->delimiter == 0 && exec->quote == 1)
-                exec->quote = 2;
-            while (input[i] == '$')
-            {
-                i++;
-                j = 0;
-                while (input[i] && check_for_char(input[i]))
-                    temp[j++] = input[i++];
-                temp[j] = '\0';
-                res = expand(temp, exec);
-                if (res && *res != '\0')
-                {
-                    k = 0;
-                    if (input[i] == '$' && input[i + 1] == '\0')
-                    {
-                        while (res[k] != '\0')
-                            token[token_len++] = res[k++];
-                    }
-                    else
-                    {
-                        while (res[k] != '\0')
-                        {
-                            if (ft_isspace(res[k]))
-                            {
-                                while (res[k] != '\0')
-                                {
-                                    if (ft_isspace(res[k]))
-                                    {
-                                        if (token_len > 0)
-                                        {
-                                            token[token_len] = '\0';
-                                            handle_token(token_list, token, &expected);
-                                            token_len = 0;
-                                        }
-                                    }
-                                    else
-                                        token[token_len++] = res[k];
-                                    k++;
-                                }
-                                break;
-                            }
-                            else
-                                token[token_len++] = res[k];
-                            k++;
-                        }
-                    }
-                }
-                if (input[i] == '$' && check_for_char(input[i + 1]))
-                    continue;
-                else if (input[i] == '$' && input[i + 1] != '\0')
-                {
-                    token[token_len] = '$';
-                    token_len++;
-                }
-                if (input[i] != '$')
-                    break;
-            }
-            if (input[i] == '\0' && input[i - 1] == '$')
-            {
-                token[token_len] = '$';
-                token_len++;
-            }
-            i--;
-        }
+        if ((input[helpe->i] == '\'' || input[helpe->i] == '"') && (exec->delimiter == 0 || input[helpe->i] == exec->delimiter) && exec->not == 0)
+            handle_quote(input[helpe->i], exec);
+        else if (ft_isspace(input[helpe->i]) && exec->delimiter == 0)
+            copy_token(helpe->token, &helpe->token_len, token_list, *helpe->expected, &exec->not);
+        else if ((is_operator(input[helpe->i]) || is_multi_operator(&input[helpe->i])) && exec->delimiter == 0)
+            handle_operators_logic(input, helpe, token_list, &exec->not);
+        else if (input[helpe->i] == '$' && (exec->delimiter == 0 || exec->delimiter != '\'') && exec->not == 0)
+            handle_dollar_sign_logic(input, helpe, token_list, exec);
         else
-            token[token_len++] = input[i];
-        i++;
+            helpe->token[helpe->token_len++] = input[helpe->i];
+        helpe->i++;
     }
-    if (token_len > 0)
-    {
-        token[token_len] = '\0';
-        handle_token(token_list, token, &expected);
-    }
+    finalize_tokens(helpe, token_list);
+    free_helpe(helpe);
 }
