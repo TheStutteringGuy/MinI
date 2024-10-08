@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/07 22:52:39 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/09 00:30:00 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,9 +152,8 @@ char *expand_befor_start(char *input, t_exec *exec);
 // lexer includes
 t_token *create_token(t_type type, char *value);
 void add_token(t_token **head, t_token *new_token);
-t_type classify_token(char *token, t_type expected);
-void handle_token(t_token **token_list, char *token,
-				  t_type *expected);
+t_type classify_token(char *token, t_type expected, t_exec *exec);
+void handle_token(t_token **token_list, char *token, t_type *expected, t_exec *exec);
 void tokenize_input(char *input, t_token **token_list,
 					t_exec *exec);
 int check_for_char(int c);

@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/07 13:56:25 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/09 00:28:59 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ int	main(int ac, char **av, char **envp)
 		{
 			if (input[0] == '$' && ft_isdigit(input[1]))
 				input = ft_strdup2(input + 2);
-			// if (input[1] == '?' && input[2] == '\0')
-			// 	input = ft_itoa(g_last_exit_status);
 			input = trim_spaces(input);
 			if (input[0] == '\0')
 			{
