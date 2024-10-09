@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:01 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/09 17:21:17 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/09 23:04:39 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,9 +295,9 @@ void handle_dollar_sign_logic(char *input, t_helpe *helpe, t_token **token_list,
     expand_env_var(input, helpe, token_list, exec);
     if (input[helpe->i] == '\0' && input[helpe->i - 1] == '$')
     {
-        // helpe->token[helpe->token_len] = '$';
-        printf("here\n");
-        // helpe->token_len++;
+        helpe->token[helpe->token_len] = '$';
+        //printf("here\n");
+        helpe->token_len++;
     }
     helpe->i--;
 }
