@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/09 23:01:38 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/09 23:32:23 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,12 @@ char *remove_quotes(char *token, t_exec *exec)
     if (!token || !exec)
         return NULL;
     len = ft_strlen(token);
-    new_token = malloc(CHUNK_SIZE);
+    new_token = malloc(3000 * sizeof(char));
     if (!new_token)
     {
         printf("Error: malloc failed\n");
         exit(1);
     }
-    size_t allocated_size = CHUNK_SIZE;
     i = 0;
     j = 0;
     current_quote = '\0';
@@ -122,19 +121,6 @@ char *remove_quotes(char *token, t_exec *exec)
                     }
 
                     size_t env_len = ft_strlen(env_value);
-                    while (j + env_len >= allocated_size)
-                    {
-                        allocated_size += CHUNK_SIZE;
-                        temp = malloc(allocated_size);
-                        if (!temp)
-                        {
-                            printf("Error: malloc failed\n");
-                            exit(1);
-                        }
-                        ft_memcpy(temp, new_token, j);
-                        free(new_token);
-                        new_token = temp;
-                    }
 
                     if (i < len && token[i] == '$' && (i + 1 == len || token[i + 1] == '\0'))
                     {
@@ -173,25 +159,13 @@ char *remove_quotes(char *token, t_exec *exec)
                     i += 2;
                     char *str = ft_itoa(g_last_exit_status);
                     size_t str_len = ft_strlen(str);
-                    while (j + str_len >= allocated_size)
-                    {
-                        allocated_size += CHUNK_SIZE;
-                        temp = malloc(allocated_size);
-                        if (!temp)
-                        {
-                            printf("Error: malloc failed\n");
-                            exit(1);
-                        }
-                        ft_memcpy(temp, new_token, j);
-                        free(new_token);
-                        new_token = temp;
-                    }
                     ft_memcpy(&new_token[j], str, str_len);
                     j += str_len;
                     free(str);
                 }
                 else
                 {
+
                     i++;
                 }
             }
@@ -213,24 +187,10 @@ char *remove_quotes(char *token, t_exec *exec)
         {
             new_token[j++] = token[i++];
         }
-        if (j >= allocated_size)
-        {
-            allocated_size += CHUNK_SIZE;
-            temp = malloc(allocated_size);
-            if (!temp)
-            {
-                printf("Error: malloc failed\n");
-                exit(1);
-            }
-            ft_memcpy(temp, new_token, j);
-            free(new_token);
-            new_token = temp;
-        }
     }
     new_token[j] = '\0';
     return new_token;
 }
-
 
 char *handle_incorrect_quotes(char *token)
 {
