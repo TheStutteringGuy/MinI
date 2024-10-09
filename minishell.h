@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/09 14:18:37 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/09 22:53:52 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 
 #define PATH_MAX 4096
 #define TRUE 1
+#define CHUNK_SIZE 256
 
 extern int g_last_exit_status;
 
