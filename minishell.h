@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/09 00:30:00 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/09 14:18:37 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_exec
 	int quote;
 	int expand;
 	int not ;
+	int eof;
 } t_exec;
 
 typedef struct s_pipe

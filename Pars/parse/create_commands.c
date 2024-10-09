@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:10 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/07 01:40:20 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/09 14:29:45 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void add_redirection(t_output_input **redirection, char *filename, int heredoc, 
     char *processed_filename;
     char *processed_delimiter;
 
+    exec->eof = 0;
     if (redirection == NULL)
         exit(254);
     new = malloc(sizeof(t_output_input));
@@ -90,6 +91,7 @@ void add_redirection(t_output_input **redirection, char *filename, int heredoc, 
     new->heredoc = heredoc;
     if (delimiter != NULL)
     {
+        exec->eof = 1;
         processed_delimiter = remove_delimiter_quotes(new, delimiter);
         new->delimiter = ft_strdup2(processed_delimiter);
         free(processed_delimiter);
@@ -152,6 +154,11 @@ t_cmd *parse_tokens(t_token *token_list, t_exec *exec)
     {
         if (current_token->type == PIPE && expected == COMMAND)
         {
+            if (exec->eof == 1)
+            {
+                process_token(&cmd_list, &current_cmd, &current_token, &expected, exec);
+                break;
+            }
             ft_error(current_token->value);
             return (NULL);
         }
