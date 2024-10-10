@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:01 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/10 01:37:59 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/10 20:53:43 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ void check_next_characters(char *input, t_helpe *helpe)
     if (input[helpe->i] == '$' && check_for_char(input[helpe->i + 1]))
         return;
     // else if (input[helpe->i] == '$' && input[helpe->i + 1] != '\0')
-    //     helpe->token[helpe->token_len++] = '$';`
+    //     helpe->token[helpe->token_len++] = '$';
 }
 
 void handle_expansion_result(char *input, t_helpe *helpe, char *res, t_token **token_list, t_exec *exec)
@@ -197,39 +197,32 @@ void handle_expansion_result(char *input, t_helpe *helpe, char *res, t_token **t
     if (input[helpe->i] == '$' && input[helpe->i + 1] == '\0')
     {
         printf("1\n");
-        while (res[k] != '\0')
-            helpe->token[helpe->token_len++] = res[k++];
+        if (res != NULL)
+        {
+            while (res[k] != '\0')
+                helpe->token[helpe->token_len++] = res[k++];
+        }
         helpe->token[helpe->token_len++] = '$';
         helpe->token[helpe->token_len] = '\0';
         handle_token(token_list, helpe->token, helpe->expected, exec);
         helpe->token_len = 0;
         helpe->i++;
-        return ;
+        return;
     }
-    if (input[helpe->i] == '$' && (input[helpe->i + 1] == ' '))
+    if (input[helpe->i] == '$' && ft_isspace(input[helpe->i + 1]))
     {
         printf("2\n");
-        while (res[k] != '\0')
-            helpe->token[helpe->token_len++] = res[k++];
+        if (res != NULL)
+        {
+            while (res[k] != '\0')
+                helpe->token[helpe->token_len++] = res[k++];
+        }
         helpe->token[helpe->token_len++] = '$';
         helpe->token[helpe->token_len] = '\0';
         handle_token(token_list, helpe->token, helpe->expected, exec);
         helpe->token_len = 0;
         helpe->i++;
-        return ;
-    }
-    if (input[helpe->i] == '$' && !check_for_char(input[helpe->i + 1]) && (input[helpe->i + 2] == '\0' || input[helpe->i + 2] == ' '))
-    {
-        printf("3\n");
-      while (res[k] != '\0')
-            helpe->token[helpe->token_len++] = res[k++];
-        helpe->token[helpe->token_len++] = '$';
-        helpe->token[helpe->token_len++] = input[helpe->i + 1];
-        helpe->token[helpe->token_len] = '\0';
-        handle_token(token_list, helpe->token, helpe->expected, exec);
-        helpe->token_len = 0;
-        helpe->i += 2;
-        return ;  
+        return;
     }
     if (res && *res != '\0')
     {
@@ -241,7 +234,7 @@ void handle_expansion_result(char *input, t_helpe *helpe, char *res, t_token **t
         }
         handle_result_input(res, helpe, token_list, exec);
     }
-    check_next_characters(input, helpe);
+    // check_next_characters(input, helpe);
 }
 
 void expand_env_var(char *input, t_helpe *helpe, t_token **token_list, t_exec *exec)
