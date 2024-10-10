@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/10 23:22:41 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/10 23:58:25 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef struct s_exec
 	int expand;
 	int not ;
 	int eof;
-	int double_quote;
 } t_exec;
 
 typedef struct s_pipe
