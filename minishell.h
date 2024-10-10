@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/09 22:53:52 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/10 18:00:24 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,13 +107,27 @@ typedef struct s_output_input
 	int ambigious;
 	int whichis;
 	char *filename;
-	int append; // 0 if normal redirection, 1 if append
+	int append;
 	int heredoc;
 	char *delimiter;
 	int delimiter_expand;
-	char *heredoc_file; // where im gonna put the file name
+	char *heredoc_file;
 	struct s_output_input *next;
 } t_output_input;
+
+typedef struct s_redirection_flags
+{
+	int heredoc;
+	int append;
+	int value;
+} t_redirection_flags;
+
+typedef struct s_redirection_params
+{
+	char *filename;
+	char *delimiter;
+	t_redirection_flags flags;
+} t_redirection_params;
 
 // main struct
 typedef struct s_cmd
@@ -124,13 +138,28 @@ typedef struct s_cmd
 	struct s_cmd *next;
 } t_cmd;
 
+typedef struct s_cmd_context {
+    t_cmd **cmd_list;
+    t_cmd **current_cmd;
+} t_cmd_context;
+
+
 typedef struct s_helpe
 {
-    int i;
-    int token_len;
-    char *token;      // New member to hold the current token
-    t_type *expected; // New member to hold the expected token type
+	int i;
+	int token_len;
+	char *token;
+	t_type *expected;
 } t_helpe;
+
+typedef struct s_expansion
+{
+	char *res;
+	size_t len;
+	size_t i;
+	int quote_found;
+	t_exec *exec;
+} t_expansion;
 
 char *ft_strdup(const char *s);
 size_t ft_strlen(const char *s);
@@ -167,16 +196,10 @@ void add_argument_to_command(t_cmd *current_cmd,
 							 t_token *token);
 void handle_redirections(t_cmd *current_cmd,
 						 t_token **current_token, t_exec *exec);
-void process_token(t_cmd **cmd_list, t_cmd **current_cmd,
-				   t_token **current_token, t_type *expected,
-				   t_exec *exec);
 t_cmd *parse_tokens(t_token *token_list, t_exec *exec);
-void process_redirection_or_pipe(t_cmd **cmd_list,
-								 t_cmd **current_cmd, t_token **current_token,
-								 t_type *expected, t_exec *exec);
-void process_command_or_argument(t_cmd **cmd_list,
-								 t_cmd **current_cmd, t_token **current_token,
-								 t_type *expected, t_exec *exec);
+void process_command_or_argument(t_cmd_context *cmd_ctx, t_token **current_token, t_type *expected, t_exec *exec);
+void process_redirection_or_pipe(t_cmd_context *cmd_ctx, t_token **current_token, t_type *expected, t_exec *exec);
+void process_token(t_cmd_context *cmd_ctx, t_token **current_token, t_type *expected, t_exec *exec);
 t_cmd *create_empty_command(void);
 void ft_error(char *s1);
 char *expand_herdoc(char *str, t_exec *exec);
@@ -216,7 +239,7 @@ void exec(t_exec *data, t_cmd *input);
 void execve_handle_simple(t_exec *data, t_cmd *input,
 						  int read_fd, int write_fd);
 void creat_node(t_linked **list, char *key, char *value,
-				 int flag);
+				int flag);
 void clear_list(t_linked **list);
 void remove_list(t_linked **list, char *key);
 char *ft_getenv(t_linked *list, char *name);
@@ -251,8 +274,8 @@ void cd_hard(t_exec *data, t_cmd *input);
 void exit_hard(t_exec *data, t_cmd *input);
 void export_hard(t_exec *data, t_cmd *input);
 void unset_hard(t_exec *data, t_cmd *input);
-void	execve_handle_hard(t_exec *data, t_cmd *input, int read_fd,
-		int write_fd);
+void execve_handle_hard(t_exec *data, t_cmd *input, int read_fd,
+						int write_fd);
 
 // EXEC :
 
