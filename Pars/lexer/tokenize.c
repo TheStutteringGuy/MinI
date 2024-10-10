@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:01 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/10 20:53:43 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/10 23:26:02 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ void handle_result_input(char *res, t_helpe *helpe, t_token **token_list, t_exec
     k = 0;
     while (res[k] != '\0')
     {
-        if (ft_isspace(res[k]))
+        if (ft_isspace(res[k]) && exec->quote != 2)
         {
             if (helpe->token_len > 0)
             {
