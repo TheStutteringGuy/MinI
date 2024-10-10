@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:01 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/09 23:04:39 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/10 01:37:59 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,22 +183,57 @@ void check_next_characters(char *input, t_helpe *helpe)
 {
     if (input[helpe->i] == '$' && check_for_char(input[helpe->i + 1]))
         return;
-    else if (input[helpe->i] == '$' && input[helpe->i + 1] != '\0')
-        helpe->token[helpe->token_len++] = '$';
+    // else if (input[helpe->i] == '$' && input[helpe->i + 1] != '\0')
+    //     helpe->token[helpe->token_len++] = '$';`
 }
 
 void handle_expansion_result(char *input, t_helpe *helpe, char *res, t_token **token_list, t_exec *exec)
 {
     int is_dollar_at_end;
+    int k;
 
+    k = 0;
     is_dollar_at_end = 0;
     if (input[helpe->i] == '$' && input[helpe->i + 1] == '\0')
     {
-        is_dollar_at_end = 1;
-        (helpe->i)++;
+        printf("1\n");
+        while (res[k] != '\0')
+            helpe->token[helpe->token_len++] = res[k++];
+        helpe->token[helpe->token_len++] = '$';
+        helpe->token[helpe->token_len] = '\0';
+        handle_token(token_list, helpe->token, helpe->expected, exec);
+        helpe->token_len = 0;
+        helpe->i++;
+        return ;
+    }
+    if (input[helpe->i] == '$' && (input[helpe->i + 1] == ' '))
+    {
+        printf("2\n");
+        while (res[k] != '\0')
+            helpe->token[helpe->token_len++] = res[k++];
+        helpe->token[helpe->token_len++] = '$';
+        helpe->token[helpe->token_len] = '\0';
+        handle_token(token_list, helpe->token, helpe->expected, exec);
+        helpe->token_len = 0;
+        helpe->i++;
+        return ;
+    }
+    if (input[helpe->i] == '$' && !check_for_char(input[helpe->i + 1]) && (input[helpe->i + 2] == '\0' || input[helpe->i + 2] == ' '))
+    {
+        printf("3\n");
+      while (res[k] != '\0')
+            helpe->token[helpe->token_len++] = res[k++];
+        helpe->token[helpe->token_len++] = '$';
+        helpe->token[helpe->token_len++] = input[helpe->i + 1];
+        helpe->token[helpe->token_len] = '\0';
+        handle_token(token_list, helpe->token, helpe->expected, exec);
+        helpe->token_len = 0;
+        helpe->i += 2;
+        return ;  
     }
     if (res && *res != '\0')
     {
+        printf("4\n");
         if (is_dollar_at_end)
         {
             handle_dollar_at_end(res, helpe, token_list, exec);
@@ -218,7 +253,7 @@ void expand_env_var(char *input, t_helpe *helpe, t_token **token_list, t_exec *e
 
     j = 0;
     exec->expand = 0;
-    while (input[helpe->i] == '$')
+    if (input[helpe->i] == '$')
     {
         (helpe->i)++;
         if (input[helpe->i] == '?')
@@ -292,13 +327,19 @@ void finalize_tokens(t_helpe *helpe, t_token **token_list, t_exec *exec)
 void handle_dollar_sign_logic(char *input, t_helpe *helpe, t_token **token_list, t_exec *exec)
 {
     update_quote(exec);
-    expand_env_var(input, helpe, token_list, exec);
-    if (input[helpe->i] == '\0' && input[helpe->i - 1] == '$')
+    if (input[helpe->i] == '$' && input[helpe->i + 1] == '\0')
     {
         helpe->token[helpe->token_len] = '$';
-        //printf("here\n");
         helpe->token_len++;
+        return;
     }
+    if (input[helpe->i] == '$' && ft_isspace(input[helpe->i + 1]))
+    {
+        helpe->token[helpe->token_len] = '$';
+        helpe->token_len++;
+        return;
+    }
+    expand_env_var(input, helpe, token_list, exec);
     helpe->i--;
 }
 
