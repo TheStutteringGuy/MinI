@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/11 21:04:43 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/11 22:32:33 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,44 +151,36 @@ char *expand_env_var_string(char *input, int *i, t_exec *exec)
     temp[j] = '\0';
     res = expand(temp, exec);
     if (res == NULL)
-        return (NULL);
-    int count = count_values(res);
-    if (count >= 2)
+        res = "\0";
+    char *str;
+    if (input[*i] == '$' && (input[*i + 1] == '\0' || ft_isspace(input[*i + 1])))
     {
-        if (exec->quote == 2)
-        {
-            return (res);
-        }
-        if (input[*i] == '$' && input[*i + 1] == '\0')
-        {
-            res = ft_strjoin2(res, "$");
-            return (res);
-        }
-        else
-            return (NULL);
+        exec->quote = 2;
+        res = ft_strjoin2(res, "$");
+        return (res);
     }
-    char *str = remove_space(res);
-    if (input[*i] == '$' && input[*i + 1] == '\0')
-    {
-        char *append = ft_strjoin2(str, "$");
-        free(str);
-        return (append);
-    }
-    if (input[*i] == '$')
-    {
-        char *next_expansion = expand_env_var_string(input, i, exec);
-        if (next_expansion)
-        {
-            char *combined = ft_strjoin2(str, next_expansion);
-            free(str);
-            free(next_expansion);
-            return combined;
-        }
-        else
-        {
-            return str;
-        }
-    }
+    str = res;
+    // if (input[*i] == '$' && input[*i + 1] == '\0')
+    // {
+    //     char *append = ft_strjoin2(str, "$");
+    //     free(str);
+    //     return (append);
+    // }
+    // if (input[*i] == '$')
+    // {
+    //     char *next_expansion = expand_env_var_string(input, i, exec);
+    //     if (next_expansion)
+    //     {
+    //         char *combined = ft_strjoin2(str, next_expansion);
+    //         free(str);
+    //         free(next_expansion);
+    //         return combined;
+    //     }
+    //     else
+    //     {
+    //         return str;
+    //     }
+    // }
     // else if (input[*i] == '$' && input[*i + 1] != '\0')
     // {
     //     while (input[*i] && check_for_char(input[*i]))
@@ -201,9 +193,23 @@ char *expand_env_var_string(char *input, int *i, t_exec *exec)
     //     new_str = ft_strjoin2(str, new_str);
     //     return (new_str);
     // }
-    if (str == NULL)
-        return NULL;
+    // if (str == NULL)
+    //     return NULL;
     return str;
+}
+
+static void handle_quote(char input, t_exec *exec)
+{
+    if (input == '"')
+        exec->quote = 2;
+    else
+        exec->quote = 1;
+    if (exec->delimiter == 0)
+        exec->delimiter = input;
+    else if (input == exec->delimiter)
+    {
+        exec->delimiter = 0;
+    }
 }
 
 char *remove_quotes(char *input, t_exec *exec)
@@ -248,7 +254,20 @@ char *remove_quotes(char *input, t_exec *exec)
         i++;
     }
     str[j] = '\0';
-    return str;
+    int count = count_values(str);
+    if (count == 0)
+        return (NULL);
+    else if (count >= 2)
+    {
+        if (exec->quote == 2)
+        {
+            return (str);
+        }
+        else
+            return (NULL);
+    }
+    char *str1 = trim_spaces(str);
+    return str1;
 }
 
 // char *remove_quotes(char *token, t_exec *exec)

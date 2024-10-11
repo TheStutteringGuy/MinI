@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:01 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/10 23:26:02 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/11 20:53:05 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void handle_token(t_token **token_list, char *token, t_type *expected, t_exec *e
     free(processed_token);
 }
 
-void handle_quote(char input, t_exec *exec)
+void handle_quote(char input, t_exec *exec, t_helpe *helpe)
 {
     if (input == '"')
         exec->quote = 2;
@@ -99,6 +99,8 @@ void handle_quote(char input, t_exec *exec)
     {
         exec->delimiter = 0;
     }
+    if (exec->not == 1)
+        helpe->token[helpe->token_len++] = input;
 }
 
 void free_helpe(t_helpe *helpe)
@@ -349,8 +351,8 @@ void tokenize_input(char *input, t_token **token_list, t_exec *exec)
     exec->not = 0;
     while (input[helpe->i] != '\0')
     {
-        if ((input[helpe->i] == '\'' || input[helpe->i] == '"') && (exec->delimiter == 0 || input[helpe->i] == exec->delimiter) && exec->not == 0)
-            handle_quote(input[helpe->i], exec);
+        if ((input[helpe->i] == '\'' || input[helpe->i] == '"') && (exec->delimiter == 0 || input[helpe->i] == exec->delimiter))
+            handle_quote(input[helpe->i], exec, helpe);
         else if (ft_isspace(input[helpe->i]) && exec->delimiter == 0)
             copy_token(helpe->token, &helpe->token_len, token_list, *helpe->expected, &exec->not, exec);
         else if ((is_operator(input[helpe->i]) || is_multi_operator(&input[helpe->i])) && exec->delimiter == 0)
