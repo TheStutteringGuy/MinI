@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/10 23:58:25 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/11 14:15:44 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,7 @@ void tokenize_input(char *input, t_token **token_list,
 					t_exec *exec);
 int check_for_char(int c);
 char *check_string(char *input);
+void handle_quote(char input, t_exec *exec);
 
 // parser includes
 t_cmd *create_new_command(t_token *token);
@@ -220,7 +221,7 @@ void free_commands(t_cmd *cmd_list);
 
 // quotes includes
 int check_syntax_errors(t_token *token_list);
-char *remove_quotes(char *token, t_exec *exec);
+char *remove_quotes(char *input, t_exec *exec);
 char *handle_incorrect_quotes(char *token);
 char *trim_spaces(char *str);
 char *remove_delimiter_quotes(t_output_input *new,
