@@ -6,11 +6,44 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:24:11 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/12 18:25:35 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/12 19:14:05 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+static void	handle_pipe(t_cmd_context *cmd_ctx, t_token **current_token,
+		t_type *expected)
+{
+	t_cmd	*new_cmd;
+
+	if (!*cmd_ctx->current_cmd)
+	{
+		ft_error((*current_token)->value);
+		return ;
+	}
+	new_cmd = create_empty_command();
+	if (*cmd_ctx->current_cmd)
+		(*cmd_ctx->current_cmd)->next = new_cmd;
+	else
+		*cmd_ctx->cmd_list = new_cmd;
+	*cmd_ctx->current_cmd = new_cmd;
+	*expected = COMMAND;
+}
+
+static void	handle_redirection(t_cmd_context *cmd_ctx, t_token **current_token,
+		t_exec *exec)
+{
+	if (*cmd_ctx->current_cmd)
+		handle_redirections(*cmd_ctx->current_cmd, current_token, exec);
+	else
+	{
+		*cmd_ctx->current_cmd = create_empty_command();
+		if (!*cmd_ctx->cmd_list)
+			*cmd_ctx->cmd_list = *cmd_ctx->current_cmd;
+		handle_redirections(*cmd_ctx->current_cmd, current_token, exec);
+	}
+}
 
 void	process_redirection_or_pipe(t_cmd_context *cmd_ctx,
 		t_token **current_token, t_type *expected, t_exec *exec)

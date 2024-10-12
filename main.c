@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/12 01:31:25 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/12 19:35:46 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	free_everything_data(t_exec *data)
 int	main(int ac, char **av, char **envp)
 {
 	char	*input;
-	t_cmd	*parsed_cmd;
+	(void)ac;
+	//t_cmd	*parsed_cmd;
 	t_exec	data;
 	t_cmd	*cmd_list;
 	t_token	*token_list;
