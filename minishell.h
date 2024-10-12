@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/12 02:45:43 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/12 16:36:56 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,13 +176,9 @@ char *ft_itoa(int n);
 int ft_isdigit(int c);
 char *ft_strjoin(char const *s1, char const *s2);
 void *ft_memcpy(void *dest, const void *src, size_t n);
-
 int is_multi_operator(char *str);
 int is_operator(char c);
-
 char *expand_befor_start(char *input, t_exec *exec);
-
-// lexer includes
 t_token *create_token(t_type type, char *value);
 void add_token(t_token **head, t_token *new_token);
 t_type classify_token(char *token, t_helpe *helpe, t_exec *exec);
@@ -191,8 +187,26 @@ void tokenize_input(char *input, t_token **token_list,
 					t_exec *exec);
 int check_for_char(int c);
 char *check_string(char *input);
-
-// parser includes
+void free_helpe(t_helpe *helpe);
+void copy_token(t_token **token_list, t_helpe *helpe, t_exec *exec);
+void add_multi_operator(char *token, const char *input, int *token_len, int *i);
+void finalize_token(t_token **token_list, t_helpe *helpe, t_exec *exec);
+void update_quote(t_exec *exec);
+void append_dollar_and_handle(t_helpe *helpe, t_token **token_list, t_exec *exec);
+void handle_dollar_at_end(t_helpe *helpe, t_token **token_list, t_exec *exec);
+void handle_result_input(t_helpe *helpe, t_token **token_list, t_exec *exec);
+void check_next_characters(char *input, t_helpe *helpe);
+void handle_expansion_result(char *input, t_helpe *helpe, t_token **token_list, t_exec *exec);
+void expand_env_var(char *input, t_helpe *helpe, t_token **token_list, t_exec *exec);
+t_helpe *initialize_helper(char *input);
+void handle_operators_logic(char *input, t_helpe *helpe, t_token **token_list, t_exec *exec);
+void finalize_tokens(t_helpe *helpe, t_token **token_list, t_exec *exec);
+void handle_dollar_sign_logic(char *input, t_helpe *helpe, t_token **token_list, t_exec *exec);
+void initialize_exec(t_exec *exec);
+void handle_exit_status(char *input, t_helpe *helpe, t_token **token_list, t_exec *exec);
+void handle_variable_expansion(char *input, t_helpe *helpe, t_token **token_list, t_exec *exec);
+void handle_dollar_end_case(char *input, t_helpe *helpe, t_token **token_list, t_exec *exec);
+void handle_non_empty_result(t_helpe *helpe, t_token **token_list, t_exec *exec, int is_dollar_at_end);
 t_cmd *create_new_command(t_token *token);
 void add_argument_to_command(t_cmd *current_cmd,
 							 t_token *token);
@@ -209,15 +223,28 @@ void malloc_error(void);
 int check_quotes(char *input, t_exec *exec);
 char *expand_env_simple(char *input, t_exec *exec);
 char *expand(char *input, t_exec *exec);
+t_redirection_params init_redirection_params(char *filename, char *delimiter, t_redirection_flags flags);
+void process_filename(t_output_input *new, char *filename, t_exec *exec);
+void process_delimiter(t_output_input *new, char *delimiter, t_exec *exec);
+void add_redirection(t_output_input **redirection, t_redirection_params *params, t_exec *exec);
+t_redirection_flags initialize_redirection_flags();
+void handle_red_in(t_cmd *current_cmd, t_token *next_token, t_exec *exec);
+void create_heredoc(t_cmd *current_cmd, t_token *next_token, t_exec *exec);
+void handle_red_out(t_cmd *current_cmd, t_token *next_token, t_exec *exec);
+void handle_append(t_cmd *current_cmd, t_token *next_token, t_exec *exec);
+static int process_current_token(t_cmd_context *cmd_ctx, t_token **current_token, t_exec *exec, t_type *expected);
+char *expand_exit_status(t_expansion *exp);
+char *expand_digit_variable(t_expansion *exp, char *str);
+char *expand_environment_variable(t_expansion *exp, char *str);
+char *add_quote_to_result(t_expansion *exp, char c);
+void process_dollar(t_expansion *exp, char *str);
+static void handle_new_command(t_cmd_context *cmd_ctx, t_token **current_token);
+static void handle_argument(t_cmd_context *cmd_ctx, t_token **current_token);
 
 // print include
 void print_commands(t_cmd *cmd_list);
-
 // free resources
 void free_tokens(t_token *token_list);
-// void free_token(char **tokens);
-//  void free_input_files(t_input_file *input_list);
-//  void free_output_files(t_output_file *output_list);
 void free_commands(t_cmd *cmd_list);
 
 // quotes includes
@@ -228,7 +255,6 @@ char *trim_spaces(char *str);
 char *remove_delimiter_quotes(t_output_input *new,
 							  char *str);
 int check_quotes(char *input, t_exec *exec);
-char *handle_multiple_env(char *input, t_exec *exec);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:10 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/10 18:07:31 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/12 16:21:51 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,156 +63,6 @@ void add_argument_to_command(t_cmd *current_cmd, t_token *token)
     current_cmd->arguments = new_arguments;
 }
 
-// Initialize redirection parameters
-t_redirection_params init_redirection_params(char *filename, char *delimiter, t_redirection_flags flags)
-{
-    t_redirection_params params;
-    params.filename = filename;
-    params.delimiter = delimiter;
-    params.flags = flags;
-    return (params);
-}
-
-// Process filename and create output input
-void process_filename(t_output_input *new, char *filename, t_exec *exec)
-{
-    char *processed_filename;
-
-    processed_filename = remove_quotes(filename, exec);
-    if (processed_filename == NULL)
-    {
-        new->ambigious = 1;
-        new->filename = ft_strdup2(filename);
-    }
-    else
-    {
-        new->ambigious = 0;
-        new->filename = ft_strdup2(processed_filename);
-        free(processed_filename);
-    }
-}
-
-void process_delimiter(t_output_input *new, char *delimiter, t_exec *exec)
-{
-    char *processed_delimiter;
-
-    if (delimiter != NULL)
-    {
-        exec->eof = 1;
-        processed_delimiter = remove_delimiter_quotes(new, delimiter);
-        new->delimiter = ft_strdup2(processed_delimiter);
-        free(processed_delimiter);
-    }
-    else
-    {
-        new->delimiter = NULL;
-    }
-}
-
-void add_redirection(t_output_input **redirection, t_redirection_params *params, t_exec *exec)
-{
-    t_output_input *new;
-    t_output_input *iterate;
-
-    new = malloc(sizeof(t_output_input));
-    if (!new)
-        return;
-    new->whichis = params->flags.value;
-    process_filename(new, params->filename, exec);
-    new->append = params->flags.append;
-    new->heredoc = params->flags.heredoc;
-    process_delimiter(new, params->delimiter, exec);
-    new->next = NULL;
-    if (*redirection == NULL)
-    {
-        *redirection = new;
-        return;
-    }
-    iterate = *redirection;
-    while (iterate->next)
-        iterate = iterate->next;
-    iterate->next = new;
-}
-
-t_redirection_flags initialize_redirection_flags()
-{
-    t_redirection_flags flags;
-    flags.heredoc = 0;
-    flags.append = 0;
-    flags.value = 0;
-    return (flags);
-}
-
-void handle_red_in(t_cmd *current_cmd, t_token *next_token, t_exec *exec)
-{
-    t_redirection_flags flags;
-    t_redirection_params params;
-
-    flags = initialize_redirection_flags();
-    params = init_redirection_params(next_token->value, NULL, flags);
-    add_redirection(&current_cmd->redirection, &params, exec);
-}
-
-void create_heredoc(t_cmd *current_cmd, t_token *next_token, t_exec *exec)
-{
-    t_redirection_flags flags;
-    t_redirection_params params;
-
-    flags = initialize_redirection_flags();
-    flags.heredoc = 1;
-    params = init_redirection_params(next_token->value, next_token->value, flags);
-    add_redirection(&current_cmd->redirection, &params, exec);
-}
-
-void handle_red_out(t_cmd *current_cmd, t_token *next_token, t_exec *exec)
-{
-    t_redirection_flags flags;
-    t_redirection_params params;
-
-    flags = initialize_redirection_flags();
-    flags.value = 1;
-    params = init_redirection_params(next_token->value, NULL, flags);
-    add_redirection(&current_cmd->redirection, &params, exec);
-}
-
-void handle_append(t_cmd *current_cmd, t_token *next_token, t_exec *exec)
-{
-    t_redirection_flags flags;
-    t_redirection_params params;
-
-    flags = initialize_redirection_flags();
-    flags.append = 1;
-    flags.value = 1;
-    params = init_redirection_params(next_token->value, NULL, flags);
-    add_redirection(&current_cmd->redirection, &params, exec);
-}
-
-// Handle redirections
-void handle_redirections(t_cmd *current_cmd, t_token **current_token, t_exec *exec)
-{
-    t_token *token;
-    t_token *next_token;
-
-    token = *current_token;
-    next_token = token->next;
-
-    if (next_token && (next_token->type == COMMAND || next_token->type == ARGUMENT))
-    {
-        if (token->type == RED_IN)
-            handle_red_in(current_cmd, next_token, exec);
-        else if (token->type == HERDOC)
-            create_heredoc(current_cmd, next_token, exec);
-        else if (token->type == RED_OUT)
-            handle_red_out(current_cmd, next_token, exec);
-        else if (token->type == APPEND)
-            handle_append(current_cmd, next_token, exec);
-        *current_token = next_token;
-    }
-    else
-        write(2, "Error: Missing or invalid token after redirection\n", 51);
-}
-
-// Helper function to process the current token
 static int process_current_token(t_cmd_context *cmd_ctx, t_token **current_token, t_exec *exec, t_type *expected)
 {
     if ((*current_token)->type == PIPE && *expected == COMMAND)
@@ -229,7 +79,6 @@ static int process_current_token(t_cmd_context *cmd_ctx, t_token **current_token
     return (1);
 }
 
-// Main parsing function that iterates over the token list
 t_cmd *parse_tokens(t_token *token_list, t_exec *exec)
 {
     t_cmd *cmd_list;
