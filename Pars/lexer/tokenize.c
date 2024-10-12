@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:01 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/12 15:42:37 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/12 23:11:07 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	add_token(t_token **head, t_token *new_token)
+void add_token(t_token **head, t_token *new_token)
 {
-	t_token	*current;
+	t_token *current;
 
 	if (!*head)
 	{
 		*head = new_token;
-		return ;
+		return;
 	}
 	current = *head;
 	while (current->next)
@@ -27,40 +27,34 @@ void	add_token(t_token **head, t_token *new_token)
 	current->next = new_token;
 }
 
-t_type	classify_token(char *token, t_helpe *helpe, t_exec *exec)
+t_type classify_token(char *token, t_helpe *helpe, t_exec *exec)
 {
-	if ((ft_strcmp(token, "|") == 0) && exec->quote == 0
-		&& helpe->isoperate == 0)
+	if ((ft_strcmp(token, "|") == 0) && exec->quote == 0 && helpe->isoperate == 0)
 		return (PIPE);
-	else if ((ft_strcmp(token, "<") == 0) && exec->quote == 0
-		&& helpe->isoperate == 0)
+	else if ((ft_strcmp(token, "<") == 0) && exec->quote == 0 && helpe->isoperate == 0)
 		return (RED_IN);
-	else if ((ft_strcmp(token, ">") == 0) && exec->quote == 0
-		&& helpe->isoperate == 0)
+	else if ((ft_strcmp(token, ">") == 0) && exec->quote == 0 && helpe->isoperate == 0)
 		return (RED_OUT);
-	else if ((ft_strcmp(token, "<<") == 0) && exec->quote == 0
-		&& helpe->isoperate == 0)
+	else if ((ft_strcmp(token, "<<") == 0) && exec->quote == 0 && helpe->isoperate == 0)
 		return (HERDOC);
-	else if ((ft_strcmp(token, ">>") == 0) && exec->quote == 0
-		&& helpe->isoperate == 0)
+	else if ((ft_strcmp(token, ">>") == 0) && exec->quote == 0 && helpe->isoperate == 0)
 		return (APPEND);
 	else
 		return (*helpe->expected);
 }
 
-void	handle_token(t_token **token_list, char *token, t_helpe *helpe,
-		t_exec *exec)
+void handle_token(t_token **token_list, char *token, t_helpe *helpe,
+				  t_exec *exec)
 {
-	char	*processed_token;
-	char	*test;
-	t_type	type;
-	t_token	*new_token;
+	char *processed_token;
+	t_type type;
+	t_token *new_token;
 
 	processed_token = handle_incorrect_quotes(token);
 	if (!processed_token)
 	{
 		write(2, "Syntax error: incorrect quotes\n", 32);
-		return ;
+		return;
 	}
 	type = classify_token(processed_token, helpe, exec);
 	helpe->isoperate = 0;
@@ -74,7 +68,7 @@ void	handle_token(t_token **token_list, char *token, t_helpe *helpe,
 	free(processed_token);
 }
 
-void	handle_quote(char input, t_exec *exec, t_helpe *helpe)
+void handle_quote(char input, t_exec *exec, t_helpe *helpe)
 {
 	if (input == '"')
 		exec->quote = 2;
@@ -91,32 +85,47 @@ void	handle_quote(char input, t_exec *exec, t_helpe *helpe)
 		helpe->token[helpe->token_len++] = input;
 }
 
-void	tokenize_input(char *input, t_token **token_list, t_exec *exec)
+static void handle_s_g(char *input, t_token **token_list, t_helpe *helpe, t_exec *exec)
 {
-	t_helpe	*helpe;
+	if (((input[helpe->i] == '\'' && input[helpe->i + 1] == '\'') || (input[helpe->i] == '"' && input[helpe->i + 1] == '"')) && input[helpe->i + 2] == '\0')
+	{
+		helpe->token[helpe->token_len] = '\0';
+		handle_token(token_list, helpe->token, helpe, exec);
+		exec->not = 0;
+		helpe->token_len = 0;
+	}
+	else
+	{
+		helpe->i++;
+		exec->s_d = 1;
+	}
+}
+
+void tokenize_input(char *input, t_token **token_list, t_exec *exec)
+{
+	t_helpe *helpe;
 
 	helpe = initialize_helper(input);
 	if (!helpe)
-		return ;
+		return;
 	initialize_exec(exec);
+	exec->s_d = 0;
 	while (input[helpe->i] != '\0')
 	{
-		if ((input[helpe->i] == '\'' || input[helpe->i] == '"')
-				&& (exec->delimiter == 0 || input[helpe->i] == exec->delimiter))
+		if ((input[helpe->i] == '\'' && input[helpe->i + 1] == '\'') || (input[helpe->i] == '"' && input[helpe->i + 1] == '"'))
+			handle_s_g(input, token_list, helpe, exec);
+		else if ((input[helpe->i] == '\'' || input[helpe->i] == '"') && (exec->delimiter == 0 || input[helpe->i] == exec->delimiter))
 			handle_quote(input[helpe->i], exec, helpe);
 		else if (ft_isspace(input[helpe->i]) && exec->delimiter == 0)
 			copy_token(token_list, helpe, exec);
-		else if ((is_operator(input[helpe->i])
-				|| is_multi_operator(&input[helpe->i])) && exec->delimiter == 0)
+		else if ((is_operator(input[helpe->i]) || is_multi_operator(&input[helpe->i])) && exec->delimiter == 0)
 			handle_operators_logic(input, helpe, token_list, exec);
-		else if ((is_operator(input[helpe->i])
-				|| is_multi_operator(&input[helpe->i])) && exec->delimiter != 0)
+		else if ((is_operator(input[helpe->i]) || is_multi_operator(&input[helpe->i])) && exec->delimiter != 0)
 		{
 			helpe->isoperate = 1;
 			helpe->token[helpe->token_len++] = input[helpe->i];
 		}
-		else if (input[helpe->i] == '$' && (exec->delimiter == 0
-				|| exec->delimiter != '\'') && exec->not == 0)
+		else if (input[helpe->i] == '$' && (exec->delimiter == 0 || exec->delimiter != '\'') && exec->not == 0)
 			handle_dollar_sign_logic(input, helpe, token_list, exec);
 		else
 			helpe->token[helpe->token_len++] = input[helpe->i];

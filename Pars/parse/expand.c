@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:23:09 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/12 18:23:11 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/12 20:33:36 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 char	*expand_env_simple(char *input, t_exec *exec)
 {
+	(void)exec;
 	return (ft_strdup2(input));
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:19:56 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/12 18:19:57 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/12 20:31:52 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	handle_dollar_end_case(char *input, t_helpe *helpe,
 		t_token **token_list, t_exec *exec)
 {
 	int	k;
+	(void)input;
 
 	k = 0;
 	if (helpe->res != NULL)

@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/12 19:37:43 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/12 23:10:35 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_exec
 	int						expand;
 	int not ;
 	int						eof;
+	int s_d;
 }							t_exec;
 
 typedef struct s_pipe
@@ -178,7 +179,6 @@ char						*ft_strjoin(char const *s1, char const *s2);
 void						*ft_memcpy(void *dest, const void *src, size_t n);
 int							is_multi_operator(char *str);
 int							is_operator(char c);
-char						*expand_befor_start(char *input, t_exec *exec);
 t_token						*create_token(t_type type, char *value);
 void						add_token(t_token **head, t_token *new_token);
 t_type						classify_token(char *token, t_helpe *helpe,
@@ -188,7 +188,6 @@ void						handle_token(t_token **token_list, char *token,
 void						tokenize_input(char *input, t_token **token_list,
 								t_exec *exec);
 int							check_for_char(int c);
-char						*check_string(char *input);
 void						free_helpe(t_helpe *helpe);
 void						copy_token(t_token **token_list, t_helpe *helpe,
 								t_exec *exec);
@@ -266,7 +265,7 @@ void						handle_red_out(t_cmd *current_cmd,
 								t_token *next_token, t_exec *exec);
 void						handle_append(t_cmd *current_cmd,
 								t_token *next_token, t_exec *exec);
-static int					process_current_token(t_cmd_context *cmd_ctx,
+int							process_current_token(t_cmd_context *cmd_ctx,
 								t_token **current_token, t_exec *exec,
 								t_type *expected);
 char						*expand_exit_status(t_expansion *exp);
@@ -275,19 +274,23 @@ char						*expand_environment_variable(t_expansion *exp,
 								char *str);
 char						*add_quote_to_result(t_expansion *exp, char c);
 void						process_dollar(t_expansion *exp, char *str);
-static void					handle_new_command(t_cmd_context *cmd_ctx,
+void						handle_new_command(t_cmd_context *cmd_ctx,
 								t_token **current_token);
-static void					handle_argument(t_cmd_context *cmd_ctx,
+void						handle_argument(t_cmd_context *cmd_ctx,
 								t_token **current_token);
-static void					handle_pipe(t_cmd_context *cmd_ctx,
+void						handle_pipe(t_cmd_context *cmd_ctx,
 								t_token **current_token, t_type *expected);
-static void					handle_redirection(t_cmd_context *cmd_ctx,
+void						handle_redirection(t_cmd_context *cmd_ctx,
 								t_token **current_token, t_exec *exec);
 // print include
 void						print_commands(t_cmd *cmd_list);
 // free resources
 void						free_tokens(t_token *token_list);
 void						free_commands(t_cmd *cmd_list);
+void malloc_error();
+int check_quotes(char *input, t_exec *exec);
+int count_values(const char *str);
+char *remove_space(char *str);
 
 // quotes includes
 int							check_syntax_errors(t_token *token_list);

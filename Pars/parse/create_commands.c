@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:10 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/12 18:21:45 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/12 20:20:52 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	add_argument_to_command(t_cmd *current_cmd, t_token *token)
 	current_cmd->arguments = new_arguments;
 }
 
-static int	process_current_token(t_cmd_context *cmd_ctx,
+int	process_current_token(t_cmd_context *cmd_ctx,
 		t_token **current_token, t_exec *exec, t_type *expected)
 {
 	if ((*current_token)->type == PIPE && *expected == COMMAND)

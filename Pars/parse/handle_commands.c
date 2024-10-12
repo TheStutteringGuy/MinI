@@ -6,13 +6,13 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:15 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/12 19:13:52 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/12 20:36:23 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void	handle_new_command(t_cmd_context *cmd_ctx, t_token **current_token)
+void	handle_new_command(t_cmd_context *cmd_ctx, t_token **current_token)
 {
 	t_cmd	*new_cmd;
 
@@ -33,7 +33,7 @@ static void	handle_new_command(t_cmd_context *cmd_ctx, t_token **current_token)
 	}
 }
 
-static void	handle_argument(t_cmd_context *cmd_ctx, t_token **current_token)
+void	handle_argument(t_cmd_context *cmd_ctx, t_token **current_token)
 {
 	if (*cmd_ctx->current_cmd)
 	{
@@ -44,6 +44,7 @@ static void	handle_argument(t_cmd_context *cmd_ctx, t_token **current_token)
 void	process_command_or_argument(t_cmd_context *cmd_ctx,
 		t_token **current_token, t_type *expected, t_exec *exec)
 {
+	(void)exec;
 	if (*expected == COMMAND)
 	{
 		handle_new_command(cmd_ctx, current_token);

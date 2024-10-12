@@ -6,13 +6,13 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:24:11 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/12 19:14:05 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/12 20:36:43 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void	handle_pipe(t_cmd_context *cmd_ctx, t_token **current_token,
+void	handle_pipe(t_cmd_context *cmd_ctx, t_token **current_token,
 		t_type *expected)
 {
 	t_cmd	*new_cmd;
@@ -31,7 +31,7 @@ static void	handle_pipe(t_cmd_context *cmd_ctx, t_token **current_token,
 	*expected = COMMAND;
 }
 
-static void	handle_redirection(t_cmd_context *cmd_ctx, t_token **current_token,
+void	handle_redirection(t_cmd_context *cmd_ctx, t_token **current_token,
 		t_exec *exec)
 {
 	if (*cmd_ctx->current_cmd)
@@ -61,7 +61,6 @@ void	process_redirection_or_pipe(t_cmd_context *cmd_ctx,
 void	process_token(t_cmd_context *cmd_ctx, t_token **current_token,
 		t_type *expected, t_exec *exec)
 {
-	char	*expand_val;
 	char	*token_val;
 	size_t	len;
 

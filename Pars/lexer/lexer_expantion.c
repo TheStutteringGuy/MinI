@@ -3,35 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_expantion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:19:13 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/12 18:19:16 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/12 23:29:05 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	handle_expansion_result(char *input, t_helpe *helpe,
-		t_token **token_list, t_exec *exec)
+void handle_expansion_result(char *input, t_helpe *helpe,
+							 t_token **token_list, t_exec *exec)
 {
-	int	is_dollar_at_end;
+	int is_dollar_at_end;
 
 	is_dollar_at_end = 0;
-	if (input[helpe->i] == '$' && (input[helpe->i + 1] == '\0'
-			|| ft_isspace(input[helpe->i + 1]) || input[helpe->i + 1] == '"'))
+	if (input[helpe->i] == '$' && (input[helpe->i + 1] == '\0' || ft_isspace(input[helpe->i + 1]) || input[helpe->i + 1] == '"'))
 	{
 		handle_dollar_end_case(input, helpe, token_list, exec);
-		return ;
+		return;
 	}
 	if (helpe->res && *helpe->res != '\0')
 	{
 		handle_non_empty_result(helpe, token_list, exec, is_dollar_at_end);
 	}
+	if (helpe->res && *helpe->res == '\0')
+	{
+		if (input[helpe->i + 1] == '\0')
+		{
+			helpe->token[helpe->token_len] = '\0';
+			handle_token(token_list, helpe->token, helpe, exec);
+			exec->not = 0;
+			helpe->token_len = 0;
+		}
+		exec->s_d = 1;
+	}
 }
 
-void	expand_env_var(char *input, t_helpe *helpe, t_token **token_list,
-		t_exec *exec)
+void expand_env_var(char *input, t_helpe *helpe, t_token **token_list,
+					t_exec *exec)
 {
 	exec->expand = 0;
 	if (input[helpe->i] == '$')
@@ -40,15 +50,16 @@ void	expand_env_var(char *input, t_helpe *helpe, t_token **token_list,
 		if (input[helpe->i] == '?')
 		{
 			handle_exit_status(input, helpe, token_list, exec);
-			return ;
+			return;
 		}
 		handle_variable_expansion(input, helpe, token_list, exec);
 	}
 }
 
-t_helpe	*initialize_helper(char *input)
+t_helpe *initialize_helper(char *input)
 {
-	t_helpe	*helpe;
+	t_helpe *helpe;
+	(void)input;
 
 	helpe = malloc(sizeof(t_helpe));
 	if (!helpe)
@@ -73,8 +84,8 @@ t_helpe	*initialize_helper(char *input)
 	return (helpe);
 }
 
-void	handle_operators_logic(char *input, t_helpe *helpe,
-		t_token **token_list, t_exec *exec)
+void handle_operators_logic(char *input, t_helpe *helpe,
+							t_token **token_list, t_exec *exec)
 {
 	if (helpe->token_len > 0)
 		finalize_token(token_list, helpe, exec);
@@ -86,7 +97,7 @@ void	handle_operators_logic(char *input, t_helpe *helpe,
 	exec->not = 1;
 }
 
-void	finalize_tokens(t_helpe *helpe, t_token **token_list, t_exec *exec)
+void finalize_tokens(t_helpe *helpe, t_token **token_list, t_exec *exec)
 {
 	if (helpe->token_len > 0)
 	{
