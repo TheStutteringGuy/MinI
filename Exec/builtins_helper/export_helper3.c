@@ -34,8 +34,8 @@ void	handle_join(t_exec *data, char *str)
 	see_if_it_exist(data, ft_substr(str, 0, var.j));
 	creat_node(&data->environ, ft_substr(str, 0, var.j),
 		ft_strjoin2(value_saved, str1), 1);
-	creat_node(&data->export, ft_substr(str, 0, var.j),
-		ft_strjoin2(value_saved, str1), 1);
+	creat_node(&data->export, ft_substr(str, 0, var.j), ft_strjoin2(value_saved,
+			str1), 1);
 	free(str1);
 	free(value_saved);
 }

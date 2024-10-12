@@ -62,8 +62,8 @@ void	handle_equal(t_exec *data, char *str)
 		return ;
 	}
 	see_if_it_exist(data, ft_substr(str, 0, info.j));
-	creat_node(&data->environ, ft_substr(str, 0, info.j), ft_substr(str,
-			info.z, info.y), 1);
+	creat_node(&data->environ, ft_substr(str, 0, info.j), ft_substr(str, info.z,
+			info.y), 1);
 	creat_node(&data->export, ft_substr(str, 0, info.j), ft_substr(str, info.z,
 			info.y), 1);
 }
@@ -74,8 +74,8 @@ void	handle_not(t_exec *data, char *str)
 		return ;
 	if (ft_get_export(data->export, str) == 1)
 		return ;
-	creat_node(&data->export, ft_substr(str, 0, ft_strlen2(str)),
-		ft_substr(str, 0, 0), 0);
+	creat_node(&data->export, ft_substr(str, 0, ft_strlen2(str)), ft_substr(str,
+			0, 0), 0);
 }
 
 void	print_value(t_linked *list)

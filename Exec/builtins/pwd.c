@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/10 22:57:03 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/13 00:21:47 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ void	pwd_simple(t_exec *data, t_cmd *input)
 
 	if (handle_arg(data, input) == -1)
 		return ;
-	getcwd(cwd, PATH_MAX);
+	if (getcwd(cwd, PATH_MAX) == NULL)
+	{
+		print_error("pwd", strerror(errno), NULL, 1);
+		g_last_exit_status = 1;
+		return ;
+	}
 	printf("%s\n", cwd);
 }

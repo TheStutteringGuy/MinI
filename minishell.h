@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/12 23:10:35 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/13 00:41:33 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ typedef struct s_exec
 	int						delimiter;
 	int						quote;
 	int						expand;
-	int not ;
+	int						not;
 	int						eof;
-	int s_d;
+	int						s_d;
 }							t_exec;
 
 typedef struct s_pipe
@@ -80,7 +80,7 @@ typedef struct s_norminette
 	char					*key;
 }							t_norminette;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////
 
 // the enum used for the lexer and tokenization
 typedef enum s_type
@@ -287,10 +287,10 @@ void						print_commands(t_cmd *cmd_list);
 // free resources
 void						free_tokens(t_token *token_list);
 void						free_commands(t_cmd *cmd_list);
-void malloc_error();
-int check_quotes(char *input, t_exec *exec);
-int count_values(const char *str);
-char *remove_space(char *str);
+void						malloc_error(void);
+int							check_quotes(char *input, t_exec *exec);
+int							count_values(const char *str);
+char						*remove_space(char *str);
 
 // quotes includes
 int							check_syntax_errors(t_token *token_list);
@@ -301,7 +301,7 @@ char						*remove_delimiter_quotes(t_output_input *new,
 								char *str);
 int							check_quotes(char *input, t_exec *exec);
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////
 
 // PROTOTYPES :
 
@@ -393,6 +393,7 @@ void						handle_join(t_exec *data, char *str);
 void						check_w_r(int write_fd, int read_fd);
 void						check_r(int read_fd);
 void						check_w(int write_fd);
+int							check_pwd(t_exec **list, char *cwd);
 ////////
 
 #endif

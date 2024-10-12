@@ -27,8 +27,8 @@ static void	create_necess(t_linked **list, char **av, int *flags, char *cwd)
 		creat_node(list, ft_substr("SHLVL", 0, ft_strlen2("SHLVL")),
 			ft_substr("0", 0, ft_strlen2("0")), 1);
 	if (flags[2] == 0)
-		creat_node(list, ft_substr("_", 0, ft_strlen2("_")), ft_substr(av[0],
-				0, ft_strlen2(av[0])), 1);
+		creat_node(list, ft_substr("_", 0, ft_strlen2("_")), ft_substr(av[0], 0,
+				ft_strlen2(av[0])), 1);
 }
 
 void	check_necess(t_linked **list, char **av)

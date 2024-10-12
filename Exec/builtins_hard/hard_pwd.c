@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hard_pwd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/10 22:53:16 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/13 00:22:16 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ void	pwd_hard(t_exec *data, t_cmd *input)
 	char	cwd[PATH_MAX];
 
 	handle_arg(data, input);
-	getcwd(cwd, PATH_MAX);
+	if (getcwd(cwd, PATH_MAX) == NULL)
+	{
+		print_error("pwd", strerror(errno), NULL, 1);
+		exit(1);
+	}
 	printf("%s\n", cwd);
 }
