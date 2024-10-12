@@ -3,95 +3,87 @@
 /*                                                        :::      ::::::::   */
 /*   handle_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:15 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/12 16:38:22 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/12 18:25:23 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void handle_new_command(t_cmd_context *cmd_ctx, t_token **current_token)
+static void	handle_new_command(t_cmd_context *cmd_ctx, t_token **current_token)
 {
-    t_cmd *new_cmd;
+	t_cmd	*new_cmd;
 
-    if (*cmd_ctx->current_cmd && (*cmd_ctx->current_cmd)->command == NULL)
-    {
-        (*cmd_ctx->current_cmd)->command = ft_strdup((*current_token)->value);
-        (*cmd_ctx->current_cmd)->arguments = malloc(sizeof(char *) * 2);
-        (*cmd_ctx->current_cmd)->arguments[0] = NULL;
-    }
-    else
-    {
-        new_cmd = create_new_command(*current_token);
-        if (!*cmd_ctx->cmd_list)
-            *cmd_ctx->cmd_list = new_cmd;
-        else
-            (*cmd_ctx->current_cmd)->next = new_cmd;
-        *cmd_ctx->current_cmd = new_cmd;
-    }
+	if (*cmd_ctx->current_cmd && (*cmd_ctx->current_cmd)->command == NULL)
+	{
+		(*cmd_ctx->current_cmd)->command = ft_strdup((*current_token)->value);
+		(*cmd_ctx->current_cmd)->arguments = malloc(sizeof(char *) * 2);
+		(*cmd_ctx->current_cmd)->arguments[0] = NULL;
+	}
+	else
+	{
+		new_cmd = create_new_command(*current_token);
+		if (!*cmd_ctx->cmd_list)
+			*cmd_ctx->cmd_list = new_cmd;
+		else
+			(*cmd_ctx->current_cmd)->next = new_cmd;
+		*cmd_ctx->current_cmd = new_cmd;
+	}
 }
 
-static void handle_argument(t_cmd_context *cmd_ctx, t_token **current_token)
+static void	handle_argument(t_cmd_context *cmd_ctx, t_token **current_token)
 {
-    if (*cmd_ctx->current_cmd)
-    {
-        add_argument_to_command(*cmd_ctx->current_cmd, *current_token);
-    }
+	if (*cmd_ctx->current_cmd)
+	{
+		add_argument_to_command(*cmd_ctx->current_cmd, *current_token);
+	}
 }
 
-void process_command_or_argument(t_cmd_context *cmd_ctx, t_token **current_token, t_type *expected, t_exec *exec)
+void	process_command_or_argument(t_cmd_context *cmd_ctx,
+		t_token **current_token, t_type *expected, t_exec *exec)
 {
-    if (*expected == COMMAND)
-    {
-        handle_new_command(cmd_ctx, current_token);
-        *expected = ARGUMENT;
-    }
-    else if (*expected == ARGUMENT)
-    {
-        handle_argument(cmd_ctx, current_token);
-    }
+	if (*expected == COMMAND)
+	{
+		handle_new_command(cmd_ctx, current_token);
+		*expected = ARGUMENT;
+	}
+	else if (*expected == ARGUMENT)
+	{
+		handle_argument(cmd_ctx, current_token);
+	}
 }
 
-static void handle_pipe(t_cmd_context *cmd_ctx, t_token **current_token, t_type *expected)
+static void	handle_pipe(t_cmd_context *cmd_ctx, t_token **current_token,
+		t_type *expected)
 {
-    t_cmd *new_cmd;
+	t_cmd	*new_cmd;
 
-    if (!*cmd_ctx->current_cmd)
-    {
-        ft_error((*current_token)->value);
-        return;
-    }
-    new_cmd = create_empty_command();
-    if (*cmd_ctx->current_cmd)
-        (*cmd_ctx->current_cmd)->next = new_cmd;
-    else
-        *cmd_ctx->cmd_list = new_cmd;
-    *cmd_ctx->current_cmd = new_cmd;
-    *expected = COMMAND;
+	if (!*cmd_ctx->current_cmd)
+	{
+		ft_error((*current_token)->value);
+		return ;
+	}
+	new_cmd = create_empty_command();
+	if (*cmd_ctx->current_cmd)
+		(*cmd_ctx->current_cmd)->next = new_cmd;
+	else
+		*cmd_ctx->cmd_list = new_cmd;
+	*cmd_ctx->current_cmd = new_cmd;
+	*expected = COMMAND;
 }
 
-static void handle_redirection(t_cmd_context *cmd_ctx, t_token **current_token, t_exec *exec)
+static void	handle_redirection(t_cmd_context *cmd_ctx, t_token **current_token,
+		t_exec *exec)
 {
-    if (*cmd_ctx->current_cmd)
-        handle_redirections(*cmd_ctx->current_cmd, current_token, exec);
-    else
-    {
-        *cmd_ctx->current_cmd = create_empty_command();
-        if (!*cmd_ctx->cmd_list)
-            *cmd_ctx->cmd_list = *cmd_ctx->current_cmd;
-        handle_redirections(*cmd_ctx->current_cmd, current_token, exec);
-    }
-}
-
-void process_redirection_or_pipe(t_cmd_context *cmd_ctx, t_token **current_token, t_type *expected, t_exec *exec)
-{
-    if ((*current_token)->type == PIPE)
-        handle_pipe(cmd_ctx, current_token, expected);
-    else if ((*current_token)->type == RED_IN || (*current_token)->type == RED_OUT ||
-             (*current_token)->type == APPEND || (*current_token)->type == HERDOC)
-    {
-        handle_redirection(cmd_ctx, current_token, exec);
-    }
+	if (*cmd_ctx->current_cmd)
+		handle_redirections(*cmd_ctx->current_cmd, current_token, exec);
+	else
+	{
+		*cmd_ctx->current_cmd = create_empty_command();
+		if (!*cmd_ctx->cmd_list)
+			*cmd_ctx->cmd_list = *cmd_ctx->current_cmd;
+		handle_redirections(*cmd_ctx->current_cmd, current_token, exec);
+	}
 }
