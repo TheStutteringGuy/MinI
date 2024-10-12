@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:01 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/12 02:49:35 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/12 03:14:06 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void add_token(t_token **head, t_token *new_token)
 // Function to classify tokens and return the appropriate type
 t_type classify_token(char *token, t_helpe *helpe, t_exec *exec)
 {
-    printf("%d\n", exec->quote);
     if ((ft_strcmp(token, "|") == 0) && exec->quote == 0 && helpe->isoperate == 0)
         return (PIPE);
     else if ((ft_strcmp(token, "<") == 0) && exec->quote == 0 && helpe->isoperate == 0)
@@ -198,21 +197,7 @@ void handle_expansion_result(char *input, t_helpe *helpe, t_token **token_list, 
 
     k = 0;
     is_dollar_at_end = 0;
-    if (input[helpe->i] == '$' && input[helpe->i + 1] == '\0')
-    {
-        if (helpe->res != NULL)
-        {
-            while (helpe->res[k] != '\0')
-                helpe->token[helpe->token_len++] = helpe->res[k++];
-        }
-        helpe->token[helpe->token_len++] = '$';
-        helpe->token[helpe->token_len] = '\0';
-        handle_token(token_list, helpe->token, helpe, exec);
-        helpe->token_len = 0;
-        helpe->i++;
-        return;
-    }
-    if (input[helpe->i] == '$' && ft_isspace(input[helpe->i + 1]))
+    if (input[helpe->i] == '$' && (input[helpe->i + 1] == '\0' || ft_isspace(input[helpe->i + 1]) || input[helpe->i + 1] == '"'))
     {
         if (helpe->res != NULL)
         {
@@ -321,13 +306,7 @@ void finalize_tokens(t_helpe *helpe, t_token **token_list, t_exec *exec)
 void handle_dollar_sign_logic(char *input, t_helpe *helpe, t_token **token_list, t_exec *exec)
 {
     update_quote(exec);
-    if (input[helpe->i] == '$' && input[helpe->i + 1] == '\0')
-    {
-        helpe->token[helpe->token_len] = '$';
-        helpe->token_len++;
-        return;
-    }
-    if (input[helpe->i] == '$' && ft_isspace(input[helpe->i + 1]))
+    if (input[helpe->i] == '$' && (input[helpe->i + 1] == '\0' || ft_isspace(input[helpe->i + 1]) || input[helpe->i + 1] == '"'))
     {
         helpe->token[helpe->token_len] = '$';
         helpe->token_len++;

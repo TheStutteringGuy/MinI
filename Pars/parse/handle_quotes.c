@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/11 22:32:33 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/12 03:05:33 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,9 +255,11 @@ char *remove_quotes(char *input, t_exec *exec)
     }
     str[j] = '\0';
     int count = count_values(str);
-    if (count == 0)
+    if (count == 0 && exec->quote == 2)
+        return (ft_strdup2(""));
+    else if (count == 0)
         return (NULL);
-    else if (count >= 2)
+    if (count >= 2)
     {
         if (exec->quote == 2)
         {
