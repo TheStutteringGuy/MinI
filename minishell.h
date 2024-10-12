@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/12 01:27:01 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/12 02:45:43 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,11 +138,11 @@ typedef struct s_cmd
 	struct s_cmd *next;
 } t_cmd;
 
-typedef struct s_cmd_context {
-    t_cmd **cmd_list;
-    t_cmd **current_cmd;
+typedef struct s_cmd_context
+{
+	t_cmd **cmd_list;
+	t_cmd **current_cmd;
 } t_cmd_context;
-
 
 typedef struct s_helpe
 {
@@ -150,6 +150,7 @@ typedef struct s_helpe
 	int token_len;
 	char *token;
 	int isoperate;
+	char *res;
 	t_type *expected;
 } t_helpe;
 

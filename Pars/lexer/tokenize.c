@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:01 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/12 01:28:50 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/12 02:49:35 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,22 +113,22 @@ void free_helpe(t_helpe *helpe)
     return;
 }
 
-void copy_token(char *token, int *token_len, t_token **token_list, t_helpe *helpe, int *flag, t_exec *exec)
+void copy_token(t_token **token_list, t_helpe *helpe, t_exec *exec)
 {
-    if (*token_len > 0)
+    if (helpe->token_len > 0)
     {
-        token[*token_len] = '\0';
-        handle_token(token_list, token, helpe, exec);
-        *flag = 0;
-        *token_len = 0;
+        helpe->token[helpe->token_len] = '\0';
+        handle_token(token_list, helpe->token, helpe, exec);
+        exec->not = 0;
+        helpe->token_len = 0;
     }
 }
 
-void finalize_token(t_token **token_list, char *token, int *token_len, t_helpe *helpe, t_exec *exec)
+void finalize_token(t_token **token_list, t_helpe *helpe, t_exec *exec)
 {
-    token[*token_len] = '\0';
-    handle_token(token_list, token, helpe, exec);
-    *token_len = 0;
+    helpe->token[helpe->token_len] = '\0';
+    handle_token(token_list, helpe->token, helpe, exec);
+    helpe->token_len = 0;
 }
 
 void add_multi_operator(char *token, const char *input, int *token_len, int *i)
@@ -151,23 +151,23 @@ void append_dollar_and_handle(t_helpe *helpe, t_token **token_list, t_exec *exec
     helpe->token_len = 0;
 }
 
-void handle_dollar_at_end(char *res, t_helpe *helpe, t_token **token_list, t_exec *exec)
+void handle_dollar_at_end(t_helpe *helpe, t_token **token_list, t_exec *exec)
 {
     int k = 0;
 
-    while (res[k] != '\0')
-        helpe->token[helpe->token_len++] = res[k++];
+    while (helpe->res[k] != '\0')
+        helpe->token[helpe->token_len++] = helpe->res[k++];
     append_dollar_and_handle(helpe, token_list, exec);
 }
 
-void handle_result_input(char *res, t_helpe *helpe, t_token **token_list, t_exec *exec)
+void handle_result_input(t_helpe *helpe, t_token **token_list, t_exec *exec)
 {
     int k;
 
     k = 0;
-    while (res[k] != '\0')
+    while (helpe->res[k] != '\0')
     {
-        if (ft_isspace(res[k]) && exec->quote != 2)
+        if (ft_isspace(helpe->res[k]) && exec->quote != 2)
         {
             if (helpe->token_len > 0)
             {
@@ -175,11 +175,11 @@ void handle_result_input(char *res, t_helpe *helpe, t_token **token_list, t_exec
                 handle_token(token_list, helpe->token, helpe, exec);
                 helpe->token_len = 0;
             }
-            while (ft_isspace(res[k]))
+            while (ft_isspace(helpe->res[k]))
                 k++;
         }
         else
-            helpe->token[helpe->token_len++] = res[k++];
+            helpe->token[helpe->token_len++] = helpe->res[k++];
     }
 }
 
@@ -191,7 +191,7 @@ void check_next_characters(char *input, t_helpe *helpe)
     //     helpe->token[helpe->token_len++] = '$';
 }
 
-void handle_expansion_result(char *input, t_helpe *helpe, char *res, t_token **token_list, t_exec *exec)
+void handle_expansion_result(char *input, t_helpe *helpe, t_token **token_list, t_exec *exec)
 {
     int is_dollar_at_end;
     int k;
@@ -200,11 +200,10 @@ void handle_expansion_result(char *input, t_helpe *helpe, char *res, t_token **t
     is_dollar_at_end = 0;
     if (input[helpe->i] == '$' && input[helpe->i + 1] == '\0')
     {
-        printf("1\n");
-        if (res != NULL)
+        if (helpe->res != NULL)
         {
-            while (res[k] != '\0')
-                helpe->token[helpe->token_len++] = res[k++];
+            while (helpe->res[k] != '\0')
+                helpe->token[helpe->token_len++] = helpe->res[k++];
         }
         helpe->token[helpe->token_len++] = '$';
         helpe->token[helpe->token_len] = '\0';
@@ -215,11 +214,10 @@ void handle_expansion_result(char *input, t_helpe *helpe, char *res, t_token **t
     }
     if (input[helpe->i] == '$' && ft_isspace(input[helpe->i + 1]))
     {
-        printf("2\n");
-        if (res != NULL)
+        if (helpe->res != NULL)
         {
-            while (res[k] != '\0')
-                helpe->token[helpe->token_len++] = res[k++];
+            while (helpe->res[k] != '\0')
+                helpe->token[helpe->token_len++] = helpe->res[k++];
         }
         helpe->token[helpe->token_len++] = '$';
         helpe->token[helpe->token_len] = '\0';
@@ -228,15 +226,14 @@ void handle_expansion_result(char *input, t_helpe *helpe, char *res, t_token **t
         helpe->i++;
         return;
     }
-    if (res && *res != '\0')
+    if (helpe->res && *helpe->res != '\0')
     {
-        printf("4\n");
         if (is_dollar_at_end)
         {
-            handle_dollar_at_end(res, helpe, token_list, exec);
+            handle_dollar_at_end(helpe, token_list, exec);
             return;
         }
-        handle_result_input(res, helpe, token_list, exec);
+        handle_result_input(helpe, token_list, exec);
     }
     // check_next_characters(input, helpe);
 }
@@ -244,7 +241,6 @@ void handle_expansion_result(char *input, t_helpe *helpe, char *res, t_token **t
 void expand_env_var(char *input, t_helpe *helpe, t_token **token_list, t_exec *exec)
 {
     char temp[3000];
-    char *res;
     char *copy;
     int j;
 
@@ -255,22 +251,22 @@ void expand_env_var(char *input, t_helpe *helpe, t_token **token_list, t_exec *e
         (helpe->i)++;
         if (input[helpe->i] == '?')
         {
-            res = ft_itoa(g_last_exit_status);
-            if (res == NULL)
+            helpe->res = ft_itoa(g_last_exit_status);
+            if (helpe->res == NULL)
                 exec->expand = 1;
             helpe->i++;
-            handle_expansion_result(input, helpe, res, token_list, exec);
-            free(res);
+            handle_expansion_result(input, helpe, token_list, exec);
+            free(helpe->res);
             return;
         }
         j = 0;
         while (input[helpe->i] && check_for_char(input[helpe->i]))
             temp[j++] = input[(helpe->i)++];
         temp[j] = '\0';
-        res = expand(temp, exec);
-        if (res == NULL)
+        helpe->res = expand(temp, exec);
+        if (helpe->res == NULL)
             exec->expand = 1;
-        handle_expansion_result(input, helpe, res, token_list, exec);
+        handle_expansion_result(input, helpe, token_list, exec);
     }
 }
 
@@ -301,17 +297,16 @@ t_helpe *initialize_helper(char *input)
     return helpe;
 }
 
-void handle_operators_logic(char *input, t_helpe *helpe, t_token **token_list, int *flag, t_exec *exec)
+void handle_operators_logic(char *input, t_helpe *helpe, t_token **token_list, t_exec *exec)
 {
-    printf("IM HERE\n");
     if (helpe->token_len > 0)
-        finalize_token(token_list, helpe->token, &helpe->token_len, helpe, exec);
+        finalize_token(token_list, helpe, exec);
     if (is_multi_operator(&input[helpe->i]))
         add_multi_operator(helpe->token, input, &helpe->token_len, &helpe->i);
     else
         helpe->token[helpe->token_len++] = input[helpe->i];
-    finalize_token(token_list, helpe->token, &helpe->token_len, helpe, exec);
-    *flag = 1;
+    finalize_token(token_list, helpe, exec);
+    exec->not = 1;
 }
 
 void finalize_tokens(t_helpe *helpe, t_token **token_list, t_exec *exec)
@@ -358,9 +353,9 @@ void tokenize_input(char *input, t_token **token_list, t_exec *exec)
         if ((input[helpe->i] == '\'' || input[helpe->i] == '"') && (exec->delimiter == 0 || input[helpe->i] == exec->delimiter))
             handle_quote(input[helpe->i], exec, helpe);
         else if (ft_isspace(input[helpe->i]) && exec->delimiter == 0)
-            copy_token(helpe->token, &helpe->token_len, token_list, helpe, &exec->not, exec);
+            copy_token(token_list, helpe, exec);
         else if ((is_operator(input[helpe->i]) || is_multi_operator(&input[helpe->i])) && exec->delimiter == 0)
-            handle_operators_logic(input, helpe, token_list, &exec->not, exec);
+            handle_operators_logic(input, helpe, token_list, exec);
         else if ((is_operator(input[helpe->i]) || is_multi_operator(&input[helpe->i])) && exec->delimiter != 0)
         {
             helpe->isoperate = 1;
