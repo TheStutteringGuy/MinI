@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/11 20:58:22 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/12 01:27:01 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ typedef struct s_helpe
 	int i;
 	int token_len;
 	char *token;
+	int isoperate;
 	t_type *expected;
 } t_helpe;
 
@@ -183,8 +184,8 @@ char *expand_befor_start(char *input, t_exec *exec);
 // lexer includes
 t_token *create_token(t_type type, char *value);
 void add_token(t_token **head, t_token *new_token);
-t_type classify_token(char *token, t_type expected, t_exec *exec);
-void handle_token(t_token **token_list, char *token, t_type *expected, t_exec *exec);
+t_type classify_token(char *token, t_helpe *helpe, t_exec *exec);
+void handle_token(t_token **token_list, char *token, t_helpe *helpe, t_exec *exec);
 void tokenize_input(char *input, t_token **token_list,
 					t_exec *exec);
 int check_for_char(int c);
