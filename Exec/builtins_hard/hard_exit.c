@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hard_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/07 20:31:36 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/13 00:47:57 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	pars_arg(t_cmd *input)
 		++i;
 	else
 		print_err__(input);
-	while (((input->arguments[0][i] < 9 && input->arguments[0][i] > 13)
+	while (((input->arguments[0][i] < 9 || input->arguments[0][i] > 13)
 			|| input->arguments[0][i] != ' ') && input->arguments[0][i] != '\0')
 	{
 		if (ft_isdigit(input->arguments[0][i]) == 0)
@@ -54,7 +54,7 @@ static void	pars_arg(t_cmd *input)
 	}
 	while (input->arguments[0][i] != '\0')
 	{
-		if ((input->arguments[0][i] < 9 && input->arguments[0][i] > 13)
+		if ((input->arguments[0][i] < 9 || input->arguments[0][i] > 13)
 			|| input->arguments[0][i] != ' ')
 			print_err__(input);
 		++i;

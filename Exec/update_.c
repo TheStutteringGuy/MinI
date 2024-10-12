@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:06:15 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/02 22:00:04 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/13 00:43:52 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,7 @@ void	update_(t_linked **list, t_cmd *input)
 		return ;
 	}
 	if (!input->arguments[0])
-	{
-		if (input->command)
-			new_value = input->command;
-	}
+		new_value = input->command;
 	else
 	{
 		while (input->arguments[i + 1] != NULL)
