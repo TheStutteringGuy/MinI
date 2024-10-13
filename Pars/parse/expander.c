@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 19:55:53 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/13 19:57:51 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/13 23:20:25 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@ char	*expand_env_var_string(char *input, int *i, t_exec *exec)
 	char	*var_name;
 
 	(*i)++;
+	if (input[*i] == '?')
+		return (handle_special_case(i));
 	res = handle_empty_or_invalid_var(i, input);
 	if (res != NULL)
 		return (res);
-	if (input[*i] == '?')
-		return (handle_special_case(i));
 	var_name = get_env_var_name(input, i);
 	res = expand(var_name, exec);
 	free(var_name);

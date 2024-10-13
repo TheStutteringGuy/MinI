@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 21:59:29 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/13 00:28:29 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/14 00:12:46 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ static void	update_pwd(t_exec **list)
 
 	getcwd(cwd, PATH_MAX);
 	key = "PWD";
-	if (check_pwd(list, cwd) == 0)
-		return ;
 	iterate = (*list)->environ;
 	while (iterate)
 	{
