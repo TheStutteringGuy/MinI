@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/13 00:41:33 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/13 02:38:17 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@
 
 # define PATH_MAX 4096
 # define TRUE 1
-# define CHUNK_SIZE 256
 
 extern int					g_last_exit_status;
 
@@ -81,6 +80,8 @@ typedef struct s_norminette
 }							t_norminette;
 
 //////////////////////////////////////
+
+# define CHUNK_SIZE 256
 
 // the enum used for the lexer and tokenization
 typedef enum s_type
@@ -394,6 +395,9 @@ void						check_w_r(int write_fd, int read_fd);
 void						check_r(int read_fd);
 void						check_w(int write_fd);
 int							check_pwd(t_exec **list, char *cwd);
+void						free_t_pipe(t_pipe *info);
+void						free_envp(t_exec *data);
+void						free_everything(t_exec *data, t_cmd *input);
 ////////
 
 #endif

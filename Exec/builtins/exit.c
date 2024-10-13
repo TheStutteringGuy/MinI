@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/13 00:47:46 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/13 02:32:27 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ void	exit_simple(t_exec *data, t_cmd *input)
 		if (handle_arg(data, input) == -1)
 			return ;
 		exit_st = ft_atol(input->arguments[0]);
+		free_everything(data, input);
 		exit(exit_st);
 	}
+	free_everything(data, input);
 	exit(g_last_exit_status);
 }

@@ -1,27 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hard.c                                             :+:      :+:    :+:   */
+/*   free_.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/15 22:33:35 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/13 02:16:27 by aibn-ich         ###   ########.fr       */
+/*   Created: 2024/10/13 02:03:04 by aibn-ich          #+#    #+#             */
+/*   Updated: 2024/10/13 02:28:25 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	execve_handle_hard(t_exec *data, t_cmd *input, int read_fd,
-		int write_fd)
+void	free_everything(t_exec *data, t_cmd *input)
+{
+	(void)input;
+	clear_list(&data->environ);
+	free(data->environ);
+	clear_list(&data->export);
+	free(data->export);
+}
+
+void	free_t_pipe(t_pipe *info)
 {
 	int	i;
 
-	(void)read_fd;
-	(void)write_fd;
-	i = list_size(data->environ);
-	data->envp = malloc(sizeof(char *) * (i + 1));
-	data->envp[i] = NULL;
-	turn(data->envp, data->environ);
-	child_function(data, input);
+	i = 0;
+	while (i < info->size - 1)
+		free(info->pipes[i++]);
+	free(info->pipes);
+	free(info->pid_list);
+}
+
+void	free_envp(t_exec *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->envp[i])
+		free(data->envp[i++]);
+	free(data->envp);
 }

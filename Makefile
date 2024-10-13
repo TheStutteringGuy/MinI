@@ -6,14 +6,14 @@
 #    By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/20 01:20:40 by aahlaqqa          #+#    #+#              #
-#    Updated: 2024/10/13 00:42:10 by aibn-ich         ###   ########.fr        #
+#    Updated: 2024/10/13 02:28:46 by aibn-ich         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # BASIC SETTINGS :
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 RM = rm -rf
 
 ###########################################################################################
@@ -33,7 +33,7 @@ SRCS_Exec = Exec/builtins/cd.c Exec/builtins/echo.c Exec/builtins/env.c Exec/bui
 			Exec/builtins_helper/export_helper.c Exec/builtins/pwd.c Exec/builtins/unset.c Exec/error_handle.c Exec/exec/exec.c Exec/exec/exec_.c Exec/exec/exec_handle.c             \
   			Exec/exec/exec_list2.c Exec/exec/exec_list.c Exec/exec/fd_.c Exec/exec/hard.c Exec/exec/hard_simple_help2.c Exec/exec/hard_simple_help.c Exec/exec/simple.c Exec/ft_atol.c \
    			Exec/ft_atoui.c Exec/get_next_line/get_next_line.c Exec/get_next_line/get_next_line_utils.c Exec/handle_heredoc2.c Exec/handle_heredoc.c Exec/handle_sig.c Exec/list_ft2.c  \
-    		Exec/list_ft3.c Exec/list_ft.c Exec/update_.c Exec/update_shlvl.c																											 \
+    		Exec/list_ft3.c Exec/list_ft.c Exec/update_.c Exec/update_shlvl.c Exec/exec/free_.c																						     \
 
 FLAGS = -L Exec/Libft -lft
 
