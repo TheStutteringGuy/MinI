@@ -62,8 +62,8 @@ void	add_argument_to_command(t_cmd *current_cmd, t_token *token)
 	current_cmd->arguments = new_arguments;
 }
 
-int	process_current_token(t_cmd_context *cmd_ctx,
-		t_token **current_token, t_exec *exec, t_type *expected)
+int	process_current_token(t_cmd_context *cmd_ctx, t_token **current_token,
+		t_exec *exec, t_type *expected)
 {
 	if ((*current_token)->type == PIPE && *expected == COMMAND)
 	{

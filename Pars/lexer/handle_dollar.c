@@ -23,7 +23,8 @@ void	handle_dollar_sign_logic(char *input, t_helpe *helpe,
 		helpe->token_len++;
 		return ;
 	}
-	if (input[helpe->i] == '$' && input[helpe->i + 1] == '"' && exec->quote == 2)
+	if (input[helpe->i] == '$' && input[helpe->i + 1] == '"'
+		&& exec->quote == 2)
 	{
 		helpe->token[helpe->token_len] = '$';
 		helpe->token_len++;

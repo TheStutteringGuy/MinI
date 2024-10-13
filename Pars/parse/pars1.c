@@ -48,7 +48,6 @@ void	process_filename(t_output_input *new, char *filename, t_exec *exec)
 	}
 }
 
-
 void	process_delimiter(t_output_input *new, char *delimiter, t_exec *exec)
 {
 	char	*processed_delimiter;

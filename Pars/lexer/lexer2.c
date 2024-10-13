@@ -16,8 +16,8 @@ void	handle_dollar_end_case(char *input, t_helpe *helpe,
 		t_token **token_list, t_exec *exec)
 {
 	int	k;
-	(void)input;
 
+	(void)input;
 	k = 0;
 	if (helpe->res != NULL)
 	{
