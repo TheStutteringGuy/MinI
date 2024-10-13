@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:01 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/12 23:11:07 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/13 16:56:19 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,15 @@ void handle_token(t_token **token_list, char *token, t_helpe *helpe,
 	t_type type;
 	t_token *new_token;
 
-	processed_token = handle_incorrect_quotes(token);
-	if (!processed_token)
-	{
-		write(2, "Syntax error: incorrect quotes\n", 32);
-		return;
-	}
-	type = classify_token(processed_token, helpe, exec);
+	type = classify_token(token, helpe, exec);
 	helpe->isoperate = 0;
-	new_token = create_token(type, processed_token);
+	new_token = create_token(type, token);
 	if (new_token)
 		add_token(token_list, new_token);
 	if (type == PIPE)
 		*helpe->expected = COMMAND;
 	else if (type == COMMAND)
 		*helpe->expected = ARGUMENT;
-	free(processed_token);
 }
 
 void handle_quote(char input, t_exec *exec, t_helpe *helpe)
@@ -101,6 +94,12 @@ static void handle_s_g(char *input, t_token **token_list, t_helpe *helpe, t_exec
 	}
 }
 
+void handle_operator(char *input, t_helpe *helpe, t_exec *exec)
+{
+	helpe->isoperate = 1;
+	helpe->token[helpe->token_len++] = input[helpe->i];
+}
+
 void tokenize_input(char *input, t_token **token_list, t_exec *exec)
 {
 	t_helpe *helpe;
@@ -121,10 +120,7 @@ void tokenize_input(char *input, t_token **token_list, t_exec *exec)
 		else if ((is_operator(input[helpe->i]) || is_multi_operator(&input[helpe->i])) && exec->delimiter == 0)
 			handle_operators_logic(input, helpe, token_list, exec);
 		else if ((is_operator(input[helpe->i]) || is_multi_operator(&input[helpe->i])) && exec->delimiter != 0)
-		{
-			helpe->isoperate = 1;
-			helpe->token[helpe->token_len++] = input[helpe->i];
-		}
+			handle_operator(input, helpe, exec);
 		else if (input[helpe->i] == '$' && (exec->delimiter == 0 || exec->delimiter != '\'') && exec->not == 0)
 			handle_dollar_sign_logic(input, helpe, token_list, exec);
 		else

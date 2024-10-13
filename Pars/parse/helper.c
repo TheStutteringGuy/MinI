@@ -68,3 +68,34 @@ char *remove_space(char *str)
 
     return res;
 }
+
+char *handle_incorrect_quotes(char *token)
+{
+
+    int i;
+    char quots;
+
+    i = 0;
+    quots = 0;
+    while (token[i])
+    {
+        if (token[i] == '\'' || token[i] == '"')
+        {
+            if (quots == 0)
+                quots = token[i];
+            else if (token[i] == quots)
+                quots = 0;
+            i++;
+        }
+        else
+            i++;
+    }
+    if (quots != 0)
+    {
+        write(2, "Syntax error: unclosed quotesH\n", 32);
+        g_last_exit_status = 130;
+        return (NULL);
+    }
+    else
+        return (ft_strdup2(token));
+}

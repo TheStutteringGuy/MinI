@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:27:09 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/12 18:27:11 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/13 14:17:41 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,15 @@ t_redirection_params	init_redirection_params(char *filename, char *delimiter,
 void	process_filename(t_output_input *new, char *filename, t_exec *exec)
 {
 	char	*processed_filename;
+	t_norm	norm;
 
-	processed_filename = remove_quotes(filename, exec);
+	norm.i = 0;
+	norm.j = 0;
+	norm.str = NULL;
+	norm.expanded = NULL;
+	norm.count = 0;
+	norm.str1 = NULL;
+	processed_filename = remove_quotes(filename, exec, &norm);
 	if (processed_filename == NULL)
 	{
 		new->ambigious = 1;
@@ -40,6 +47,7 @@ void	process_filename(t_output_input *new, char *filename, t_exec *exec)
 		free(processed_filename);
 	}
 }
+
 
 void	process_delimiter(t_output_input *new, char *delimiter, t_exec *exec)
 {
