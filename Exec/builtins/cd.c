@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/07 18:27:38 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/14 02:35:51 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,8 @@ static int	cd_home(t_exec *data, t_cmd *input)
 	return (1);
 }
 
-static int	cd_oldpwd(t_exec **data, t_cmd *input, char *cwd)
+static int	cd_oldpwd(t_exec **data)
 {
-	(void)input;
-	(void)cwd;
 	if (chdir(ft_getenv((*data)->environ, "OLDPWD")) != 0)
 	{
 		print_error("cd", "OLDPWD is not set", NULL, 1);
@@ -62,29 +60,27 @@ static int	cd_oldpwd(t_exec **data, t_cmd *input, char *cwd)
 
 void	cd_simple(t_exec *data, t_cmd *input)
 {
-	char	cwd[PATH_MAX];
-
-	getcwd(cwd, PATH_MAX);
+	char *cwd;
+	
+	cwd = ft_getenv(data->environ, "PWD");
 	if (!input->arguments[0])
 	{
 		if (cd_home(data, input) == 0)
 			return ;
 	}
-	else
+	if (handle_arg(data, input) == -1)
+		return ;
+	if (check_cd(input->arguments[0]))
 	{
-		if (handle_arg(data, input) == -1)
+		if (cd_oldpwd(&data) == 0)
 			return ;
-		if (check_cd(input->arguments[0]))
-		{
-			if (cd_oldpwd(&data, input, cwd) == 0)
-				return ;
-		}
-		else if (chdir(input->arguments[0]) != 0)
-		{
-			print_error("cd", input->arguments[0], strerror(errno), 2);
-			g_last_exit_status = 1;
-			return ;
-		}
+	}
+	else if (chdir(input->arguments[0]) != 0)
+	{
+		print_error("cd", input->arguments[0], strerror(errno), 2);
+		g_last_exit_status = 1;
+		return ;
 	}
 	update_environ(&data, cwd);
+	g_last_exit_status = 0;
 }

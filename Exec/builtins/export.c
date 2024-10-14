@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/07 20:27:10 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/14 02:34:00 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,11 @@ static int	handle_arg(t_exec *data, char *str, int *flag, t_cmd *input)
 
 void	export_simple(t_exec *data, t_cmd *input)
 {
-	t_linked	*list;
 	int			flag;
 	int			i;
 
 	i = -1;
+	g_last_exit_status = 0;
 	if (input->arguments[0])
 	{
 		while (input->arguments[++i])
@@ -115,6 +115,5 @@ void	export_simple(t_exec *data, t_cmd *input)
 		return ;
 	}
 	sort_list(&data->export);
-	list = data->export;
-	print_value(list);
+	print_value(data->export);
 }

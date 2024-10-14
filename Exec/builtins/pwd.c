@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/14 00:46:46 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/14 02:20:57 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,5 @@ void	pwd_simple(t_exec *data, t_cmd *input)
 		return ;
 	}
 	printf("%s\n", cwd);
+	g_last_exit_status = 0;
 }
