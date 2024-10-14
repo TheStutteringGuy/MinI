@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 02:03:04 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/14 07:43:53 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/14 07:30:16 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,11 @@ void	unlink_files(t_cmd **input)
 	while (curr)
 	{
 		iterate = curr->redirection;
-		unlink(iterate->filename);
+		while (iterate)
+		{
+			unlink(iterate->heredoc_file);
+			iterate = iterate->next;
+		}
 		curr = curr->next;
 	}
 }
