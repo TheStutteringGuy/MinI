@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/14 00:13:56 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/14 01:41:40 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,10 @@ typedef struct s_exec
 	int						delimiter;
 	int						quote;
 	int						expand;
-	int not ;
+	int						not;
 	int						eof;
 	int						s_d;
+	int						is_in;
 }							t_exec;
 
 typedef struct s_pipe

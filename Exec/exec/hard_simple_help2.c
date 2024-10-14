@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hard_simple_help2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 23:31:01 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/04 18:36:56 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/14 01:10:54 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	ft_acces(t_exec *data, t_cmd *input)
 		print_error(input->command, strerror(errno), NULL, 1);
 		if (errno == ENOENT)
 			exit(127);
-		if (errno == EACCES)
+		if (errno == EACCES || errno == ENOTDIR)
 			exit(126);
 	}
 	exit(0);

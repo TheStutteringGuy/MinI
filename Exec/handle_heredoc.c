@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 10:30:08 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/13 05:52:35 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/14 00:55:55 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ int	handle_heredoc(t_exec *data, t_cmd **input)
 		g_last_exit_status = 2;
 		exit(2);
 	}
+	if (size(*input) == 0)
+		return (0);
 	make_names(input);
 	id = fork();
 	if (id == 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:01 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/13 20:06:09 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/14 01:46:28 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,21 @@ void	handle_token(t_token **token_list, char *token, t_helpe *helpe,
 
 void	handle_quote(char input, t_exec *exec, t_helpe *helpe)
 {
+	printf("12\n");
 	if (input == '"')
 		exec->quote = 2;
 	else
 		exec->quote = 1;
 	if (exec->delimiter == 0)
+	{
 		exec->delimiter = input;
+		exec->is_in = 1;
+	}
 	else if (input == exec->delimiter)
 	{
 		exec->delimiter = 0;
 		exec->quote = 0;
+		exec->is_in = 0;
 	}
 	if (exec->not == 1)
 		helpe->token[helpe->token_len++] = input;
@@ -92,10 +97,11 @@ void	tokenize_input(char *input, t_token **token_list, t_exec *exec)
 		return ;
 	initialize_exec(exec);
 	exec->s_d = 0;
+	exec->is_in = 0;
 	while (input[helpe->i] != '\0')
 	{
-		if ((input[helpe->i] == '\'' && input[helpe->i + 1] == '\'')
-			|| (input[helpe->i] == '"' && input[helpe->i + 1] == '"'))
+		if (((input[helpe->i] == '\'' && input[helpe->i + 1] == '\'')
+			|| (input[helpe->i] == '"' && input[helpe->i + 1] == '"')) && exec->is_in == 0)
 			handle_s_g(input, token_list, helpe, exec);
 		else if ((input[helpe->i] == '\'' || input[helpe->i] == '"')
 				&& (exec->delimiter == 0 || input[helpe->i] == exec->delimiter))
