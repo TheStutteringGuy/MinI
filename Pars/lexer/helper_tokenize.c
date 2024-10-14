@@ -33,7 +33,7 @@ void	handle_s_g(char *input, t_token **token_list, t_helpe *helpe,
 
 void	handle_operator(char *input, t_helpe *helpe, t_exec *exec)
 {
-    (void)exec;
+	(void)exec;
 	helpe->isoperate = 1;
 	helpe->token[helpe->token_len++] = input[helpe->i];
 }

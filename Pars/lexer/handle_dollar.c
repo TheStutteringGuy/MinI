@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:17:41 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/12 23:23:27 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/14 02:19:02 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	initialize_exec(t_exec *exec)
 	exec->delimiter = 0;
 	exec->quote = 0;
 	exec->not = 0;
+	exec->s_d = 0;
+	exec->is_in = 0;
 }
 
 void	handle_exit_status(char *input, t_helpe *helpe, t_token **token_list,

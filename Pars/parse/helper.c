@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 19:59:40 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/14 01:13:50 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/14 02:44:31 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,5 @@ char	*handle_incorrect_quotes(char *token)
 	if (quots != 0)
 		return (handle_quote_error());
 	else
-		return (ft_strdup2(token));
+		return (token);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:01 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/14 01:46:28 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/14 02:29:53 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	handle_token(t_token **token_list, char *token, t_helpe *helpe,
 
 void	handle_quote(char input, t_exec *exec, t_helpe *helpe)
 {
-	printf("12\n");
 	if (input == '"')
 		exec->quote = 2;
 	else
@@ -87,7 +86,6 @@ void	handle_quote(char input, t_exec *exec, t_helpe *helpe)
 		helpe->token[helpe->token_len++] = input;
 }
 
-
 void	tokenize_input(char *input, t_token **token_list, t_exec *exec)
 {
 	t_helpe	*helpe;
@@ -96,31 +94,23 @@ void	tokenize_input(char *input, t_token **token_list, t_exec *exec)
 	if (!helpe)
 		return ;
 	initialize_exec(exec);
-	exec->s_d = 0;
-	exec->is_in = 0;
 	while (input[helpe->i] != '\0')
 	{
-		if (((input[helpe->i] == '\'' && input[helpe->i + 1] == '\'')
-			|| (input[helpe->i] == '"' && input[helpe->i + 1] == '"')) && exec->is_in == 0)
+		if (is_empty_quote_pair(input, helpe, exec))
 			handle_s_g(input, token_list, helpe, exec);
-		else if ((input[helpe->i] == '\'' || input[helpe->i] == '"')
-				&& (exec->delimiter == 0 || input[helpe->i] == exec->delimiter))
+		else if (is_matching_quote(input, helpe, exec))
 			handle_quote(input[helpe->i], exec, helpe);
-		else if (ft_isspace(input[helpe->i]) && exec->delimiter == 0)
+		else if (is_whitespace_no_delimiter(input, helpe, exec))
 			copy_token(token_list, helpe, exec);
-		else if ((is_operator(input[helpe->i])
-				|| is_multi_operator(&input[helpe->i])) && exec->delimiter == 0)
+		else if (is_operator_no_delimiter(input, helpe, exec))
 			handle_operators_logic(input, helpe, token_list, exec);
-		else if ((is_operator(input[helpe->i])
-				|| is_multi_operator(&input[helpe->i])) && exec->delimiter != 0)
+		else if (is_operator_with_delimiter(input, helpe, exec))
 			handle_operator(input, helpe, exec);
-		else if (input[helpe->i] == '$' && (exec->delimiter == 0
-				|| exec->delimiter != '\'') && exec->not == 0)
+		else if (is_dollar_sign_logic(input, helpe, exec))
 			handle_dollar_sign_logic(input, helpe, token_list, exec);
 		else
 			helpe->token[helpe->token_len++] = input[helpe->i];
 		helpe->i++;
 	}
-	finalize_tokens(helpe, token_list, exec);
-	free_helpe(helpe);
+	finalize_and_free(helpe, token_list, exec);
 }

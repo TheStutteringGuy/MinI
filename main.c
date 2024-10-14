@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/14 01:22:56 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/14 02:10:18 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,14 @@ int	main(int ac, char **av, char **envp)
 			token_list = NULL;
 			tokenize_input(input, &token_list, &data);
 			
-			t_token *iterate;
-			iterate = token_list;
-			while(iterate)
-			{
-			    printf("%s %d\n", iterate->value, iterate->type);
-			    iterate = iterate->next;
-			}
-			continue ;
+			// t_token *iterate;
+			// iterate = token_list;
+			// while(iterate)
+			// {
+			//     printf("%s %d\n", iterate->value, iterate->type);
+			//     iterate = iterate->next;
+			// }
+			// continue ;
 			
 			if (check_syntax_errors(token_list))
 			{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/14 01:41:40 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/14 02:28:00 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
-# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -26,6 +25,7 @@
 # include <stdbool.h>
 # include <stddef.h>
 # include <stdint.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
@@ -58,7 +58,7 @@ typedef struct s_exec
 	int						delimiter;
 	int						quote;
 	int						expand;
-	int						not;
+	int not ;
 	int						eof;
 	int						s_d;
 	int						is_in;
@@ -319,6 +319,20 @@ char						*trim_spaces(char *str);
 char						*remove_delimiter_quotes(t_output_input *new,
 								char *str);
 int							check_quotes(char *input, t_exec *exec);
+int							is_empty_quote_pair(char *input, t_helpe *helpe,
+								t_exec *exec);
+int							is_matching_quote(char *input, t_helpe *helpe,
+								t_exec *exec);
+int							is_whitespace_no_delimiter(char *input,
+								t_helpe *helpe, t_exec *exec);
+int							is_operator_no_delimiter(char *input,
+								t_helpe *helpe, t_exec *exec);
+int							is_operator_with_delimiter(char *input,
+								t_helpe *helpe, t_exec *exec);
+int							is_dollar_sign_logic(char *input, t_helpe *helpe,
+								t_exec *exec);
+void						finalize_and_free(t_helpe *helpe,
+								t_token **token_list, t_exec *exec);
 
 //////////////////////////////////////
 
