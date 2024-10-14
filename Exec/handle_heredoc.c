@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 10:30:08 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/14 00:55:55 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/14 07:42:54 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int	handle_heredoc(t_exec *data, t_cmd **input)
 	if (size(*input) > 16)
 	{
 		print_error("maximum here-document count exceeded", NULL, NULL, 0);
-		g_last_exit_status = 2;
 		exit(2);
 	}
 	if (size(*input) == 0)
@@ -104,6 +103,7 @@ int	handle_heredoc(t_exec *data, t_cmd **input)
 	else
 	{
 		g_last_exit_status = 128 + WTERMSIG(status);
+		unlink_files(input);
 		return (-1);
 	}
 	return (0);

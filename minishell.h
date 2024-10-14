@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/14 06:43:34 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/14 07:43:35 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -432,6 +432,7 @@ void						free_envp(t_exec *data);
 void						free_everything(t_exec *data, t_cmd *input);
 void						handle_null(t_exec **list);
 void						update_oldpwd(t_exec **list, char *cwd);
+void						unlink_files(t_cmd **input);
 ////////
 
 #endif

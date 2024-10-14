@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 02:03:04 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/13 02:28:25 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/14 07:43:53 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,18 @@ void	free_envp(t_exec *data)
 	while (data->envp[i])
 		free(data->envp[i++]);
 	free(data->envp);
+}
+
+void	unlink_files(t_cmd **input)
+{
+	t_cmd			*curr;
+	t_output_input	*iterate;
+
+	curr = *input;
+	while (curr)
+	{
+		iterate = curr->redirection;
+		unlink(iterate->filename);
+		curr = curr->next;
+	}
 }
