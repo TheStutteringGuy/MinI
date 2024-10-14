@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hard_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/07 18:31:12 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/14 04:54:05 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ static void	cd_home(t_exec *data, t_cmd *input)
 	}
 }
 
-static void	cd_oldpwd(t_exec **data, t_cmd *input, char *cwd)
+static void	cd_oldpwd(t_exec **data)
 {
-	(void)input;
-	(void)cwd;
 	if (chdir(ft_getenv((*data)->environ, "OLDPWD")) != 0)
 	{
 		print_error("cd", "OLDPWD is not set", NULL, 1);
@@ -49,9 +47,6 @@ static void	cd_oldpwd(t_exec **data, t_cmd *input, char *cwd)
 
 void	cd_hard(t_exec *data, t_cmd *input)
 {
-	char	cwd[PATH_MAX];
-
-	getcwd(cwd, PATH_MAX);
 	if (!input->arguments[0])
 		cd_home(data, input);
 	else
@@ -60,12 +55,12 @@ void	cd_hard(t_exec *data, t_cmd *input)
 		if (ft_strlen2(input->arguments[0]) == ft_strlen2("-")
 			&& ft_strncmp(input->arguments[0], "-",
 				ft_strlen2(input->arguments[0])) == 0)
-			cd_oldpwd(&data, input, cwd);
+			cd_oldpwd(&data);
 		else if (chdir(input->arguments[0]) != 0)
 		{
 			print_error("cd", input->arguments[0], strerror(errno), 2);
 			exit(1);
 		}
 	}
-	update_environ(&data, cwd);
+	update_environ(&data);
 }

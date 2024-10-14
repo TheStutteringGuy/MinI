@@ -6,39 +6,11 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 21:59:29 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/14 00:12:46 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/14 05:54:04 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	check_oldpwd(t_exec **list, char *cwd)
-{
-	t_linked	*iterate;
-	int			flag;
-
-	flag = 0;
-	iterate = (*list)->environ;
-	while (iterate)
-	{
-		if (ft_strlen2(iterate->key) == ft_strlen2("OLDPWD")
-			&& ft_strncmp(iterate->key, "OLDPWD", ft_strlen2("OLDPWD")) == 0)
-			flag = 1;
-		iterate = iterate->next;
-	}
-	if (flag == 1)
-		return (1);
-	else
-	{
-		remove_list(&(*list)->export, ft_substr("OLDPWD", 0,
-				ft_strlen2("OLDPWD")));
-		creat_node(&(*list)->environ, ft_substr("OLDPWD", 0,
-				ft_strlen2("OLDPWD")), ft_substr(cwd, 0, ft_strlen2(cwd)), 1);
-		creat_node(&(*list)->export, ft_substr("OLDPWD", 0,
-				ft_strlen2("OLDPWD")), ft_substr(cwd, 0, ft_strlen2(cwd)), 1);
-		return (0);
-	}
-}
 
 static void	update_pwd_export(t_exec **list)
 {
@@ -85,7 +57,7 @@ static void	update_pwd(t_exec **list)
 	update_pwd_export(list);
 }
 
-static void	update_export(t_exec **list, char *cwd)
+static void	update_oldpwd_export(t_exec **list, char *cwd)
 {
 	t_linked	*iterate;
 
@@ -97,19 +69,17 @@ static void	update_export(t_exec **list, char *cwd)
 		{
 			free(iterate->value);
 			iterate->value = ft_substr(cwd, 0, ft_strlen(cwd));
+			iterate->flag = 1;
 			break ;
 		}
 		iterate = iterate->next;
 	}
 }
 
-void	update_environ(t_exec **list, char *cwd)
+void	update_oldpwd(t_exec **list, char *cwd)
 {
 	t_linked	*iterate;
 
-	update_pwd(list);
-	if (check_oldpwd(list, cwd) == 0)
-		return ;
 	iterate = (*list)->environ;
 	while (iterate)
 	{
@@ -118,9 +88,30 @@ void	update_environ(t_exec **list, char *cwd)
 		{
 			free(iterate->value);
 			iterate->value = ft_substr(cwd, 0, ft_strlen(cwd));
+			iterate->flag = 1;
 			break ;
 		}
 		iterate = iterate->next;
 	}
-	update_export(list, cwd);
+	update_oldpwd_export(list, cwd);
+}
+
+void	update_environ(t_exec **list)
+{
+	t_linked	*iterate;
+	char		*cwd;
+	char		*str;
+
+	cwd = ft_getenv((*list)->environ, "PWD");
+	str = ft_strdup2(cwd);
+	if (cwd == NULL)
+	{
+		handle_null(list);
+		return ;
+	}
+	update_pwd(list);
+	if (check_oldpwd(list, str) == 1)
+		return ;
+	update_oldpwd(list, str);
+	free(str);
 }

@@ -6,11 +6,59 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 00:22:48 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/13 00:31:04 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/14 06:38:23 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	handle_null(t_exec **list)
+{
+	t_linked	*iterate;
+
+	remove_list(&(*list)->environ, "OLDPWD");
+	if (ft_get_export((*list)->export, "OLDPWD") == 0)
+		return ;
+	iterate = (*list)->export;
+	while (iterate)
+	{
+		if (ft_strlen2(iterate->key) == ft_strlen2("OLDPWD")
+			&& ft_strncmp(iterate->key, "OLDPWD", ft_strlen2("OLDPWD")) == 0)
+		{
+			free(iterate->value);
+			iterate->value = ft_strdup2("");
+			iterate->flag = 0;
+			break ;
+		}
+		iterate = iterate->next;
+	}
+}
+
+int	check_oldpwd(t_exec **list, char *cwd)
+{
+	t_linked	*iterate;
+	int			flag;
+
+	flag = 0;
+	iterate = (*list)->export;
+	while (iterate)
+	{
+		if (ft_strlen2(iterate->key) == ft_strlen2("OLDPWD")
+			&& ft_strncmp(iterate->key, "OLDPWD", ft_strlen2("OLDPWD")) == 0)
+			flag = 1;
+		iterate = iterate->next;
+	}
+	if (flag == 0)
+		return (1);
+	else
+	{
+		if (ft_get_export((*list)->environ, "OLDPWD") == 0)
+			creat_node(&(*list)->environ, ft_substr("OLDPWD", 0,
+					ft_strlen2("OLDPWD")), ft_strdup2(""), 1);
+		update_oldpwd(list, cwd);
+		return (1);
+	}
+}
 
 int	check_pwd(t_exec **list, char *cwd)
 {

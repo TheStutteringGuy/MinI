@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/14 02:28:00 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/14 06:43:34 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ typedef struct s_exec
 	int						delimiter;
 	int						quote;
 	int						expand;
-	int not ;
 	int						eof;
+	int						not;
 	int						s_d;
 	int						is_in;
 }							t_exec;
@@ -386,7 +386,7 @@ void						execve_handle_hard(t_exec *data, t_cmd *input,
 // EXEC :
 
 ////////
-void						update_environ(t_exec **list, char *cwd);
+void						update_environ(t_exec **list);
 void						ft_swap(t_linked *list1, t_linked *list2);
 void						sort_list(t_linked **list);
 void						print_err(t_exec *data, char *str);
@@ -430,6 +430,8 @@ int							check_pwd(t_exec **list, char *cwd);
 void						free_t_pipe(t_pipe *info);
 void						free_envp(t_exec *data);
 void						free_everything(t_exec *data, t_cmd *input);
+void						handle_null(t_exec **list);
+void						update_oldpwd(t_exec **list, char *cwd);
 ////////
 
 #endif

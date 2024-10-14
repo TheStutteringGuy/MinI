@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_list2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 20:12:51 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/07 22:49:51 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/14 05:24:20 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	check_oldpwd__(t_linked **list)
 	iterate = *list;
 	while (iterate)
 	{
-		if (ft_strlen2(iterate->key) == ft_strlen2("OLPWD")
+		if (ft_strlen2(iterate->key) == ft_strlen2("OLDPWD")
 			&& ft_strncmp(iterate->key, "OLDPWD", ft_strlen("OLDPWD")) == 0)
 			flag = 1;
 		iterate = iterate->next;

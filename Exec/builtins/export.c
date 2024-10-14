@@ -92,8 +92,8 @@ static int	handle_arg(t_exec *data, char *str, int *flag, t_cmd *input)
 
 void	export_simple(t_exec *data, t_cmd *input)
 {
-	int			flag;
-	int			i;
+	int	flag;
+	int	i;
 
 	i = -1;
 	g_last_exit_status = 0;
