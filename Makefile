@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+         #
+#    By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/20 01:20:40 by aahlaqqa          #+#    #+#              #
-#    Updated: 2024/10/14 04:45:21 by aibn-ich         ###   ########.fr        #
+#    Updated: 2024/10/14 22:30:33 by thestutteri      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # BASIC SETTINGS :
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -w #-fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -w -fsanitize=address -g3
 RM = rm -rf
 
 ###########################################################################################

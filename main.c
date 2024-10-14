@@ -3,16 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/14 07:14:31 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/14 23:35:26 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int		g_last_exit_status = 0;
+
+void	free_red(t_output_input *iterate)
+{
+	t_output_input *tmp;
+
+	while (iterate)
+	{
+		tmp = iterate;
+		iterate = iterate->next;
+		free(tmp->filename);
+		free(tmp->delimiter);
+		free(tmp->heredoc_file);
+		free(tmp);
+	}
+}
+
+void	free_everything_cmd(t_cmd **input)
+{
+	t_cmd *iterate;
+	t_cmd *tmp;
+	t_output_input *iterate_1;
+
+	iterate = *input;
+	while (iterate)
+	{
+		tmp = iterate;
+		iterate = iterate->next;
+		free(tmp->command);
+		free_split(tmp->arguments);
+		free_red(tmp->redirection);
+		free(tmp);
+	}
+	*input = NULL;
+}
 
 void	free_everything_data(t_exec *data)
 {
@@ -42,7 +76,11 @@ int	main(int ac, char **av, char **envp)
 		handle_sig();
 		input = readline("Minishell -> ");
 		if (input == NULL)
+		{
+			free(input);
+			rl_clear_history();
 			break ;
+		}
 		else
 		{
 			if (input[0] == '$' && ft_isdigit(input[1]))
@@ -83,12 +121,12 @@ int	main(int ac, char **av, char **envp)
 				free(input);
 				continue ;
 			}
+			free_tokens(token_list);
 			print_commands(cmd_list);
 			printf("\n");
 			exec(&data, cmd_list);
+			free_everything_cmd(&cmd_list);
 			add_history(input);
-			free_commands(cmd_list);
-			free_tokens(token_list);
 			free(input);
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/14 02:57:05 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/14 23:31:23 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ char	*handle_count(t_norm *norm, t_exec *exec)
 			return (NULL);
 	}
 	norm->str1 = remove_space(norm->str);
+	free(norm->str);
 	return (norm->str1);
 }
 

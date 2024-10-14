@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hard_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/13 02:32:06 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/14 23:36:51 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void	exit_hard(t_exec *data, t_cmd *input)
 	{
 		pars_arg(input);
 		handle_arg(input);
-		free_everything(data, input);
 		exit_st = ft_atol(input->arguments[0]);
+		free_everything(data, input);
 		exit(exit_st);
 	}
 	free_everything(data, input);

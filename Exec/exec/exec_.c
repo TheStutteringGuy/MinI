@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 23:08:35 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/14 07:21:10 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/14 23:41:07 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	forking_for_pipes(t_exec *data, t_cmd *input, t_pipe *info, int size)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		child__(data, input, info, info->size - size);
+		free_everything(data, input);
 		exit(0);
 	}
 	else

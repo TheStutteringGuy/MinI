@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 02:03:04 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/14 07:30:16 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/14 23:11:11 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	free_everything(t_exec *data, t_cmd *input)
 {
-	(void)input;
+	free_everything_cmd(&input);
 	clear_list(&data->environ);
 	free(data->environ);
 	clear_list(&data->export);

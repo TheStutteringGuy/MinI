@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:27:09 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/13 14:17:41 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/14 23:05:04 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	add_redirection(t_output_input **redirection,
 	new->append = params->flags.append;
 	new->heredoc = params->flags.heredoc;
 	process_delimiter(new, params->delimiter, exec);
+	new->heredoc_file = NULL;
 	new->next = NULL;
 	if (*redirection == NULL)
 	{

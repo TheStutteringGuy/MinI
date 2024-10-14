@@ -6,11 +6,23 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 23:28:44 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/06 00:50:48 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/14 22:48:18 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	free_split(char **array)
+{
+	int	i;
+
+	i = 0;
+	if (!array)
+		return ;
+	while (array[i])
+		free(array[i++]);
+	free(array);
+}
 
 void	ft_handle_function(char *str, int *flag)
 {
@@ -47,6 +59,7 @@ void	child_funtion_2(t_exec *data, t_cmd *input, char *inp)
 		free(check);
 		i++;
 	}
+	free_split(split);
 	print_error(input->command, "command not found\n", NULL, 1);
 	exit(127);
 }
@@ -56,7 +69,6 @@ void	child_function(t_exec *data, t_cmd *input)
 	int		flag;
 	char	*inp;
 
-	inp = ft_substr("", 0, 0);
 	flag = 0;
 	ft_handle_function(input->command, &flag);
 	if (flag == 1)
