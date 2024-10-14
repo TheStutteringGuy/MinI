@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/14 05:21:37 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/14 07:14:31 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int ac, char **av, char **envp)
 	update_shlvl(&data.environ);
 	copy_environ(&data.export, data.environ);
 	remove_list(&data.export, "_");
-	while (1)
+	while (TRUE)
 	{
 		handle_sig();
 		input = readline("Minishell -> ");

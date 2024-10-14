@@ -6,7 +6,7 @@
 /*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 18:06:15 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/13 00:43:52 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/14 07:21:55 by aibn-ich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,12 @@
 
 static void	update(t_linked **list, char *str)
 {
-	t_linked	*iterate;
-	char		*key;
+	char	*key;
 
 	key = "_";
-	iterate = *list;
-	while (iterate)
-	{
-		if (ft_strlen2(iterate->key) == ft_strlen2(key)
-			&& ft_strncmp(iterate->key, key, ft_strlen2(key)) == 0)
-		{
-			free(iterate->value);
-			iterate->value = ft_substr(str, 0, ft_strlen(str));
-			break ;
-		}
-		iterate = iterate->next;
-	}
+	remove_list(list, key);
+	creat_node(list, ft_substr(key, 0, ft_strlen2(key)), ft_substr(str, 0,
+			ft_strlen2(str)), 1);
 }
 
 void	update_(t_linked **list, t_cmd *input)
