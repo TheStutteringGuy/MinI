@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/15 06:33:58 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/15 18:18:28 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,8 @@ static void handle_quote(char input, t_exec *exec)
 // 		norm->i++;
 // 	}
 // 	norm->str[norm->j] = '\0';
-	// norm->count = count_values(norm->str);
-	// return (handle_count(norm, exec));
+// norm->count = count_values(norm->str);
+// return (handle_count(norm, exec));
 // }
 
 void handle_expansion_res(char *input, t_exec *exec, char *str1, t_norm *info)
@@ -125,6 +125,7 @@ void handle_expansion_res(char *input, t_exec *exec, char *str1, t_norm *info)
 	int is_dollar_at_end;
 	int k;
 
+	(void)exec;
 	is_dollar_at_end = 0;
 	if (input[info->i] == '$' && (input[info->i + 1] == '\0' || ft_isspace(input[info->i + 1]) || input[info->i + 1] == '"'))
 	{
@@ -161,6 +162,14 @@ void amr_expand(char *input, t_exec *exec, t_norm *info)
 		info->i++;
 		return;
 	}
+	// else if (ft_isdigit(input[info->i]))
+	// {
+    //     str1 = ft_strdup2(&input[ info->i + 1]);
+    //     handle_expansion_res(input, exec, str1, info);
+	// 	info->i++;
+	// 	free(str1);
+    //     return;
+	// }
 	j = 0;
 	while (input[info->i] && check_for_char(input[info->i]))
 		temp[j++] = input[(info->i)++];
@@ -196,7 +205,7 @@ void amr_handle_dollar(char *input, t_exec *exec, t_norm *info)
 char *handle_count(t_exec *exec, t_norm *info)
 {
 	char *str;
-	
+
 	if (info->count == 0 && exec->quote == 2)
 		return (ft_strdup2(""));
 	else if (info->count == 0)

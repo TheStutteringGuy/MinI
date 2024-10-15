@@ -3,38 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:17:41 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/15 05:22:52 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/15 16:27:38 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	handle_dollar_sign_logic(char *input, t_helpe *helpe,
-		t_token **token_list, t_exec *exec)
+void handle_dollar_sign_logic(char *input, t_helpe *helpe,
+							  t_token **token_list, t_exec *exec)
 {
 	update_quote(exec);
-	if (input[helpe->i] == '$' && (input[helpe->i + 1] == '\0'
-			|| ft_isspace(input[helpe->i + 1])))
+	// if (input[helpe->i] == '$' && ft_isdigit(input[1]))
+	// {
+	// 	helpe->i += 2;
+	// 	while (input[helpe->i] && !ft_isspace(input[helpe->i]))
+	// 	{
+	// 		helpe->token[helpe->token_len] = input[helpe->i];
+	// 		helpe->token_len++;
+	// 		helpe->i++;
+	// 	}
+	// 	helpe->token[helpe->token_len] = '\0';
+	// 	helpe->i--;
+	// 	return;
+	// }
+	if (input[helpe->i] == '$' && (input[helpe->i + 1] == '\0' || ft_isspace(input[helpe->i + 1])))
 	{
 		helpe->token[helpe->token_len] = '$';
 		helpe->token_len++;
-		return ;
+		return;
 	}
-	if (input[helpe->i] == '$' && input[helpe->i + 1] == '"'
-		&& exec->quote == 2)
+	if (input[helpe->i] == '$' && input[helpe->i + 1] == '"' && exec->quote == 2)
 	{
 		helpe->token[helpe->token_len] = '$';
 		helpe->token_len++;
-		return ;
+		return;
 	}
 	expand_env_var(input, helpe, token_list, exec);
 	helpe->i--;
 }
 
-void	initialize_exec(t_exec *exec)
+void initialize_exec(t_exec *exec)
 {
 	exec->delimiter = 0;
 	exec->quote = 0;
@@ -43,8 +54,8 @@ void	initialize_exec(t_exec *exec)
 	exec->is_in = 0;
 }
 
-void	handle_exit_status(char *input, t_helpe *helpe, t_token **token_list,
-		t_exec *exec)
+void handle_exit_status(char *input, t_helpe *helpe, t_token **token_list,
+						t_exec *exec)
 {
 	helpe->res = ft_itoa(g_last_exit_status);
 	if (helpe->res == NULL)
@@ -53,11 +64,11 @@ void	handle_exit_status(char *input, t_helpe *helpe, t_token **token_list,
 	handle_expansion_result(input, helpe, token_list, exec);
 }
 
-void	handle_variable_expansion(char *input, t_helpe *helpe,
-		t_token **token_list, t_exec *exec)
+void handle_variable_expansion(char *input, t_helpe *helpe,
+							   t_token **token_list, t_exec *exec)
 {
-	char	temp[3000];
-	int		j;
+	char temp[3000];
+	int j;
 
 	j = 0;
 	while (input[helpe->i] && check_for_char(input[helpe->i]))

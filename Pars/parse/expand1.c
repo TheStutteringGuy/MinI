@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:23:31 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/12 18:23:33 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:03:03 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,20 @@ char	*expand_environment_variable(t_expansion *exp, char *str)
 	return (exp->res);
 }
 
-char	*add_quote_to_result(t_expansion *exp, char c)
+char *add_quote_to_result(t_expansion *exp, char c)
 {
-	char	temp[2];
+    char temp[2];
+    char *new_res;
 
-	temp[0] = c;
-	temp[1] = '\0';
-	exp->res = ft_strjoin(exp->res, temp);
-	return (exp->res);
+    temp[0] = c;
+    temp[1] = '\0';
+    new_res = ft_strjoin(exp->res, temp);
+    if (exp->res)
+        free(exp->res);
+    exp->res = new_res;
+    return (exp->res);
 }
+
 
 void	process_dollar(t_expansion *exp, char *str)
 {

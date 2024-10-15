@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/15 04:57:00 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/15 16:18:42 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,6 @@ int main(int ac, char **av, char **envp)
 		if (input_ == NULL)
 			break;
 		add_history(input_);
-		if (input_[0] == '$' && ft_isdigit(input_[1]))
-			input = ft_strdup2(input_ + 2);
 		input = trim_spaces(input_);
 		free(input_);
 		if (input[0] == '\0')
