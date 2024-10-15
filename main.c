@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/15 16:18:42 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/15 20:36:41 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,21 @@ static void initialize_everything(t_exec *data, char **envp, char **av, int ac)
 	remove_list(&data->export, "_");
 }
 
+bool validate_input(char *input)
+{
+    if (input[0] == '\0')
+    {
+        free(input);
+        return (false);
+    }
+    if (!handle_incorrect_quotes(input))
+    {
+        free(input);
+        return (false);
+    }
+    return (true);
+}
+
 int main(int ac, char **av, char **envp)
 {
 	char *input_;
@@ -85,16 +100,18 @@ int main(int ac, char **av, char **envp)
 		add_history(input_);
 		input = trim_spaces(input_);
 		free(input_);
-		if (input[0] == '\0')
-		{
-			free(input);
-			continue;
-		}
-		if (!handle_incorrect_quotes(input))
-		{
-			free(input);
-			continue;
-		}
+		if (!validate_input(input))
+            continue;
+		// if (input[0] == '\0')
+		// {
+		// 	free(input);
+		// 	continue;
+		// }
+		// if (!handle_incorrect_quotes(input))
+		// {
+		// 	free(input);
+		// 	continue;
+		// }
 		token_list = NULL;
 		tokenize_input(input, &token_list, &data);
 		// t_token *iterate;
