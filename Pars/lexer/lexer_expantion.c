@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:19:13 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/15 03:34:41 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/15 04:28:58 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	handle_expansion_result(char *input, t_helpe *helpe,
 	}
 	if (helpe->res && *helpe->res == '\0')
 	{
-		if (input[helpe->i] == '\0')
+		if (input[helpe->i] == '\0' || (input[helpe->i] == '"' && input[helpe->i + 1] == '\0'))
 		{
 			helpe->token[helpe->token_len] = '\0';
 			helpe->token_len = 0;

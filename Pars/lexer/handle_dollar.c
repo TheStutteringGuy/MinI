@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:17:41 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/15 03:30:33 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/15 05:22:52 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	handle_exit_status(char *input, t_helpe *helpe, t_token **token_list,
 		exec->expand = 1;
 	helpe->i++;
 	handle_expansion_result(input, helpe, token_list, exec);
-	free(helpe->res);
 }
 
 void	handle_variable_expansion(char *input, t_helpe *helpe,

@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/15 00:03:31 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/15 04:24:39 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,6 +333,7 @@ int							is_dollar_sign_logic(char *input, t_helpe *helpe,
 								t_exec *exec);
 void						finalize_and_free(t_helpe *helpe,
 								t_token **token_list, t_exec *exec);
+char *amr_remove_quotes(char *input, t_exec *exec);
 
 //////////////////////////////////////
 

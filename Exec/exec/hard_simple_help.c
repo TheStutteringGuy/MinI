@@ -43,7 +43,7 @@ void	child_funtion_2(t_exec *data, t_cmd *input, char *inp)
 		{
 			data->arg = join_to_array(input->command, input->arguments);
 			execve(check, data->arg, data->envp);
-			break;
+			break ;
 		}
 		free(check);
 		i++;
