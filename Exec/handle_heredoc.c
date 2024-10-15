@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 10:30:08 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/15 00:03:50 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/15 02:11:09 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,12 @@ static int	size(t_cmd *iterate)
 	return (size);
 }
 
+void	free_herd(t_exec *data, t_cmd *input)
+{
+	print_error("maximum here-document count exceeded", NULL, NULL, 0);
+	free_everything(data, input);
+}
+
 int	handle_heredoc(t_exec *data, t_cmd **input)
 {
 	pid_t	id;
@@ -87,7 +93,7 @@ int	handle_heredoc(t_exec *data, t_cmd **input)
 
 	if (size(*input) > 16)
 	{
-		print_error("maximum here-document count exceeded", NULL, NULL, 0);
+		free_herd(data, *input);
 		exit(2);
 	}
 	if (size(*input) == 0)
