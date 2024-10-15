@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/15 00:01:05 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/15 01:58:22 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		g_last_exit_status = 0;
 
 void	free_red(t_output_input *iterate)
 {
-	t_output_input *tmp;
+	t_output_input	*tmp;
 
 	while (iterate)
 	{
@@ -31,8 +31,8 @@ void	free_red(t_output_input *iterate)
 
 void	free_everything_cmd(t_cmd **input)
 {
-	t_cmd *iterate;
-	t_cmd *tmp;
+	t_cmd	*iterate;
+	t_cmd	*tmp;
 
 	iterate = *input;
 	while (iterate)
@@ -57,12 +57,13 @@ void	free_everything_data(t_exec *data)
 
 int	main(int ac, char **av, char **envp)
 {
+	char	*input_;
 	char	*input;
-	//t_cmd	*parsed_cmd;
 	t_exec	data;
 	t_cmd	*cmd_list;
 	t_token	*token_list;
 
+	// t_cmd	*parsed_cmd;
 	(void)ac;
 	data.environ = NULL;
 	data.export = NULL;
@@ -73,18 +74,16 @@ int	main(int ac, char **av, char **envp)
 	while (TRUE)
 	{
 		handle_sig();
-		input = readline("Minishell -> ");
-		if (input == NULL)
-		{
-			free(input);
-			rl_clear_history();
+		input_ = readline("Minishell -> ");
+		if (input_ == NULL)
 			break ;
-		}
 		else
 		{
-			if (input[0] == '$' && ft_isdigit(input[1]))
-				input = ft_strdup2(input + 2);
-			input = trim_spaces(input);
+			add_history(input_);
+			if (input_[0] == '$' && ft_isdigit(input_[1]))
+				input = ft_strdup2(input_ + 2);
+			input = trim_spaces(input_);
+			free(input_);
 			if (input[0] == '\0')
 			{
 				free(input);
@@ -97,7 +96,6 @@ int	main(int ac, char **av, char **envp)
 			}
 			token_list = NULL;
 			tokenize_input(input, &token_list, &data);
-			
 			// t_token *iterate;
 			// iterate = token_list;
 			// while(iterate)
@@ -106,7 +104,6 @@ int	main(int ac, char **av, char **envp)
 			//     iterate = iterate->next;
 			// }
 			// continue ;
-			
 			if (check_syntax_errors(token_list))
 			{
 				free_tokens(token_list);
@@ -125,7 +122,6 @@ int	main(int ac, char **av, char **envp)
 			printf("\n");
 			exec(&data, cmd_list);
 			free_everything_cmd(&cmd_list);
-			add_history(input);
 			free(input);
 		}
 	}

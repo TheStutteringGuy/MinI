@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 02:03:04 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/15 00:05:37 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/15 01:59:34 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	free_everything(t_exec *data, t_cmd *input)
 	free(data->environ);
 	clear_list(&data->export);
 	free(data->export);
+	rl_clear_history();
 }
 
 void	free_t_pipe(t_pipe *info)
