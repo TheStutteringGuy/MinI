@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/14 23:09:52 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/15 00:03:31 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -432,7 +432,7 @@ void						free_envp(t_exec *data);
 void						free_everything(t_exec *data, t_cmd *input);
 void						handle_null(t_exec **list);
 void						update_oldpwd(t_exec **list, char *cwd);
-void						unlink_files(t_cmd **input);
+void						unlink_files(t_exec *data, t_cmd **input);
 void						free_split(char **array);
 void						free_everything_cmd(t_cmd **input);
 ////////

@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/14 23:35:26 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/15 00:01:05 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	free_everything_cmd(t_cmd **input)
 {
 	t_cmd *iterate;
 	t_cmd *tmp;
-	t_output_input *iterate_1;
 
 	iterate = *input;
 	while (iterate)

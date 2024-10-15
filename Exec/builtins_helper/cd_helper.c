@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_helper.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 21:59:29 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/14 05:54:04 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/14 23:57:14 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void	update_oldpwd(t_exec **list, char *cwd)
 
 void	update_environ(t_exec **list)
 {
-	t_linked	*iterate;
 	char		*cwd;
 	char		*str;
 

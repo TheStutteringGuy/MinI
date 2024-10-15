@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 02:03:04 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/14 23:11:11 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/15 00:05:37 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	free_envp(t_exec *data)
 	free(data->envp);
 }
 
-void	unlink_files(t_cmd **input)
+void	unlink_files(t_exec *data, t_cmd **input)
 {
 	t_cmd			*curr;
 	t_output_input	*iterate;
@@ -53,7 +53,8 @@ void	unlink_files(t_cmd **input)
 		iterate = curr->redirection;
 		while (iterate)
 		{
-			unlink(iterate->heredoc_file);
+			if (iterate->heredoc != NULL)
+				unlink(iterate->heredoc_file);
 			iterate = iterate->next;
 		}
 		curr = curr->next;

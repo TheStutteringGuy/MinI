@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 10:30:08 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/14 07:42:54 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/15 00:03:50 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	handle_heredoc(t_exec *data, t_cmd **input)
 	else
 	{
 		g_last_exit_status = 128 + WTERMSIG(status);
-		unlink_files(input);
+		unlink_files(data, input);
 		return (-1);
 	}
 	return (0);
