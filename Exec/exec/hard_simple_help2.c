@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hard_simple_help2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 23:31:01 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/14 01:10:54 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/15 02:46:43 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

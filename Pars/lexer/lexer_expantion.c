@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_expantion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:19:13 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/12 23:29:05 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/15 03:34:41 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,16 @@ void	handle_expansion_result(char *input, t_helpe *helpe,
 	}
 	if (helpe->res && *helpe->res == '\0')
 	{
-		if (input[helpe->i + 1] == '\0')
+		if (input[helpe->i] == '\0')
 		{
 			helpe->token[helpe->token_len] = '\0';
+			helpe->token_len = 0;
 			handle_token(token_list, helpe->token, helpe, exec);
 			exec->not = 0;
-			helpe->token_len = 0;
 		}
 		exec->s_d = 1;
 	}
+	free(helpe->res);
 }
 
 void	expand_env_var(char *input, t_helpe *helpe, t_token **token_list,

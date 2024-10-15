@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:17:41 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/14 02:19:02 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/15 03:30:33 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	handle_variable_expansion(char *input, t_helpe *helpe,
 	if (helpe->res == NULL)
 	{
 		exec->expand = 1;
-		helpe->res = "";
+		helpe->res = ft_strdup2("");
 	}
 	handle_expansion_result(input, helpe, token_list, exec);
 }

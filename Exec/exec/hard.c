@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hard.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 22:33:35 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/13 02:16:27 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/15 02:39:50 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,5 @@ void	execve_handle_hard(t_exec *data, t_cmd *input, int read_fd,
 	data->envp[i] = NULL;
 	turn(data->envp, data->environ);
 	child_function(data, input);
+	free_everything(data, input);
 }

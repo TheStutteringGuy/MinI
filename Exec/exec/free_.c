@@ -6,11 +6,23 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 02:03:04 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/15 02:23:56 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/15 02:41:18 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	free_split(char **array)
+{
+	int	i;
+
+	i = 0;
+	if (!array)
+		return ;
+	while (array[i])
+		free(array[i++]);
+	free(array);
+}
 
 void	free_everything(t_exec *data, t_cmd *input)
 {
