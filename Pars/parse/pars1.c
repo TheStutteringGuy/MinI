@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:27:09 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/15 04:57:24 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/16 14:29:07 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ t_redirection_params	init_redirection_params(char *filename, char *delimiter,
 void	process_filename(t_output_input *new, char *filename, t_exec *exec)
 {
 	char	*processed_filename;
-	// t_norm	norm;
+	t_norm	norm;
 
-	// norm.i = 0;
-	// norm.j = 0;
-	// norm.str = NULL;
-	// norm.expanded = NULL;
-	// norm.count = 0;
-	// norm.str1 = NULL;
-	processed_filename = amr_remove_quotes(filename, exec);
+	norm.i = 0;
+	norm.j = 0;
+	norm.str = NULL;
+	norm.expanded = NULL;
+	norm.count = 0;
+	norm.str1 = NULL;
+	processed_filename = remove_quotes(filename, exec, &norm);
 	if (processed_filename == NULL)
 	{
 		new->ambigious = 1;

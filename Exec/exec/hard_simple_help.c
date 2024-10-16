@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hard_simple_help.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 23:28:44 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/15 02:57:42 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/15 23:46:20 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

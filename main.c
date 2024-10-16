@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/15 20:36:41 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/15 22:21:07 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,28 @@ bool validate_input(char *input)
     return (true);
 }
 
+bool validate_syntax(t_token *token_list, char *input)
+{
+    if (check_syntax_errors(token_list))
+    {
+        free_tokens(token_list);
+        free(input);
+        return (false);
+    }
+    return (true);
+}
+
+bool validate_command_list(t_cmd *cmd_list, t_token *token_list, char *input)
+{
+    if (cmd_list == NULL)
+    {
+        free_tokens(token_list);
+        free(input);
+        return (false);
+    }
+    return (true);
+}
+
 int main(int ac, char **av, char **envp)
 {
 	char *input_;
@@ -122,19 +144,11 @@ int main(int ac, char **av, char **envp)
 		//     iterate = iterate->next;
 		// }
 		// continue ;
-		if (check_syntax_errors(token_list))
-		{
-			free_tokens(token_list);
-			free(input);
-			continue;
-		}
+		if (!validate_syntax(token_list, input))
+            continue;
 		cmd_list = parse_tokens(token_list, &data);
-		if (cmd_list == NULL)
-		{
-			free_tokens(token_list);
-			free(input);
-			continue;
-		}
+		if (!validate_command_list(cmd_list, token_list, input))
+            continue;
 		free_tokens(token_list);
 		print_commands(cmd_list);
 		free(input);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_herdoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 21:02:15 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/12 16:24:06 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/15 23:11:16 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,6 @@ char	*expand_herdoc(char *str, t_exec *exec)
 		return (NULL);
 	exp.res[0] = '\0';
 	expand_loop(&exp, str);
+	printf("---->   %s\n", exp.res);
 	return (exp.res);
 }
