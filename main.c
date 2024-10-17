@@ -6,7 +6,7 @@
 /*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/17 18:20:35 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/17 19:09:55 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,53 +82,6 @@ bool validate_input(char *input)
 	return (true);
 }
 
-// bool	validate_syntax(t_token *token_list, char *input)
-// {
-// 	if (check_syntax_errors(token_list))
-// 	{
-// 		free_tokens(token_list);
-// 		free(input);
-// 		return (false);
-// 	}
-// 	return (true);
-// }
-
-bool check_syntax_errors_before_tokenize(const char *input)
-{
-	int i = 0;
-
-	while (input[i] != '\0')
-	{
-		while (input[i] && ft_isspace(input[i]))
-			i++;
-		if (input[i] == '|')
-		{
-			if (i == 0 || input[i + 1] == '|' || input[i + 1] == '\0')
-			{
-				printf("Syntax error near unexpected token `|'\n");
-				return false;
-			}
-		}
-		if (input[i] == '<' || input[i] == '>')
-		{
-			char redirection = input[i];
-			int next_char = i + 1;
-			if (input[next_char] == redirection)
-				next_char++;
-			while (input[next_char] && ft_isspace(input[next_char]))
-				next_char++;
-			if (input[next_char] == '\0' || input[next_char] == '|' || input[next_char] == '<' || input[next_char] == '>')
-			{
-				printf("Syntax error near unexpected token `%c'\n", input[i]);
-				return false;
-			}
-		}
-		i++;
-	}
-
-	return true;
-}
-
 bool validate_command_list(t_cmd *cmd_list, t_token *token_list, char *input)
 {
 	if (cmd_list == NULL)
@@ -158,7 +111,6 @@ int main(int ac, char **av, char **envp)
 		add_history(input_);
 		if (!check_syntax_errors_before_tokenize(input_))
 		{
-			printf("here\n");
 			free(input_);
 			continue;
 		}
@@ -166,16 +118,6 @@ int main(int ac, char **av, char **envp)
 		free(input_);
 		if (!validate_input(input))
 			continue;
-		// if (input[0] == '\0')
-		// {
-		// 	free(input);
-		// 	continue ;
-		// }
-		// if (!handle_incorrect_quotes(input))
-		// {
-		// 	free(input);
-		// 	continue ;
-		// }
 		token_list = NULL;
 		tokenize_input(input, &token_list, &data);
 		// t_token *iterate;
@@ -186,8 +128,8 @@ int main(int ac, char **av, char **envp)
 		//     iterate = iterate->next;
 		// }
 		// continue ;
-		if (!validate_syntax(token_list, input))
-			continue;
+		// if (!validate_syntax(token_list, input))
+		// 	continue;
 		cmd_list = parse_tokens(token_list, &data);
 		if (!validate_command_list(cmd_list, token_list, input))
 			continue;
