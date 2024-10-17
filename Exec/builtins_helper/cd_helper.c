@@ -98,8 +98,8 @@ void	update_oldpwd(t_exec **list, char *cwd)
 
 void	update_environ(t_exec **list)
 {
-	char		*cwd;
-	char		*str;
+	char	*cwd;
+	char	*str;
 
 	cwd = ft_getenv((*list)->environ, "PWD");
 	str = ft_strdup2(cwd);

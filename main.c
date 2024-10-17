@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-int g_last_exit_status = 0;
+int			g_last_exit_status = 0;
 
-void free_red(t_output_input *iterate)
+void	free_red(t_output_input *iterate)
 {
-	t_output_input *tmp;
+	t_output_input	*tmp;
 
 	while (iterate)
 	{
@@ -29,10 +29,10 @@ void free_red(t_output_input *iterate)
 	}
 }
 
-void free_everything_cmd(t_cmd **input)
+void	free_everything_cmd(t_cmd **input)
 {
-	t_cmd *iterate;
-	t_cmd *tmp;
+	t_cmd	*iterate;
+	t_cmd	*tmp;
 
 	iterate = *input;
 	while (iterate)
@@ -47,7 +47,7 @@ void free_everything_cmd(t_cmd **input)
 	*input = NULL;
 }
 
-static void free_everything_data(t_exec *data)
+static void	free_everything_data(t_exec *data)
 {
 	clear_list(&data->environ);
 	free(data->environ);
@@ -56,7 +56,7 @@ static void free_everything_data(t_exec *data)
 	rl_clear_history();
 }
 
-static void initialize_everything(t_exec *data, char **envp, char **av, int ac)
+static void	initialize_everything(t_exec *data, char **envp, char **av, int ac)
 {
 	(void)ac;
 	data->environ = NULL;
@@ -67,50 +67,50 @@ static void initialize_everything(t_exec *data, char **envp, char **av, int ac)
 	remove_list(&data->export, "_");
 }
 
-bool validate_input(char *input)
+bool	validate_input(char *input)
 {
-    if (input[0] == '\0')
-    {
-        free(input);
-        return (false);
-    }
-    if (!handle_incorrect_quotes(input))
-    {
-        free(input);
-        return (false);
-    }
-    return (true);
+	if (input[0] == '\0')
+	{
+		free(input);
+		return (false);
+	}
+	if (!handle_incorrect_quotes(input))
+	{
+		free(input);
+		return (false);
+	}
+	return (true);
 }
 
-bool validate_syntax(t_token *token_list, char *input)
+bool	validate_syntax(t_token *token_list, char *input)
 {
-    if (check_syntax_errors(token_list))
-    {
-        free_tokens(token_list);
-        free(input);
-        return (false);
-    }
-    return (true);
+	if (check_syntax_errors(token_list))
+	{
+		free_tokens(token_list);
+		free(input);
+		return (false);
+	}
+	return (true);
 }
 
-bool validate_command_list(t_cmd *cmd_list, t_token *token_list, char *input)
+bool	validate_command_list(t_cmd *cmd_list, t_token *token_list, char *input)
 {
-    if (cmd_list == NULL)
-    {
-        free_tokens(token_list);
-        free(input);
-        return (false);
-    }
-    return (true);
+	if (cmd_list == NULL)
+	{
+		free_tokens(token_list);
+		free(input);
+		return (false);
+	}
+	return (true);
 }
 
-int main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
-	char *input_;
-	char *input;
-	t_exec data;
-	t_cmd *cmd_list;
-	t_token *token_list;
+	char	*input_;
+	char	*input;
+	t_exec	data;
+	t_cmd	*cmd_list;
+	t_token	*token_list;
 
 	initialize_everything(&data, envp, av, ac);
 	while (TRUE)
@@ -118,21 +118,21 @@ int main(int ac, char **av, char **envp)
 		handle_sig();
 		input_ = readline("Minishell -> ");
 		if (input_ == NULL)
-			break;
+			break ;
 		add_history(input_);
 		input = trim_spaces(input_);
 		free(input_);
 		if (!validate_input(input))
-            continue;
+			continue ;
 		// if (input[0] == '\0')
 		// {
 		// 	free(input);
-		// 	continue;
+		// 	continue ;
 		// }
 		// if (!handle_incorrect_quotes(input))
 		// {
 		// 	free(input);
-		// 	continue;
+		// 	continue ;
 		// }
 		token_list = NULL;
 		tokenize_input(input, &token_list, &data);
@@ -145,10 +145,10 @@ int main(int ac, char **av, char **envp)
 		// }
 		// continue ;
 		if (!validate_syntax(token_list, input))
-            continue;
+			continue ;
 		cmd_list = parse_tokens(token_list, &data);
 		if (!validate_command_list(cmd_list, token_list, input))
-            continue;
+			continue ;
 		free_tokens(token_list);
 		print_commands(cmd_list);
 		free(input);

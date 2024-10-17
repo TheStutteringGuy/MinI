@@ -18,7 +18,6 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
-# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -26,6 +25,7 @@
 # include <stdbool.h>
 # include <stddef.h>
 # include <stdint.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
@@ -59,7 +59,7 @@ typedef struct s_exec
 	int						quote;
 	int						expand;
 	int						eof;
-	int						not;
+	int not ;
 	int						s_d;
 	int						is_in;
 }							t_exec;
@@ -333,7 +333,7 @@ int							is_dollar_sign_logic(char *input, t_helpe *helpe,
 								t_exec *exec);
 void						finalize_and_free(t_helpe *helpe,
 								t_token **token_list, t_exec *exec);
-char *amr_remove_quotes(char *input, t_exec *exec);
+char						*amr_remove_quotes(char *input, t_exec *exec);
 
 //////////////////////////////////////
 

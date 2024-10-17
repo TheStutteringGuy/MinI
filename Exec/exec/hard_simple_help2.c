@@ -12,12 +12,12 @@
 
 #include "../../minishell.h"
 
-static void isdir_free(t_exec *data, t_cmd *input)
+static void	isdir_free(t_exec *data, t_cmd *input)
 {
 	print_error(input->command, "Is a directory", NULL, 1);
 	free_everything(data, input);
 	free_envp(data);
-	exit(126);	
+	exit(126);
 }
 
 void	ft_acces(t_exec *data, t_cmd *input)
