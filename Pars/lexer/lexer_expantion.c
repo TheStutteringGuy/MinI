@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:19:13 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/15 04:28:58 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 04:10:56 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,11 @@ void	handle_expansion_result(char *input, t_helpe *helpe,
 		return ;
 	}
 	if (helpe->res && *helpe->res != '\0')
-	{
 		handle_non_empty_result(helpe, token_list, exec, is_dollar_at_end);
-	}
 	if (helpe->res && *helpe->res == '\0')
 	{
-		if (input[helpe->i] == '\0' || (input[helpe->i] == '"' && input[helpe->i + 1] == '\0'))
-		{
-			helpe->token[helpe->token_len] = '\0';
-			helpe->token_len = 0;
-			handle_token(token_list, helpe->token, helpe, exec);
-			exec->not = 0;
-		}
-		exec->s_d = 1;
+		if (exec->quote == 2)
+			exec->s_d = 1;
 	}
 	free(helpe->res);
 }
@@ -101,6 +93,11 @@ void	handle_operators_logic(char *input, t_helpe *helpe,
 
 void	finalize_tokens(t_helpe *helpe, t_token **token_list, t_exec *exec)
 {
+	if (helpe->token_len == 0 && exec->s_d == 1)
+	{
+		helpe->token[helpe->token_len] = '\0';
+		handle_token(token_list, helpe->token, helpe, exec);
+	}
 	if (helpe->token_len > 0)
 	{
 		helpe->token[helpe->token_len] = '\0';

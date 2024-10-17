@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:17:41 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/15 16:27:38 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/17 02:58:22 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,18 @@ void handle_dollar_sign_logic(char *input, t_helpe *helpe,
 							  t_token **token_list, t_exec *exec)
 {
 	update_quote(exec);
-	// if (input[helpe->i] == '$' && ft_isdigit(input[1]))
-	// {
-	// 	helpe->i += 2;
-	// 	while (input[helpe->i] && !ft_isspace(input[helpe->i]))
-	// 	{
-	// 		helpe->token[helpe->token_len] = input[helpe->i];
-	// 		helpe->token_len++;
-	// 		helpe->i++;
-	// 	}
-	// 	helpe->token[helpe->token_len] = '\0';
-	// 	helpe->i--;
-	// 	return;
-	// }
+	if (input[helpe->i] == '$' && ft_isdigit(input[helpe->i + 1]))
+	{
+		helpe->i++;
+		return ;
+	}
 	if (input[helpe->i] == '$' && (input[helpe->i + 1] == '\0' || ft_isspace(input[helpe->i + 1])))
 	{
 		helpe->token[helpe->token_len] = '$';
 		helpe->token_len++;
 		return;
 	}
-	if (input[helpe->i] == '$' && input[helpe->i + 1] == '"' && exec->quote == 2)
+	if (input[helpe->i] == '$' && (input[helpe->i + 1] == '"' || input[helpe->i + 1] == '\'') && exec->quote == 2)
 	{
 		helpe->token[helpe->token_len] = '$';
 		helpe->token_len++;

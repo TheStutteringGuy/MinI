@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper_tokenize.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 19:53:59 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/13 20:05:47 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/17 04:00:22 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 void	handle_s_g(char *input, t_token **token_list, t_helpe *helpe,
 		t_exec *exec)
 {
-	if (((input[helpe->i] == '\'' && input[helpe->i + 1] == '\'')
-			|| (input[helpe->i] == '"' && input[helpe->i + 1] == '"'))
-		&& input[helpe->i + 2] == '\0')
+	if (input[helpe->i + 2] == '\0')
 	{
 		helpe->token[helpe->token_len] = '\0';
 		handle_token(token_list, helpe->token, helpe, exec);

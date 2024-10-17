@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:01 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/15 16:25:56 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/17 03:00:06 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	tokenize_input(char *input, t_token **token_list, t_exec *exec)
 			handle_s_g(input, token_list, helpe, exec);
 		else if (is_matching_quote(input, helpe, exec))
 			handle_quote(input[helpe->i], exec, helpe);
-		else if (is_whitespace_no_delimiter(input, helpe, exec))
+		else if (is_whitespace_no_delimiter_or_end(input, helpe, exec))
 			copy_token(token_list, helpe, exec);
 		else if (is_operator_no_delimiter(input, helpe, exec))
 			handle_operators_logic(input, helpe, token_list, exec);

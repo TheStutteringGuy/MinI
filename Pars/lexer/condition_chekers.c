@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   condition_chekers.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 02:25:57 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/14 02:32:02 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/17 02:19:34 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	is_matching_quote(char *input, t_helpe *helpe, t_exec *exec)
 		&& (exec->delimiter == 0 || input[helpe->i] == exec->delimiter));
 }
 
-int	is_whitespace_no_delimiter(char *input, t_helpe *helpe, t_exec *exec)
+int	is_whitespace_no_delimiter_or_end(char *input, t_helpe *helpe, t_exec *exec)
 {
-	return (ft_isspace(input[helpe->i]) && exec->delimiter == 0);
+	return ((ft_isspace(input[helpe->i]) && exec->delimiter == 0) || input[helpe->i] == '\0');
 }
 
 int	is_operator_no_delimiter(char *input, t_helpe *helpe, t_exec *exec)

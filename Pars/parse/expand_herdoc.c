@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 21:02:15 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 01:49:45 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 02:25:46 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,5 @@ char	*expand_herdoc(char *str, t_exec *exec)
 	exp.exec = exec;
 	exp.res = NULL;
 	expand_loop(&exp, str);
-	printf("---->   %s\n", exp.res);
 	return (exp.res);
 }

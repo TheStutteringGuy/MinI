@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/15 22:21:13 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/17 02:19:45 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -25,7 +26,6 @@
 # include <stdbool.h>
 # include <stddef.h>
 # include <stdint.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
@@ -58,8 +58,8 @@ typedef struct s_exec
 	int						delimiter;
 	int						quote;
 	int						expand;
+	int 					not;
 	int						eof;
-	int not ;
 	int						s_d;
 	int						is_in;
 }							t_exec;
@@ -323,7 +323,7 @@ int							is_empty_quote_pair(char *input, t_helpe *helpe,
 								t_exec *exec);
 int							is_matching_quote(char *input, t_helpe *helpe,
 								t_exec *exec);
-int							is_whitespace_no_delimiter(char *input,
+int							is_whitespace_no_delimiter_or_end(char *input,
 								t_helpe *helpe, t_exec *exec);
 int							is_operator_no_delimiter(char *input,
 								t_helpe *helpe, t_exec *exec);
