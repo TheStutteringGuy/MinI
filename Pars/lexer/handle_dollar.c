@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:17:41 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 11:38:54 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 14:30:34 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void handle_dollar_sign_logic(char *input, t_helpe *helpe,
 		helpe->token_len++;
 		return;
 	}
+	if (input[helpe->i] == '$' && (input[helpe->i + 1] == '"' || input[helpe->i + 1] == '\'') && exec->quote == 0)
+		return;
 	if (input[helpe->i] == '$' && (input[helpe->i + 1] == '"' || input[helpe->i + 1] == '\'') && exec->quote == 2)
 	{
 		helpe->token[helpe->token_len] = '$';

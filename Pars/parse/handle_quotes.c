@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 09:16:33 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 14:36:50 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ char *handle_count(t_norm *norm, t_exec *exec)
 		return (ft_strdup2(norm->str));
 	else if (exec->expand == 1)
 	{
-		printf("HEREE\n");
 		if (norm->count == 1)
 			return (remove_space(norm->str));
 		else if (norm->count >= 2)
@@ -58,29 +57,23 @@ void handle_env_var_expansion(char *input, t_exec *exec, t_norm *norm)
 
 void process_character(char *input, t_exec *exec, t_norm *norm)
 {
-	if ((input[norm->i] == '\'' || input[norm->i] == '"') && (exec->delimiter == 0 || input[norm->i] == exec->delimiter))
+	if (((input[norm->i] == '\'' && input[norm->i + 1] == '\'') || (input[norm->i] == '"' && input[norm->i + 1] == '"')) && exec->is_in == 0)
 	{
-		handle_quote(input[norm->i], exec);
-		if ((exec->quote == 2 && input[norm->i + 1] == '"' && input[norm->i + 2] == '\0') 
-		|| (exec->quote == 1 && input[norm->i + 1] == '\'' &&  input[norm->i + 2] == '\0'))
-		{
-			norm->i++;
-			return ;
-		}
+		exec->s_d = 1;
+		norm->i++;
 	}
+	else if ((input[norm->i] == '\'' || input[norm->i] == '"') && (exec->delimiter == 0 || input[norm->i] == exec->delimiter))
+		handle_quote(input[norm->i], exec);
 	else if (input[norm->i] == '$' && input[norm->i + 1] == '\0')
 	{
 		norm->str[norm->j++] = input[norm->i];
 		return ;
 	}
+	else if (input[norm->i] == '$' && (input[norm->i + 1] == '"' || input[norm->i + 1] == '\'') && exec->quote == 0)
+		return ;
 	else if (input[norm->i] == '$' && (input[norm->i + 1] == '"' || input[norm->i + 1] == '\'') && exec->quote == 2)
 	{
 		norm->str[norm->j++] = input[norm->i];
-		return ;
-	}
-	else if (input[norm->i] == '$' && (input[norm->i + 1] == '"' || input[norm->i + 1] == '\'') && exec->quote == 0)
-	{
-		norm->i++;
 		return ;
 	}
 	else if (input[norm->i] == '$' && (exec->delimiter == 0 || exec->delimiter != '\''))
