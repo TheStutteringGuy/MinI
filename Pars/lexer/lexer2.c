@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:19:56 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/12 20:31:52 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/17 10:25:57 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,7 @@ void	handle_non_empty_result(t_helpe *helpe, t_token **token_list,
 		t_exec *exec, int is_dollar_at_end)
 {
 	if (is_dollar_at_end)
-	{
 		handle_dollar_at_end(helpe, token_list, exec);
-	}
 	else
-	{
 		handle_result_input(helpe, token_list, exec);
-	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:19:46 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/12 23:11:32 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/17 11:18:35 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	copy_token(t_token **token_list, t_helpe *helpe, t_exec *exec)
 		handle_token(token_list, helpe->token, helpe, exec);
 		exec->not = 0;
 		helpe->token_len = 0;
+		exec->s_d = 0;
 	}
 }
 

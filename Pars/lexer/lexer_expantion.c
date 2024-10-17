@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:19:13 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 04:10:56 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 11:25:15 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ void	handle_operators_logic(char *input, t_helpe *helpe,
 	else
 		helpe->token[helpe->token_len++] = input[helpe->i];
 	finalize_token(token_list, helpe, exec);
-	exec->not = 1;
+	if (input[helpe->i] == '|')
+		;
+	else
+		exec->not = 1;
 }
 
 void	finalize_tokens(t_helpe *helpe, t_token **token_list, t_exec *exec)
