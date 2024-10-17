@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_sig.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 21:40:47 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/09/22 22:56:48 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/17 09:23:59 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	handle_c(int sig)
 		printf("\n");
 		rl_on_new_line();
 		rl_redisplay();
+		g_last_exit_status = 130;
 	}
 }
 

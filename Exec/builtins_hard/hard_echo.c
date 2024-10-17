@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/07 18:34:37 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 10:09:59 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	handle_flag(t_cmd *input)
 	while (input->arguments[i] != NULL)
 	{
 		j = 0;
-		if (input->arguments[i][j] == '-')
+		if (input->arguments[i][j] == '-' && input->arguments[i][j + 1] != '\0')
 		{
 			j++;
 			while (input->arguments[i][j] != '\0')
