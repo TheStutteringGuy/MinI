@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 19:55:53 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 09:14:48 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 11:46:48 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,13 @@ void 	expand_env_var_string(char *input, t_norm *norm, t_exec *exec)
 		handle_special_case(norm);
 		norm->i++;
 		return ;
+	}
+	if (!check_for_char(input[norm->i]))
+	{
+		norm->str[norm->j++] = '$';
+		norm->str[norm->j++] = input[norm->i];
+		norm->i++;
+		return;
 	}
 	var_name = get_env_var_name(input, &norm->i);
 	res = expand(var_name, exec);

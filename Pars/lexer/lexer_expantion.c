@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:19:13 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 11:25:15 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 11:44:59 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,28 @@ void	handle_expansion_result(char *input, t_helpe *helpe,
 void	expand_env_var(char *input, t_helpe *helpe, t_token **token_list,
 		t_exec *exec)
 {
+	char *str;
+	int k;
+
 	exec->expand = 0;
 	if (input[helpe->i] == '$')
 	{
 		(helpe->i)++;
 		if (input[helpe->i] == '?')
 		{
-			handle_exit_status(input, helpe, token_list, exec);
+			str = ft_itoa(g_last_exit_status);
+			k = 0;
+			while (str[k])
+				helpe->token[helpe->token_len++] = str[k++];
+			helpe->i++;
 			return ;
+		}
+		if (!check_for_char(input[helpe->i]))
+		{
+			helpe->token[helpe->token_len++] = '$';
+			helpe->token[helpe->token_len++] = input[helpe->i];
+			helpe->i++;
+			return;
 		}
 		handle_variable_expansion(input, helpe, token_list, exec);
 	}
