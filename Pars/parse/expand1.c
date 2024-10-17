@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:23:31 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/15 15:03:03 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/17 01:50:15 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*expand_exit_status(t_expansion *exp)
 	status_str = ft_itoa(g_last_exit_status);
 	if (!status_str)
 		return (NULL);
-	exp->res = ft_strjoin(exp->res, status_str);
+	exp->res = ft_strjoin2(exp->res, status_str);
 	free(status_str);
 	return (exp->res);
 }
@@ -34,7 +34,7 @@ char	*expand_digit_variable(t_expansion *exp, char *str)
 	{
 		temp[0] = str[exp->i];
 		temp[1] = '\0';
-		exp->res = ft_strjoin(exp->res, temp);
+		exp->res = ft_strjoin2(exp->res, temp);
 		exp->i++;
 	}
 	return (exp->res);
@@ -55,9 +55,9 @@ char	*expand_environment_variable(t_expansion *exp, char *str)
 	env_value = ft_getenv(exp->exec->environ, var_name);
 	free(var_name);
 	if (env_value)
-		exp->res = ft_strjoin(exp->res, env_value);
+		exp->res = ft_strjoin2(exp->res, env_value);
 	else
-		exp->res = ft_strjoin(exp->res, "");
+		exp->res = ft_strjoin2(exp->res, "");
 	exp->i = j;
 	return (exp->res);
 }
@@ -69,7 +69,7 @@ char *add_quote_to_result(t_expansion *exp, char c)
 
     temp[0] = c;
     temp[1] = '\0';
-    new_res = ft_strjoin(exp->res, temp);
+    new_res = ft_strjoin2(exp->res, temp);
     if (exp->res)
         free(exp->res);
     exp->res = new_res;
