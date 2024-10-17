@@ -6,71 +6,18 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 23:31:01 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/15 02:46:43 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 01:10:54 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	**case_one(char *str)
+static void isdir_free(t_exec *data, t_cmd *input)
 {
-	char	**arg;
-
-	arg = malloc(sizeof(char *) * 2);
-	if (!arg)
-	{
-		print_error("Failed to allocate arg", NULL, NULL, 0);
-		exit(1);
-	}
-	arg[0] = ft_substr(str, 0, ft_strlen2(str));
-	arg[1] = NULL;
-	return (arg);
-}
-
-int	print_err_(void)
-{
-	print_error("Failed to allocate arg", NULL, NULL, 0);
-	exit(0);
-}
-
-int	array_size(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i])
-		i++;
-	++i;
-	return (i);
-}
-
-char	**join_to_array(char *str, char **array)
-{
-	int		total;
-	int		i;
-	int		j;
-	char	**argv;
-
-	if (array == NULL)
-	{
-		argv = case_one(str);
-		return (argv);
-	}
-	total = array_size(array);
-	argv = malloc(sizeof(char *) * (total + 1));
-	if (!argv)
-		print_err_();
-	argv[total] = NULL;
-	argv[0] = ft_substr(str, 0, ft_strlen2(str));
-	j = 0;
-	i = 1;
-	while (array[j])
-	{
-		argv[i] = ft_substr(array[j], 0, ft_strlen2(array[j]));
-		i++;
-		j++;
-	}
-	return (argv);
+	print_error(input->command, "Is a directory", NULL, 1);
+	free_everything(data, input);
+	free_envp(data);
+	exit(126);	
 }
 
 void	ft_acces(t_exec *data, t_cmd *input)
@@ -80,10 +27,7 @@ void	ft_acces(t_exec *data, t_cmd *input)
 	if (stat(input->command, &info) == 0)
 	{
 		if (S_ISDIR(info.st_mode) != 0)
-		{
-			print_error(input->command, "Is a directory", NULL, 1);
-			exit(126);
-		}
+			isdir_free(data, input);
 	}
 	if (access(input->command, F_OK | X_OK) == 0)
 	{
@@ -93,6 +37,8 @@ void	ft_acces(t_exec *data, t_cmd *input)
 	else
 	{
 		print_error(input->command, strerror(errno), NULL, 1);
+		free_envp(data);
+		free_everything(data, input);
 		if (errno == ENOENT)
 			exit(127);
 		if (errno == EACCES || errno == ENOTDIR)

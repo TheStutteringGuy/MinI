@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 02:21:40 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/14 23:37:40 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 00:57:39 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	execve_handle_simple(t_exec *data, t_cmd *input, int read_fd,
 		dup2(write_fd, 1);
 		child_function(data, input);
 		free_everything(data, input);
+		free_envp(data);
 		exit(0);
 	}
 	else

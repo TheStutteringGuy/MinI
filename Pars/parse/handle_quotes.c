@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/16 18:05:40 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/17 00:54:31 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

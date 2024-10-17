@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hard_simple_help.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 23:28:44 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/15 23:46:20 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/17 01:00:34 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,16 @@ void	ft_handle_function(char *str, int *flag)
 	}
 }
 
+static void	free_child_2(t_exec *data, t_cmd *input, char **split)
+{
+	print_error(input->command, "command not found\n", NULL, 1);
+	free_split(split);
+	if (data->arg)
+		free_split(data->arg);
+	free_split(data->envp);
+	free_everything(data, input);
+}
+
 void	child_funtion_2(t_exec *data, t_cmd *input, char *inp)
 {
 	int		i;
@@ -33,6 +43,7 @@ void	child_funtion_2(t_exec *data, t_cmd *input, char *inp)
 	char	*check;
 
 	i = 0;
+	data->arg = NULL;
 	split = ft_split(inp, ':');
 	while (split[i])
 	{
@@ -43,14 +54,13 @@ void	child_funtion_2(t_exec *data, t_cmd *input, char *inp)
 		{
 			data->arg = join_to_array(input->command, input->arguments);
 			execve(check, data->arg, data->envp);
+			free(check);
 			break ;
 		}
 		free(check);
 		i++;
 	}
-	free_split(data->arg);
-	free_split(split);
-	print_error(input->command, "command not found\n", NULL, 1);
+	free_child_2(data, input, split);
 	exit(127);
 }
 
