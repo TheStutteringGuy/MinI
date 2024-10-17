@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 19:55:53 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 05:20:09 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 09:14:48 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,9 @@ void 	expand_env_var_string(char *input, t_norm *norm, t_exec *exec)
 	free(var_name);
 	if (res == NULL)
 		res = "";
+	if (exec->quote == 2)
+		exec->expand = 0;
+	else
+		exec->expand = 1;
 	expand_and_check(res, input, exec, norm);
 }

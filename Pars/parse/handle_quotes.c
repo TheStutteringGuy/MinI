@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 05:19:10 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 09:16:33 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,17 @@ char *handle_count(t_norm *norm, t_exec *exec)
 		return (ft_strdup2(""));
 	else if (norm->count == 0)
 		return (NULL);
-	if (norm->count >= 2)
+	if (exec->expand == 0)
+		return (ft_strdup2(norm->str));
+	else if (exec->expand == 1)
 	{
-		if (exec->quote == 2)
-			return (norm->str);
-		else
+		printf("HEREE\n");
+		if (norm->count == 1)
+			return (remove_space(norm->str));
+		else if (norm->count >= 2)
 			return (NULL);
 	}
-	norm->str1 = remove_space(norm->str);
-	free(norm->str);
-	return (norm->str1);
+	return (ft_strdup2(norm->str));
 }
 
 void handle_env_var_expansion(char *input, t_exec *exec, t_norm *norm)
@@ -92,6 +93,7 @@ void process_character(char *input, t_exec *exec, t_norm *norm)
 char *remove_quotes(char *input, t_exec *exec, t_norm *norm)
 {
 	int result;
+	char *str;
 
 	norm->i = 0;
 	norm->j = 0;
@@ -99,13 +101,15 @@ char *remove_quotes(char *input, t_exec *exec, t_norm *norm)
 	if (!norm->str)
 		return (NULL);
 	initialize_exec(exec);
+	exec->expand = 0;
 	while (input[norm->i] != '\0')
 	{
 		process_character(input, exec, norm);
 		norm->i++;
 	}
 	norm->str[norm->j] = '\0';
-	// norm->count = count_values(norm->str);
-	// return (handle_count(norm, exec));
-	return (norm->str);
+	norm->count = count_values(norm->str);
+	str = handle_count(norm, exec);
+	free(norm->str);
+	return (str);
 }
