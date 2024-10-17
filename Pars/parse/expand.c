@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:23:09 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/16 17:44:44 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/17 05:15:51 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

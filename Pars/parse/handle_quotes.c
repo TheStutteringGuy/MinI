@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 05:08:11 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 05:19:10 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void handle_env_var_expansion(char *input, t_exec *exec, t_norm *norm)
 	norm->i--;
 }
 
-int process_character(char *input, t_exec *exec, t_norm *norm)
+void process_character(char *input, t_exec *exec, t_norm *norm)
 {
 	if ((input[norm->i] == '\'' || input[norm->i] == '"') && (exec->delimiter == 0 || input[norm->i] == exec->delimiter))
 	{
@@ -64,29 +64,28 @@ int process_character(char *input, t_exec *exec, t_norm *norm)
 		|| (exec->quote == 1 && input[norm->i + 1] == '\'' &&  input[norm->i + 2] == '\0'))
 		{
 			norm->i++;
-			return (1);
+			return ;
 		}
 	}
 	else if (input[norm->i] == '$' && input[norm->i + 1] == '\0')
 	{
 		norm->str[norm->j++] = input[norm->i];
-		return (1);
+		return ;
 	}
 	else if (input[norm->i] == '$' && (input[norm->i + 1] == '"' || input[norm->i + 1] == '\'') && exec->quote == 2)
 	{
 		norm->str[norm->j++] = input[norm->i];
-		return (1);
+		return ;
 	}
 	else if (input[norm->i] == '$' && (input[norm->i + 1] == '"' || input[norm->i + 1] == '\'') && exec->quote == 0)
 	{
 		norm->i++;
-		return (1);
+		return ;
 	}
 	else if (input[norm->i] == '$' && (exec->delimiter == 0 || exec->delimiter != '\''))
 		handle_env_var_expansion(input, exec, norm);
 	else
 		norm->str[norm->j++] = input[norm->i];
-	return (1);
 }
 
 
@@ -102,7 +101,7 @@ char *remove_quotes(char *input, t_exec *exec, t_norm *norm)
 	initialize_exec(exec);
 	while (input[norm->i] != '\0')
 	{
-		result = process_character(input, exec, norm);
+		process_character(input, exec, norm);
 		norm->i++;
 	}
 	norm->str[norm->j] = '\0';

@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 19:55:53 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 04:49:41 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 05:20:09 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void expand_and_check(char *res, char *input, t_exec *exec, t_norm *norm)
 			norm->str[norm->j++] = '$';
 			norm->i++;
 		}
+		free(res);
 		return ;
 	}
 	if (res && *res == 0)
