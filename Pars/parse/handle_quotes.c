@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 03:34:01 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 05:08:11 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void handle_quote(char input, t_exec *exec)
 
 char *handle_count(t_norm *norm, t_exec *exec)
 {
-	if (norm->count == 0 && (exec->quote == 2 || exec->quote == 1))
+	if (norm->count == 0 && exec->s_d == 1)
 		return (ft_strdup2(""));
 	else if (norm->count == 0)
 		return (NULL);
@@ -49,28 +49,14 @@ char *handle_count(t_norm *norm, t_exec *exec)
 	return (norm->str1);
 }
 
-int handle_env_var_expansion(char *input, t_exec *exec, t_norm *norm)
+void handle_env_var_expansion(char *input, t_exec *exec, t_norm *norm)
 {
-	norm->expanded = expand_env_var_string(input, &norm->i, exec);
-	if (!norm->expanded)
-	{
-		free(norm->str);
-		return (0);
-	}
-	while (*(norm->expanded))
-	{
-		norm->str[norm->j++] = *(norm->expanded)++;
-	}
-	if (input[norm->i] == '$' && input[norm->i + 1] == '\0')
-		return (-1);
+	expand_env_var_string(input, norm, exec);
 	norm->i--;
-	return (1);
 }
 
 int process_character(char *input, t_exec *exec, t_norm *norm)
 {
-	int result;
-
 	if ((input[norm->i] == '\'' || input[norm->i] == '"') && (exec->delimiter == 0 || input[norm->i] == exec->delimiter))
 	{
 		handle_quote(input[norm->i], exec);
@@ -80,6 +66,11 @@ int process_character(char *input, t_exec *exec, t_norm *norm)
 			norm->i++;
 			return (1);
 		}
+	}
+	else if (input[norm->i] == '$' && input[norm->i + 1] == '\0')
+	{
+		norm->str[norm->j++] = input[norm->i];
+		return (1);
 	}
 	else if (input[norm->i] == '$' && (input[norm->i + 1] == '"' || input[norm->i + 1] == '\'') && exec->quote == 2)
 	{
@@ -92,13 +83,7 @@ int process_character(char *input, t_exec *exec, t_norm *norm)
 		return (1);
 	}
 	else if (input[norm->i] == '$' && (exec->delimiter == 0 || exec->delimiter != '\''))
-	{
-		result = handle_env_var_expansion(input, exec, norm);
-		if (result == 0)
-			return (0);
-		if (result == -1)
-			return (-1);
-	}
+		handle_env_var_expansion(input, exec, norm);
 	else
 		norm->str[norm->j++] = input[norm->i];
 	return (1);
@@ -118,16 +103,10 @@ char *remove_quotes(char *input, t_exec *exec, t_norm *norm)
 	while (input[norm->i] != '\0')
 	{
 		result = process_character(input, exec, norm);
-		if (result == 0)
-		{
-			free(norm->str);
-			return (NULL);
-		}
-		if (result == -1)
-			break;
 		norm->i++;
 	}
 	norm->str[norm->j] = '\0';
-	norm->count = count_values(norm->str);
-	return (handle_count(norm, exec));
+	// norm->count = count_values(norm->str);
+	// return (handle_count(norm, exec));
+	return (norm->str);
 }

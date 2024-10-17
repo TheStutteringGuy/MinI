@@ -6,16 +6,22 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 19:55:53 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 03:19:21 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 04:49:41 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*handle_special_case(int *i)
+void	handle_special_case(t_norm *norm)
 {
-	(*i)++;
-	return (ft_itoa(g_last_exit_status));
+	char *str;
+	int i;
+
+	str = ft_itoa(g_last_exit_status);
+	i = 0;
+	while (str[i])
+		norm->str[norm->j++] = str[i++];
+	free(str);
 }
 
 char	*get_env_var_name(char *input, int *i)
@@ -30,15 +36,31 @@ char	*get_env_var_name(char *input, int *i)
 	return (ft_strdup2(temp));
 }
 
-char	*expand_and_check(char *res, char *input, int *i, t_exec *exec)
+void expand_and_check(char *res, char *input, t_exec *exec, t_norm *norm)
 {
-	if (input[*i] == '$' && (input[*i + 1] == '\0' || ft_isspace(input[*i
-					+ 1])))
+	int dollar_in_end;
+	int	k;
+
+	dollar_in_end = 0;
+	if (input[norm->i] == '$' && (input[norm->i + 1] == '\0' || ft_isspace(input[norm->i + 1]) || input[norm->i + 1] == '"'))
+		dollar_in_end = 1;
+	if (res && *res != 0)
 	{
-		exec->quote = 2;
-		return (ft_strjoin2(res, "$"));
+		k = 0;
+		while (res[k])
+			norm->str[norm->j++] = res[k++];
+		if (dollar_in_end == 1)
+		{
+			norm->str[norm->j++] = '$';
+			norm->i++;
+		}
+		return ;
 	}
-	return (res);
+	if (res && *res == 0)
+	{
+		if (exec->quote == 2)
+			exec->s_d = 1;
+	}
 }
 
 char	*handle_empty_or_invalid_var(int *i, char *input)
@@ -48,21 +70,22 @@ char	*handle_empty_or_invalid_var(int *i, char *input)
 	return (NULL);
 }
 
-char	*expand_env_var_string(char *input, int *i, t_exec *exec)
+void 	expand_env_var_string(char *input, t_norm *norm, t_exec *exec)
 {
 	char	*res;
 	char	*var_name;
 
-	(*i)++;
-	if (input[*i] == '?')
-		return (handle_special_case(i));
-	res = handle_empty_or_invalid_var(i, input);
-	if (res != NULL)
-		return (res);
-	var_name = get_env_var_name(input, i);
+	norm->i++;
+	if (input[norm->i] == '?')
+	{
+		handle_special_case(norm);
+		norm->i++;
+		return ;
+	}
+	var_name = get_env_var_name(input, &norm->i);
 	res = expand(var_name, exec);
 	free(var_name);
 	if (res == NULL)
 		res = "";
-	return (expand_and_check(res, input, i, exec));
+	expand_and_check(res, input, exec, norm);
 }

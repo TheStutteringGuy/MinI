@@ -1,0 +1,9 @@
+Exec
+main.c
+Makefile
+minishell
+minishell.h
+Pars
+readline.supp
+run.sh
+'thestutteringguy'

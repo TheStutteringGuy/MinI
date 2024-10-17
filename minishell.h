@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/17 02:19:45 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 04:54:06 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,7 +294,7 @@ void						handle_pipe(t_cmd_context *cmd_ctx,
 								t_token **current_token, t_type *expected);
 void						handle_redirection(t_cmd_context *cmd_ctx,
 								t_token **current_token, t_exec *exec);
-char						*expand_env_var_string(char *input, int *i,
+void						expand_env_var_string(char *input, t_norm *norm,
 								t_exec *exec);
 // print include
 void						print_commands(t_cmd *cmd_list);
