@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/17 13:51:19 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 18:20:35 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int			g_last_exit_status = 0;
+int g_last_exit_status = 0;
 
-void	free_red(t_output_input *iterate)
+void free_red(t_output_input *iterate)
 {
-	t_output_input	*tmp;
+	t_output_input *tmp;
 
 	while (iterate)
 	{
@@ -29,10 +29,10 @@ void	free_red(t_output_input *iterate)
 	}
 }
 
-void	free_everything_cmd(t_cmd **input)
+void free_everything_cmd(t_cmd **input)
 {
-	t_cmd	*iterate;
-	t_cmd	*tmp;
+	t_cmd *iterate;
+	t_cmd *tmp;
 
 	iterate = *input;
 	while (iterate)
@@ -47,7 +47,7 @@ void	free_everything_cmd(t_cmd **input)
 	*input = NULL;
 }
 
-static void	free_everything_data(t_exec *data)
+static void free_everything_data(t_exec *data)
 {
 	clear_list(&data->environ);
 	free(data->environ);
@@ -56,7 +56,7 @@ static void	free_everything_data(t_exec *data)
 	rl_clear_history();
 }
 
-static void	initialize_everything(t_exec *data, char **envp, char **av, int ac)
+static void initialize_everything(t_exec *data, char **envp, char **av, int ac)
 {
 	(void)ac;
 	data->environ = NULL;
@@ -67,7 +67,7 @@ static void	initialize_everything(t_exec *data, char **envp, char **av, int ac)
 	remove_list(&data->export, "_");
 }
 
-bool	validate_input(char *input)
+bool validate_input(char *input)
 {
 	if (input[0] == '\0')
 	{
@@ -82,18 +82,54 @@ bool	validate_input(char *input)
 	return (true);
 }
 
-bool	validate_syntax(t_token *token_list, char *input)
+// bool	validate_syntax(t_token *token_list, char *input)
+// {
+// 	if (check_syntax_errors(token_list))
+// 	{
+// 		free_tokens(token_list);
+// 		free(input);
+// 		return (false);
+// 	}
+// 	return (true);
+// }
+
+bool check_syntax_errors_before_tokenize(const char *input)
 {
-	if (check_syntax_errors(token_list))
+	int i = 0;
+
+	while (input[i] != '\0')
 	{
-		free_tokens(token_list);
-		free(input);
-		return (false);
+		while (input[i] && ft_isspace(input[i]))
+			i++;
+		if (input[i] == '|')
+		{
+			if (i == 0 || input[i + 1] == '|' || input[i + 1] == '\0')
+			{
+				printf("Syntax error near unexpected token `|'\n");
+				return false;
+			}
+		}
+		if (input[i] == '<' || input[i] == '>')
+		{
+			char redirection = input[i];
+			int next_char = i + 1;
+			if (input[next_char] == redirection)
+				next_char++;
+			while (input[next_char] && ft_isspace(input[next_char]))
+				next_char++;
+			if (input[next_char] == '\0' || input[next_char] == '|' || input[next_char] == '<' || input[next_char] == '>')
+			{
+				printf("Syntax error near unexpected token `%c'\n", input[i]);
+				return false;
+			}
+		}
+		i++;
 	}
-	return (true);
+
+	return true;
 }
 
-bool	validate_command_list(t_cmd *cmd_list, t_token *token_list, char *input)
+bool validate_command_list(t_cmd *cmd_list, t_token *token_list, char *input)
 {
 	if (cmd_list == NULL)
 	{
@@ -104,13 +140,13 @@ bool	validate_command_list(t_cmd *cmd_list, t_token *token_list, char *input)
 	return (true);
 }
 
-int	main(int ac, char **av, char **envp)
+int main(int ac, char **av, char **envp)
 {
-	char	*input_;
-	char	*input;
-	t_exec	data;
-	t_cmd	*cmd_list;
-	t_token	*token_list;
+	char *input_;
+	char *input;
+	t_exec data;
+	t_cmd *cmd_list;
+	t_token *token_list;
 
 	initialize_everything(&data, envp, av, ac);
 	while (TRUE)
@@ -118,12 +154,18 @@ int	main(int ac, char **av, char **envp)
 		handle_sig();
 		input_ = readline("Minishell -> ");
 		if (input_ == NULL)
-			break ;
+			break;
 		add_history(input_);
+		if (!check_syntax_errors_before_tokenize(input_))
+		{
+			printf("here\n");
+			free(input_);
+			continue;
+		}
 		input = trim_spaces(input_);
 		free(input_);
 		if (!validate_input(input))
-			continue ;
+			continue;
 		// if (input[0] == '\0')
 		// {
 		// 	free(input);
@@ -145,10 +187,10 @@ int	main(int ac, char **av, char **envp)
 		// }
 		// continue ;
 		if (!validate_syntax(token_list, input))
-			continue ;
+			continue;
 		cmd_list = parse_tokens(token_list, &data);
 		if (!validate_command_list(cmd_list, token_list, input))
-			continue ;
+			continue;
 		free_tokens(token_list);
 		print_commands(cmd_list);
 		free(input);

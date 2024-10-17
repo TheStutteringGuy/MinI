@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/17 04:54:06 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 18:08:01 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,7 +311,7 @@ void						handle_s_g(char *input, t_token **token_list,
 								t_helpe *helpe, t_exec *exec);
 
 // quotes includes
-int							check_syntax_errors(t_token *token_list);
+// int							check_syntax_errors(t_token *token_list);
 char						*remove_quotes(char *input, t_exec *exec,
 								t_norm *norm);
 char						*handle_incorrect_quotes(char *token);
