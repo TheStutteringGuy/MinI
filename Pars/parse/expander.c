@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 19:55:53 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 18:01:58 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/19 00:25:59 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,25 +71,20 @@ char	*handle_empty_or_invalid_var(int *i, char *input)
 	return (NULL);
 }
 
-void 	expand_env_var_string(char *input, t_norm *norm, t_exec *exec)
+void expand_env_var_string(char *input, t_norm *norm, t_exec *exec)
 {
-	char	*res;
-	char	*var_name;
+	char *res;
+	char *var_name;
 
 	norm->i++;
 	if (input[norm->i] == '?')
 	{
 		handle_special_case(norm);
 		norm->i++;
-		return ;
-	}
-	if (!check_for_char(input[norm->i]))
-	{
-		norm->str[norm->j++] = '$';
-		norm->str[norm->j++] = input[norm->i];
-		norm->i++;
 		return;
 	}
+	if (handle_invalid_char_after_dollar(input, norm))
+		return;
 	var_name = get_env_var_name(input, &norm->i);
 	res = expand(var_name, exec);
 	free(var_name);

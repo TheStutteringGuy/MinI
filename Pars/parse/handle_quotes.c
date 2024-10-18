@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 18:01:58 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/19 00:22:44 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void handle_env_var_expansion(char *input, t_exec *exec, t_norm *norm)
 
 void process_character(char *input, t_exec *exec, t_norm *norm)
 {
-	if (((input[norm->i] == '\'' && input[norm->i + 1] == '\'') || (input[norm->i] == '"' && input[norm->i + 1] == '"')) && exec->is_in == 0)
+	if (is_empty_quotes_sequence(input, norm, exec))
 	{
 		exec->s_d = 1;
 		norm->i++;
@@ -67,14 +67,14 @@ void process_character(char *input, t_exec *exec, t_norm *norm)
 	else if (input[norm->i] == '$' && input[norm->i + 1] == '\0')
 	{
 		norm->str[norm->j++] = input[norm->i];
-		return ;
+		return;
 	}
-	else if (input[norm->i] == '$' && (input[norm->i + 1] == '"' || input[norm->i + 1] == '\'') && exec->quote == 0)
-		return ;
-	else if (input[norm->i] == '$' && (input[norm->i + 1] == '"' || input[norm->i + 1] == '\'') && exec->quote == 2)
+	else if (is_dollar_followed_by_quote(input, norm, exec))
+		return;
+	else if (is_dollar_followed_by_quote_with_exec_quote_two(input, norm, exec))
 	{
 		norm->str[norm->j++] = input[norm->i];
-		return ;
+		return;
 	}
 	else if (input[norm->i] == '$' && (exec->delimiter == 0 || exec->delimiter != '\''))
 		handle_env_var_expansion(input, exec, norm);

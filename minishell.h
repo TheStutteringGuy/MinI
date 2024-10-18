@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/18 19:24:11 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/19 00:26:27 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,10 +312,14 @@ void						handle_s_g(char *input, t_token **token_list,
 
 // quotes includes
 bool 						check_syntax_errors_before_tokenize(char *input);
+int 						is_dollar_followed_by_quote_with_exec_quote_two(char *input, t_norm *norm, t_exec *exec);
 char						*remove_quotes(char *input, t_exec *exec,
 								t_norm *norm);
 char						*handle_incorrect_quotes(char *token);
+int 						handle_invalid_char_after_dollar(char *input, t_norm *norm);
+int 						is_dollar_followed_by_quote(char *input, t_norm *norm, t_exec *exec);
 char						*trim_spaces(char *str);
+int 						is_empty_quotes_sequence(char *input, t_norm *norm, t_exec *exec);
 char						*remove_delimiter_quotes(t_output_input *new,
 								char *str);
 int							check_quotes(char *input, t_exec *exec);
