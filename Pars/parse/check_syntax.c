@@ -3,75 +3,91 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:06 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/12 23:36:30 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/17 19:08:20 by ahmed            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	check_pipe_errors(t_token *current)
+int skip_whitespace(char *input, int i)
 {
-	t_token	*after_red;
+	while (input[i] && ft_isspace(input[i]))
+		i++;
+	return (i);
+}
 
-	if (current->type == PIPE && current->next == NULL)
+bool check_pipe_syntax(char *input, int *i)
+{
+	int next_char;
+
+	if (input[*i] == '|')
 	{
-		ft_error(current->value);
-		g_last_exit_status = 2;
-		return (1);
-	}
-	else if (current->type == PIPE && current->next->type != COMMAND
-		&& current->next->type != ARGUMENT)
-	{
-		after_red = current->next->next;
-		if (after_red == NULL || after_red->type == RED_IN
-			|| after_red->type == RED_OUT || after_red->type == HERDOC
-			|| after_red->type == APPEND)
+		if (input[*i + 1] == '|' || input[*i + 1] == '\0')
 		{
-			ft_error(current->value);
-			g_last_exit_status = 2;
-			return (1);
+			printf("Syntax error near unexpected token `|'\n");
+			return (false);
 		}
-	}
-	return (0);
-}
-
-int	check_redirection_errors(t_token *current)
-{
-	if (current->type == RED_IN || current->type == RED_OUT
-		|| current->type == APPEND || current->type == HERDOC)
-	{
-		if (current->next == NULL || (current->next->type == PIPE
-				|| current->next->type == RED_IN
-				|| current->next->type == RED_OUT
-				|| current->next->type == APPEND
-				|| current->next->type == HERDOC))
+		next_char = *i + 1;
+		next_char = skip_whitespace(input, next_char);
+		if (input[next_char] == '|')
 		{
-			ft_error(current->value);
-			g_last_exit_status = 2;
-			return (1);
+			printf("Syntax error near unexpected token `|'\n");
+			return (false);
 		}
+		(*i)++;
 	}
-	return (0);
+	return (true);
 }
 
-int	check_syntax_errors(t_token *token_list)
+bool check_redirection_syntax(char *input, int *i)
 {
-	t_token	*current;
+	char redirection;
+	int next_char;
 
-	current = token_list;
-	while (current)
+	redirection = input[*i];
+	next_char = *i + 1;
+	if (input[next_char] == redirection)
+		next_char++;
+	next_char = skip_whitespace(input, next_char);
+	if (input[next_char] == '\0' || input[next_char] == '|' ||
+		input[next_char] == '<' || input[next_char] == '>')
 	{
-		if (check_pipe_errors(current) || check_redirection_errors(current))
-			return (1);
-		current = current->next;
+		printf("Syntax error near unexpected token `%c'\n", redirection);
+		return (false);
 	}
-	return (0);
+	return (true);
 }
 
-char	*trim_spaces(char *str)
+bool check_syntax_errors_before_tokenize(char *input)
+{
+	int i;
+
+	i = 0;
+	i = skip_whitespace(input, i);
+	if (input[i] == '|')
+	{
+		printf("Syntax error near unexpected token `|'\n");
+		return (false);
+	}
+	while (input[i] != '\0')
+	{
+		i = skip_whitespace(input, i);
+		if (!check_pipe_syntax(input, &i))
+			return (false);
+		if (input[i] == '<' || input[i] == '>')
+		{
+			if (!check_redirection_syntax(input, &i))
+				return (false);
+		}
+		i++;
+	}
+	return (true);
+}
+
+char *trim_spaces(char *str)
 {
 	while (ft_isspace((unsigned char)*str))
 		str++;
