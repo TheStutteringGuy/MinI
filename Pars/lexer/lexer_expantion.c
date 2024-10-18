@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:19:13 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 14:06:35 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 18:01:58 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_helpe	*initialize_helper(char *input)
 	helpe->i = 0;
 	helpe->token_len = 0;
 	helpe->isoperate = 0;
-	helpe->token = malloc(3000 * sizeof(char));
+	helpe->token = malloc(4194304 * sizeof(char));
 	if (!helpe->token)
 	{
 		free(helpe);

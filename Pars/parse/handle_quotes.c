@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 14:36:50 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 18:01:58 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char *remove_quotes(char *input, t_exec *exec, t_norm *norm)
 
 	norm->i = 0;
 	norm->j = 0;
-	norm->str = malloc(3000 * sizeof(char));
+	norm->str = malloc(4194304 * sizeof(char));
 	if (!norm->str)
 		return (NULL);
 	initialize_exec(exec);

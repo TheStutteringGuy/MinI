@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/17 18:20:35 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/17 17:32:25 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,8 +186,8 @@ int main(int ac, char **av, char **envp)
 		//     iterate = iterate->next;
 		// }
 		// continue ;
-		if (!validate_syntax(token_list, input))
-			continue;
+		// if (!validate_syntax(token_list, input))
+		// 	continue;
 		cmd_list = parse_tokens(token_list, &data);
 		if (!validate_command_list(cmd_list, token_list, input))
 			continue;

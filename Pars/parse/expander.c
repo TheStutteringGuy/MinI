@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 19:55:53 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 14:37:51 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/17 18:01:58 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	handle_special_case(t_norm *norm)
 
 char	*get_env_var_name(char *input, int *i)
 {
-	char	temp[3000];
+	char	temp[4194304];
 	int		j;
 
 	j = 0;
