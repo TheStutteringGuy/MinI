@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:17:41 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 18:01:58 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/18 19:30:34 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@ void handle_dollar_sign_logic(char *input, t_helpe *helpe,
 							  t_token **token_list, t_exec *exec)
 {
 	update_quote(exec);
-	if (input[helpe->i] == '$' && ft_isdigit(input[helpe->i + 1]))
-	{
-		helpe->i++;
-		return ;
-	}
 	if (input[helpe->i] == '$' && (input[helpe->i + 1] == '\0' || ft_isspace(input[helpe->i + 1])))
 	{
 		helpe->token[helpe->token_len] = '$';
 		helpe->token_len++;
 		return;
+	}
+	if (input[helpe->i] == '$' && ft_isdigit(input[helpe->i + 1]))
+	{
+		helpe->i++;
+		return ;
 	}
 	if (input[helpe->i] == '$' && (input[helpe->i + 1] == '"' || input[helpe->i + 1] == '\'') && exec->quote == 0)
 		return;

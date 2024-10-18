@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:18:31 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 10:31:55 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/18 19:32:17 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ void	handle_result_input(t_helpe *helpe, t_token **token_list, t_exec *exec)
 		else
 			helpe->token[helpe->token_len++] = helpe->res[k++];
 	}
-	if (helpe->token_len > 0)
-	{
-		helpe->isoperate = 1;
-		helpe->token[helpe->token_len] = '\0';
-		handle_token(token_list, helpe->token, helpe, exec);
-		helpe->token_len = 0;
-	}
-	helpe->isoperate = 0;
+	// if (helpe->token_len > 0)
+	// {
+	// 	helpe->isoperate = 1;
+	// 	helpe->token[helpe->token_len] = '\0';
+	// 	handle_token(token_list, helpe->token, helpe, exec);
+	// 	helpe->token_len = 0;
+	// }
+	// helpe->isoperate = 0;
 }
 
 void	check_next_characters(char *input, t_helpe *helpe)
