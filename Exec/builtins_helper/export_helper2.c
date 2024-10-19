@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 22:07:43 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/07 22:49:57 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/19 16:05:00 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	handle_equal(t_exec *data, char *str)
 		free(key);
 		return ;
 	}
+	free(key);
 	see_if_it_exist(data, ft_substr(str, 0, info.j));
 	creat_node(&data->environ, ft_substr(str, 0, info.j), ft_substr(str, info.z,
 			info.y), 1);

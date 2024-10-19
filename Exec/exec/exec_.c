@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 23:08:35 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/14 23:41:07 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/19 15:42:46 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	child__(t_exec *data, t_cmd *input, t_pipe *info, int id)
 	}
 	close_pipes(info, info->size - 1);
 	handle_input_output(data, input, &read_fd, &write_fd);
-	if (read_fd == -1)
-		exit(1);
+	if (read_fd == -1 || write_fd == -1)
+		in_ou_free(data, input, info);
 	if (read_fd != 0)
 		dup2(read_fd, STDIN_FILENO);
 	if (write_fd != 1)

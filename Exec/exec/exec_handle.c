@@ -6,11 +6,18 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 23:12:51 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/07 21:16:14 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/19 15:45:14 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	in_ou_free(t_exec *data, t_cmd *input, t_pipe *info)
+{
+	free_everything(data, input);
+	free_t_pipe(info);
+	exit(1);
+}
 
 static int	handle_input(t_output_input *iterate, int *read_fd)
 {

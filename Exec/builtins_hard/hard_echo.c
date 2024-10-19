@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/17 10:09:59 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/19 16:12:38 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,12 @@ void	echo_hard(t_exec *data, t_cmd *input)
 		stop = handle_flag(input);
 		if (stop != 0)
 			flag = 1;
-		while (input->arguments[stop] != NULL)
+		while (input->arguments[stop + 1] != NULL)
 		{
 			printf("%s ", input->arguments[stop]);
 			++stop;
 		}
+		printf("%s", input->arguments[stop]);
 	}
 	if (flag == 0)
 		printf("\n");

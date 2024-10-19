@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/19 14:44:36 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/19 15:33:25 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ static void	free_littl(char *input, t_token *token_list)
 	free(input);
 }
 
-char	*main_handle_readline(void)
+char	*main_handle_readline()
 {
-	char	*input_;
-	char	*input;
-
+	char *input_;
+	char *input;
+	
 	handle_sig();
 	input_ = readline("Minishell -> ");
 	if (input_ == NULL)
@@ -37,15 +37,15 @@ char	*main_handle_readline(void)
 
 void	main_2(t_exec *data)
 {
-	char	*input;
+	char *input;
 	t_cmd	*cmd_list;
 	t_token	*token_list;
-
+	
 	while (TRUE)
 	{
 		input = main_handle_readline();
 		if (input == NULL)
-			break ;
+			break;
 		if (!check_syntax_errors_before_tokenize(input))
 		{
 			free(input);
