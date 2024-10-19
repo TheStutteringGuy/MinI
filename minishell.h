@@ -18,7 +18,7 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
-# include <stdio.h>
+# include <linux/limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -26,13 +26,13 @@
 # include <stdbool.h>
 # include <stddef.h>
 # include <stdint.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
 # include <sys/time.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <linux/limits.h>
 
 # define TRUE 1
 
@@ -58,7 +58,7 @@ typedef struct s_exec
 	int						delimiter;
 	int						quote;
 	int						expand;
-	int 					not;
+	int not ;
 	int						eof;
 	int						s_d;
 	int						is_in;
@@ -311,15 +311,19 @@ void						handle_s_g(char *input, t_token **token_list,
 								t_helpe *helpe, t_exec *exec);
 
 // quotes includes
-bool 						check_syntax_errors_before_tokenize(char *input);
-int 						is_dollar_followed_by_quote_with_exec_quote_two(char *input, t_norm *norm, t_exec *exec);
+bool						check_syntax_errors_before_tokenize(char *input);
+int							is_dollar_followed_by_quote_with_exec_quote_two(char *input,
+								t_norm *norm, t_exec *exec);
 char						*remove_quotes(char *input, t_exec *exec,
 								t_norm *norm);
 char						*handle_incorrect_quotes(char *token);
-int 						handle_invalid_char_after_dollar(char *input, t_norm *norm);
-int 						is_dollar_followed_by_quote(char *input, t_norm *norm, t_exec *exec);
+int							handle_invalid_char_after_dollar(char *input,
+								t_norm *norm);
+int							is_dollar_followed_by_quote(char *input,
+								t_norm *norm, t_exec *exec);
 char						*trim_spaces(char *str);
-int 						is_empty_quotes_sequence(char *input, t_norm *norm, t_exec *exec);
+int							is_empty_quotes_sequence(char *input, t_norm *norm,
+								t_exec *exec);
 char						*remove_delimiter_quotes(t_output_input *new,
 								char *str);
 int							check_quotes(char *input, t_exec *exec);

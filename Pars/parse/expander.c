@@ -14,8 +14,8 @@
 
 void	handle_special_case(t_norm *norm)
 {
-	char *str;
-	int i;
+	char	*str;
+	int		i;
 
 	str = ft_itoa(g_last_exit_status);
 	i = 0;
@@ -36,13 +36,14 @@ char	*get_env_var_name(char *input, int *i)
 	return (ft_strdup2(temp));
 }
 
-void expand_and_check(char *res, char *input, t_exec *exec, t_norm *norm)
+void	expand_and_check(char *res, char *input, t_exec *exec, t_norm *norm)
 {
-	int dollar_in_end;
+	int	dollar_in_end;
 	int	k;
 
 	dollar_in_end = 0;
-	if (input[norm->i] == '$' && (input[norm->i + 1] == '\0' || ft_isspace(input[norm->i + 1]) || input[norm->i + 1] == '"'))
+	if (input[norm->i] == '$' && (input[norm->i + 1] == '\0'
+			|| ft_isspace(input[norm->i + 1]) || input[norm->i + 1] == '"'))
 		dollar_in_end = 1;
 	if (res && *res != 0)
 	{
@@ -71,20 +72,20 @@ char	*handle_empty_or_invalid_var(int *i, char *input)
 	return (NULL);
 }
 
-void expand_env_var_string(char *input, t_norm *norm, t_exec *exec)
+void	expand_env_var_string(char *input, t_norm *norm, t_exec *exec)
 {
-	char *res;
-	char *var_name;
+	char	*res;
+	char	*var_name;
 
 	norm->i++;
 	if (input[norm->i] == '?')
 	{
 		handle_special_case(norm);
 		norm->i++;
-		return;
+		return ;
 	}
 	if (handle_invalid_char_after_dollar(input, norm))
-		return;
+		return ;
 	var_name = get_env_var_name(input, &norm->i);
 	res = expand(var_name, exec);
 	free(var_name);

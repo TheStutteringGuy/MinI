@@ -37,8 +37,8 @@ void	handle_expansion_result(char *input, t_helpe *helpe,
 void	expand_env_var(char *input, t_helpe *helpe, t_token **token_list,
 		t_exec *exec)
 {
-	char *str;
-	int k;
+	char	*str;
+	int		k;
 
 	exec->expand = 0;
 	if (input[helpe->i] == '$')
@@ -58,7 +58,7 @@ void	expand_env_var(char *input, t_helpe *helpe, t_token **token_list,
 			helpe->token[helpe->token_len++] = '$';
 			helpe->token[helpe->token_len++] = input[helpe->i];
 			helpe->i++;
-			return;
+			return ;
 		}
 		handle_variable_expansion(input, helpe, token_list, exec);
 	}

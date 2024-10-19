@@ -18,7 +18,7 @@ void	malloc_error(void)
 	exit(1);
 }
 
-char *trim_spaces(char *str)
+char	*trim_spaces(char *str)
 {
 	while (ft_isspace((unsigned char)*str))
 		str++;

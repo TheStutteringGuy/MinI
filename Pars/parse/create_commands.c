@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:10 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 18:14:49 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/19 14:00:52 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	process_current_token(t_cmd_context *cmd_ctx, t_token **current_token,
 			process_token(cmd_ctx, current_token, expected, exec);
 			return (1);
 		}
-		// ft_error((*current_token)->value);
 		return (0);
 	}
 	process_token(cmd_ctx, current_token, expected, exec);

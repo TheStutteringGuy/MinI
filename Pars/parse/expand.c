@@ -27,28 +27,27 @@ int	check_for_char(int c)
 		return (0);
 }
 
-char *expand(char *input, t_exec *exec)
+char	*expand(char *input, t_exec *exec)
 {
-    char *expand_val;
-    char *var;
-    char *result;
+	char	*expand_val;
+	char	*var;
+	char	*result;
 
-    if (input)
-    {
-        var = input;
-        if (exec->quote == 2 || exec->quote == 0)
-        {
-            expand_val = ft_getenv(exec->environ, var);
-            if (expand_val == NULL)
-                return (NULL);
-            result = ft_strdup2(expand_val);
-        }
-        else
-            result = ft_strdup2(var);
-        if (result == NULL)
-            return (NULL);
-        return result;
-    }
-    return (ft_strdup2(input));
+	if (input)
+	{
+		var = input;
+		if (exec->quote == 2 || exec->quote == 0)
+		{
+			expand_val = ft_getenv(exec->environ, var);
+			if (expand_val == NULL)
+				return (NULL);
+			result = ft_strdup2(expand_val);
+		}
+		else
+			result = ft_strdup2(var);
+		if (result == NULL)
+			return (NULL);
+		return (result);
+	}
+	return (ft_strdup2(input));
 }
-

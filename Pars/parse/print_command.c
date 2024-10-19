@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:21 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/15 02:02:51 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/19 14:08:02 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

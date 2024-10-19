@@ -62,20 +62,19 @@ char	*expand_environment_variable(t_expansion *exp, char *str)
 	return (exp->res);
 }
 
-char *add_quote_to_result(t_expansion *exp, char c)
+char	*add_quote_to_result(t_expansion *exp, char c)
 {
-    char temp[2];
-    char *new_res;
+	char	temp[2];
+	char	*new_res;
 
-    temp[0] = c;
-    temp[1] = '\0';
-    new_res = ft_strjoin2(exp->res, temp);
-    if (exp->res)
-        free(exp->res);
-    exp->res = new_res;
-    return (exp->res);
+	temp[0] = c;
+	temp[1] = '\0';
+	new_res = ft_strjoin2(exp->res, temp);
+	if (exp->res)
+		free(exp->res);
+	exp->res = new_res;
+	return (exp->res);
 }
-
 
 void	process_dollar(t_expansion *exp, char *str)
 {
