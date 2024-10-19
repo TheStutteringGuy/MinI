@@ -3,24 +3,36 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+         #
+#    By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/20 01:20:40 by aahlaqqa          #+#    #+#              #
-#    Updated: 2024/10/19 15:55:14 by thestutteri      ###   ########.fr        #
+#    Updated: 2024/10/19 19:07:31 by aahlaqqa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # BASIC SETTINGS :
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -w -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 RM = rm -rf
 
 ###########################################################################################
 
-# KatyCat Srcs :
+# Ahmed Srcs :
 
-SRCS_Pars = Pars/*.c Pars/lexer/*.c Pars/parse/*.c
+SRCS_Pars = Pars/ft_error.c Pars/ft_isspace.c Pars/ft_strcmp.c \
+ 			Pars/ft_strcpy.c Pars/ft_strncpy.c Pars/lexer/checker1.c Pars/lexer/cheker.c \
+ 			Pars/lexer/condition_chekers.c Pars/lexer/free_resource.c \
+ 			Pars/lexer/handle_dollar.c Pars/lexer/helper_lexer.c Pars/lexer/helper_tokenize.c \
+ 			Pars/lexer/lexer1.c Pars/lexer/lexer2.c Pars/lexer/lexer_expantion.c \
+ 			Pars/lexer/main_norm.c Pars/lexer/tokenize.c Pars/parse/check_syntax.c \
+ 			Pars/parse/create_commands.c Pars/parse/expand1.c Pars/parse/expand.c \
+ 			Pars/parse/expander.c Pars/parse/expand_herdoc.c Pars/parse/expand_norm.c \
+ 			Pars/parse/handle_command_and_arguments.c Pars/parse/handle_commands.c \
+ 			Pars/parse/handle_delimiter.c Pars/parse/handle_quote_norm.c \
+ 			Pars/parse/handle_quotes.c Pars/parse/helper.c Pars/parse/malloc_error.c \
+ 			Pars/parse/pars1.c Pars/parse/parse2.c Pars/parse/print_command.c \
+			Pars/parse/add-check.c \
 
 ###########################################################################################
 

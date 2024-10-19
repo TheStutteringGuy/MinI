@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/19 15:43:21 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/19 19:08:44 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ bool						ft_isspace(int c);
 void						*ft_memset(void *s, int c, size_t n);
 char						*ft_itoa(int n);
 int							ft_isdigit(int c);
+bool						is_inside_quotes(char *input, int i);
 char						*ft_strjoin(char const *s1, char const *s2);
 void						*ft_memcpy(void *dest, const void *src, size_t n);
 int							is_multi_operator(char *str);
@@ -449,7 +450,6 @@ void						update_oldpwd(t_exec **list, char *cwd);
 void						unlink_files(t_exec *data, t_cmd **input);
 void						free_split(char **array);
 void						free_everything_cmd(t_cmd **input);
-void						in_ou_free(t_exec *data, t_cmd *input, t_pipe *info);
 ////////
 
 #endif
