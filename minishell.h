@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/19 21:56:14 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/20 00:05:19 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,7 @@ void						handle_token(t_token **token_list, char *token,
 void						tokenize_input(char *input, t_token **token_list,
 								t_exec *exec);
 int							check_for_char(int c);
+void						handle_special_case(t_norm *norm);
 void						free_helpe(t_helpe *helpe);
 void						copy_token(t_token **token_list, t_helpe *helpe,
 								t_exec *exec);

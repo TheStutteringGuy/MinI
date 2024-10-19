@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 19:55:53 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/19 21:48:30 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/20 00:06:34 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	handle_special_case(t_norm *norm)
-{
-	char	*str;
-	int		i;
-
-	str = ft_itoa(g_last_exit_status);
-	i = 0;
-	while (str[i])
-		norm->str[norm->j++] = str[i++];
-	free(str);
-	norm->i++;
-}
 
 char	*get_env_var_name(char *input, int *i)
 {
@@ -37,15 +24,20 @@ char	*get_env_var_name(char *input, int *i)
 	return (ft_strdup2(temp));
 }
 
+int	check_dollar_in_end(char *input, t_norm *norm)
+{
+	if (input[norm->i] == '$' && (input[norm->i + 1] == '\0'
+			|| ft_isspace(input[norm->i + 1]) || input[norm->i + 1] == '"'))
+		return (1);
+	return (0);
+}
+
 void	expand_and_check(char *res, char *input, t_exec *exec, t_norm *norm)
 {
 	int	dollar_in_end;
 	int	k;
 
-	dollar_in_end = 0;
-	if (input[norm->i] == '$' && (input[norm->i + 1] == '\0'
-			|| ft_isspace(input[norm->i + 1]) || input[norm->i + 1] == '"'))
-		dollar_in_end = 1;
+	dollar_in_end = check_dollar_in_end(input, norm);
 	if (res && *res != 0)
 	{
 		k = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/19 14:09:34 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/19 20:21:42 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	process_character(char *input, t_exec *exec, t_norm *norm)
 
 char	*remove_quotes(char *input, t_exec *exec, t_norm *norm)
 {
-	int		result;
 	char	*str;
 
 	norm->i = 0;

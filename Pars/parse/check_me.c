@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_me.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 21:48:50 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/19 21:57:41 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/20 00:05:30 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,17 @@ char	*check_me(t_exec *exec, char *res)
 	}
 	res1 = ft_strdup2(res);
 	return (res1);
+}
+
+void	handle_special_case(t_norm *norm)
+{
+	char	*str;
+	int		i;
+
+	str = ft_itoa(g_last_exit_status);
+	i = 0;
+	while (str[i])
+		norm->str[norm->j++] = str[i++];
+	free(str);
+	norm->i++;
 }
