@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/19 19:08:44 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/19 19:39:15 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -450,6 +450,7 @@ void						update_oldpwd(t_exec **list, char *cwd);
 void						unlink_files(t_exec *data, t_cmd **input);
 void						free_split(char **array);
 void						free_everything_cmd(t_cmd **input);
+void						in_ou_free(t_exec *data, t_cmd *input, t_pipe *info);
 ////////
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/19 17:09:11 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/19 19:40:29 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	handle_arg(t_exec *data, t_cmd *input)
 	return (0);
 }
 
-static int	cd_home(t_exec *data, t_cmd *input)
+static int	cd_home(t_exec *data)
 {
 	char	*value;
 
@@ -85,7 +85,7 @@ void	cd_simple(t_exec *data, t_cmd *input)
 {
 	if (!input->arguments[0])
 	{
-		if (cd_home(data, input) == 0)
+		if (cd_home(data) == 0)
 			return ;
 	}
 	else
