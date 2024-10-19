@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 19:55:53 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/19 00:25:59 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/19 21:48:30 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	handle_special_case(t_norm *norm)
 	while (str[i])
 		norm->str[norm->j++] = str[i++];
 	free(str);
+	norm->i++;
 }
 
 char	*get_env_var_name(char *input, int *i)
@@ -52,6 +53,7 @@ void	expand_and_check(char *res, char *input, t_exec *exec, t_norm *norm)
 			norm->str[norm->j++] = res[k++];
 		if (dollar_in_end == 1)
 		{
+			exec->expand = 0;
 			norm->str[norm->j++] = '$';
 			norm->i++;
 		}
@@ -62,6 +64,7 @@ void	expand_and_check(char *res, char *input, t_exec *exec, t_norm *norm)
 	{
 		if (exec->quote == 2)
 			exec->s_d = 1;
+		free(res);
 	}
 }
 
@@ -76,12 +79,12 @@ void	expand_env_var_string(char *input, t_norm *norm, t_exec *exec)
 {
 	char	*res;
 	char	*var_name;
+	char	*res1;
 
 	norm->i++;
 	if (input[norm->i] == '?')
 	{
 		handle_special_case(norm);
-		norm->i++;
 		return ;
 	}
 	if (handle_invalid_char_after_dollar(input, norm))
@@ -90,10 +93,13 @@ void	expand_env_var_string(char *input, t_norm *norm, t_exec *exec)
 	res = expand(var_name, exec);
 	free(var_name);
 	if (res == NULL)
-		res = "";
+		res = ft_strdup2("");
 	if (exec->quote == 2)
-		exec->expand = 0;
-	else
-		exec->expand = 1;
-	expand_and_check(res, input, exec, norm);
+	{
+		if (exec->expand != 1)
+			exec->expand = 0;
+	}
+	res1 = check_me(exec, res);
+	free(res);
+	expand_and_check(res1, input, exec, norm);
 }

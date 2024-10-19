@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+         #
+#    By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/20 01:20:40 by aahlaqqa          #+#    #+#              #
-#    Updated: 2024/10/19 19:07:31 by aahlaqqa         ###   ########.fr        #
+#    Updated: 2024/10/19 21:51:18 by thestutteri      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # BASIC SETTINGS :
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -w -fsanitize=address -g3
 RM = rm -rf
 
 ###########################################################################################
@@ -32,7 +32,7 @@ SRCS_Pars = Pars/ft_error.c Pars/ft_isspace.c Pars/ft_strcmp.c \
  			Pars/parse/handle_delimiter.c Pars/parse/handle_quote_norm.c \
  			Pars/parse/handle_quotes.c Pars/parse/helper.c Pars/parse/malloc_error.c \
  			Pars/parse/pars1.c Pars/parse/parse2.c Pars/parse/print_command.c \
-			Pars/parse/add-check.c \
+			Pars/parse/add-check.c Pars/parse/check_me.c \
 
 ###########################################################################################
 

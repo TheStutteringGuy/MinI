@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/19 19:39:15 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/19 21:56:14 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -345,6 +345,7 @@ void						finalize_and_free(t_helpe *helpe,
 bool						validate_command_list(t_cmd *cmd_list,
 								t_token *token_list, char *input);
 bool						validate_input(char *input);
+char						*check_me(t_exec *exec, char *res);
 
 //////////////////////////////////////
 
@@ -450,7 +451,8 @@ void						update_oldpwd(t_exec **list, char *cwd);
 void						unlink_files(t_exec *data, t_cmd **input);
 void						free_split(char **array);
 void						free_everything_cmd(t_cmd **input);
-void						in_ou_free(t_exec *data, t_cmd *input, t_pipe *info);
+void						in_ou_free(t_exec *data, t_cmd *input,
+								t_pipe *info);
 ////////
 
 #endif
