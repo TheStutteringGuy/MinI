@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quote_norm.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 13:59:35 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/19 14:00:41 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/19 14:09:34 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	is_dollar_followed_by_quote(char *input, t_norm *norm, t_exec *exec)
 	return (0);
 }
 
-int	is_dollar_followed_by_quote_with_exec_quote_two(char *input, t_norm *norm,
+int	is_dollar_followed_quote_two(char *input, t_norm *norm,
 		t_exec *exec)
 {
 	if (input[norm->i] == '$' && (input[norm->i + 1] == '"' || input[norm->i

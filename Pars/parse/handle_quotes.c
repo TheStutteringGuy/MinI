@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:18 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/19 14:00:30 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/19 14:09:34 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	process_character(char *input, t_exec *exec, t_norm *norm)
 	}
 	else if (is_dollar_followed_by_quote(input, norm, exec))
 		return ;
-	else if (is_dollar_followed_by_quote_with_exec_quote_two(input, norm, exec))
+	else if (is_dollar_followed_quote_two(input, norm, exec))
 	{
 		norm->str[norm->j++] = input[norm->i];
 		return ;

@@ -3,118 +3,76 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/19 14:09:02 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/19 14:44:36 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_last_exit_status = 0;
+int			g_last_exit_status = 0;
 
-void free_red(t_output_input *iterate)
+static void	free_littl(char *input, t_token *token_list)
 {
-	t_output_input *tmp;
-
-	while (iterate)
-	{
-		tmp = iterate;
-		iterate = iterate->next;
-		free(tmp->filename);
-		free(tmp->delimiter);
-		free(tmp->heredoc_file);
-		free(tmp);
-	}
+	free_tokens(token_list);
+	free(input);
 }
 
-void free_everything_cmd(t_cmd **input)
+char	*main_handle_readline(void)
 {
-	t_cmd *iterate;
-	t_cmd *tmp;
+	char	*input_;
+	char	*input;
 
-	iterate = *input;
-	while (iterate)
-	{
-		tmp = iterate;
-		iterate = iterate->next;
-		free(tmp->command);
-		free_split(tmp->arguments);
-		free_red(tmp->redirection);
-		free(tmp);
-	}
-	*input = NULL;
+	handle_sig();
+	input_ = readline("Minishell -> ");
+	if (input_ == NULL)
+		return (NULL);
+	add_history(input_);
+	input = trim_spaces(input_);
+	free(input_);
+	return (input);
 }
 
-static void free_everything_data(t_exec *data)
+void	main_2(t_exec *data)
 {
-	clear_list(&data->environ);
-	free(data->environ);
-	clear_list(&data->export);
-	free(data->export);
-	rl_clear_history();
-}
+	char	*input;
+	t_cmd	*cmd_list;
+	t_token	*token_list;
 
-static void initialize_everything(t_exec *data, char **envp, char **av, int ac)
-{
-	(void)ac;
-	data->environ = NULL;
-	data->export = NULL;
-	env_list(&data->environ, envp, av);
-	update_shlvl(&data->environ);
-	copy_environ(&data->export, data->environ);
-	remove_list(&data->export, "_");
-}
-
-int main(int ac, char **av, char **envp)
-{
-	char *input_;
-	char *input;
-	t_exec data;
-	t_cmd *cmd_list;
-	t_token *token_list;
-
-	initialize_everything(&data, envp, av, ac);
 	while (TRUE)
 	{
-		handle_sig();
-		input_ = readline("Minishell -> ");
-		if (input_ == NULL)
-			break;
-		add_history(input_);
-		if (!check_syntax_errors_before_tokenize(input_))
+		input = main_handle_readline();
+		if (input == NULL)
+			break ;
+		if (!check_syntax_errors_before_tokenize(input))
 		{
-			free(input_);
-			continue;
+			free(input);
+			continue ;
 		}
-		input = trim_spaces(input_);
-		free(input_);
 		if (!validate_input(input))
-			continue;
+			continue ;
 		token_list = NULL;
-		tokenize_input(input, &token_list, &data);
-		// t_token *iterate;
-		// iterate = token_list;
-		// while(iterate)
-		// {
-		//     printf("%s %d\n", iterate->value, iterate->type);
-		//     iterate = iterate->next;
-		// }
-		// continue ;
-		// if (!validate_syntax(token_list, input))
-		// 	continue;
-		// if (!validate_syntax(token_list, input))
-		// 	continue;
-		cmd_list = parse_tokens(token_list, &data);
+		tokenize_input(input, &token_list, data);
+		cmd_list = parse_tokens(token_list, data);
 		if (!validate_command_list(cmd_list, token_list, input))
-			continue;
-		free_tokens(token_list);
-		print_commands(cmd_list);
-		free(input);
-		exec(&data, cmd_list);
+			continue ;
+		free_littl(input, token_list);
+		exec(data, cmd_list);
 		free_everything_cmd(&cmd_list);
 	}
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	char	*input;
+	t_exec	data;
+	t_cmd	*cmd_list;
+	t_token	*token_list;
+
+	initialize_everything(&data, envp, av, ac);
+	main_2(&data);
 	free_everything_data(&data);
 	exit(g_last_exit_status);
 }

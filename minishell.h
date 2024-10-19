@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/19 00:26:27 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/19 14:46:22 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <stdio.h>
 # include <linux/limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -26,7 +27,6 @@
 # include <stdbool.h>
 # include <stddef.h>
 # include <stdint.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
@@ -58,7 +58,7 @@ typedef struct s_exec
 	int						delimiter;
 	int						quote;
 	int						expand;
-	int not ;
+	int						not;
 	int						eof;
 	int						s_d;
 	int						is_in;
@@ -312,7 +312,7 @@ void						handle_s_g(char *input, t_token **token_list,
 
 // quotes includes
 bool						check_syntax_errors_before_tokenize(char *input);
-int							is_dollar_followed_by_quote_with_exec_quote_two(char *input,
+int							is_dollar_followed_quote_two(char *input,
 								t_norm *norm, t_exec *exec);
 char						*remove_quotes(char *input, t_exec *exec,
 								t_norm *norm);
@@ -341,12 +341,17 @@ int							is_dollar_sign_logic(char *input, t_helpe *helpe,
 								t_exec *exec);
 void						finalize_and_free(t_helpe *helpe,
 								t_token **token_list, t_exec *exec);
-char						*amr_remove_quotes(char *input, t_exec *exec);
+bool						validate_command_list(t_cmd *cmd_list,
+								t_token *token_list, char *input);
+bool						validate_input(char *input);
 
 //////////////////////////////////////
 
 // PROTOTYPES :
 
+void						free_everything_data(t_exec *data);
+void						initialize_everything(t_exec *data, char **envp,
+								char **av, int ac);
 void						handle_sig(void);
 const char					*prompt(char *prompt_char);
 void						env_list(t_linked **list, char **envp, char **av);

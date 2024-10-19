@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+         #
+#    By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/20 01:20:40 by aahlaqqa          #+#    #+#              #
-#    Updated: 2024/10/19 00:05:51 by ahmed            ###   ########.fr        #
+#    Updated: 2024/10/19 14:39:07 by thestutteri      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ NAME = minishell
 all: $(NAME)
 
 $(NAME): $(SRCS_Exec) $(SRCS_Pars)
-	$(CC) $(CFLAGS) main.c $(SRCS_Pars) $(SRCS_Exec) $(NFLAGS) $(FLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) main.c init_free.c $(SRCS_Pars) $(SRCS_Exec) $(NFLAGS) $(FLAGS) -o $(NAME)
 
 clean:
 
