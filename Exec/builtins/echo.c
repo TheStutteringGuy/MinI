@@ -38,9 +38,9 @@ static int	handle_flag(t_cmd *input)
 	return (i);
 }
 
-static int ft_size_a(char **array)
+static int	ft_size_a(char **array)
 {
-	int size;
+	int	size;
 
 	size = 0;
 	while (array[size])

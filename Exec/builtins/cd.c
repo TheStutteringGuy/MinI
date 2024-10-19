@@ -37,8 +37,8 @@ static int	handle_arg(t_exec *data, t_cmd *input)
 
 static int	cd_home(t_exec *data, t_cmd *input)
 {
-	char *value;
-	
+	char	*value;
+
 	value = ft_getenv(data->environ, "HOME");
 	if (value != NULL)
 	{
@@ -47,7 +47,7 @@ static int	cd_home(t_exec *data, t_cmd *input)
 			print_error("cd", value, strerror(errno), 2);
 			g_last_exit_status = 1;
 			return (0);
-		}	
+		}
 	}
 	else
 	{
@@ -60,8 +60,8 @@ static int	cd_home(t_exec *data, t_cmd *input)
 
 static int	cd_oldpwd(t_exec **data)
 {
-	char *value;
-	
+	char	*value;
+
 	value = ft_getenv((*data)->environ, "OLDPWD");
 	if (value != NULL)
 	{
@@ -70,7 +70,7 @@ static int	cd_oldpwd(t_exec **data)
 			print_error("cd", value, strerror(errno), 2);
 			g_last_exit_status = 1;
 			return (0);
-		}	
+		}
 	}
 	else
 	{

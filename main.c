@@ -20,11 +20,11 @@ static void	free_littl(char *input, t_token *token_list)
 	free(input);
 }
 
-char	*main_handle_readline()
+char	*main_handle_readline(void)
 {
-	char *input_;
-	char *input;
-	
+	char	*input_;
+	char	*input;
+
 	handle_sig();
 	input_ = readline("Minishell -> ");
 	if (input_ == NULL)
@@ -37,15 +37,15 @@ char	*main_handle_readline()
 
 void	main_2(t_exec *data)
 {
-	char *input;
+	char	*input;
 	t_cmd	*cmd_list;
 	t_token	*token_list;
-	
+
 	while (TRUE)
 	{
 		input = main_handle_readline();
 		if (input == NULL)
-			break;
+			break ;
 		if (!check_syntax_errors_before_tokenize(input))
 		{
 			free(input);
