@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 21:59:29 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/14 23:57:14 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/19 16:47:12 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,14 @@ void	update_environ(t_exec **list)
 	char	*str;
 
 	cwd = ft_getenv((*list)->environ, "PWD");
-	str = ft_strdup2(cwd);
 	if (cwd == NULL)
 	{
 		handle_null(list);
 		return ;
 	}
+	str = ft_strdup2(cwd);
 	update_pwd(list);
 	if (check_oldpwd(list, str) == 1)
 		return ;
-	update_oldpwd(list, str);
 	free(str);
 }

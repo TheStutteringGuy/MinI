@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:10:22 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/14 05:12:19 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/19 17:09:11 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,19 @@ static int	handle_arg(t_exec *data, t_cmd *input)
 
 static int	cd_home(t_exec *data, t_cmd *input)
 {
-	(void)input;
-	if (chdir(ft_getenv(data->environ, "HOME")) != 0)
+	char *value;
+	
+	value = ft_getenv(data->environ, "HOME");
+	if (value != NULL)
+	{
+		if (chdir(value) != 0)
+		{
+			print_error("cd", value, strerror(errno), 2);
+			g_last_exit_status = 1;
+			return (0);
+		}	
+	}
+	else
 	{
 		print_error("cd", "HOME is not set", NULL, 1);
 		g_last_exit_status = 1;
@@ -49,9 +60,21 @@ static int	cd_home(t_exec *data, t_cmd *input)
 
 static int	cd_oldpwd(t_exec **data)
 {
-	if (chdir(ft_getenv((*data)->environ, "OLDPWD")) != 0)
+	char *value;
+	
+	value = ft_getenv((*data)->environ, "OLDPWD");
+	if (value != NULL)
 	{
-		print_error("cd", "OLDPWD is not set", NULL, 1);
+		if (chdir(value) != 0)
+		{
+			print_error("cd", value, strerror(errno), 2);
+			g_last_exit_status = 1;
+			return (0);
+		}	
+	}
+	else
+	{
+		print_error("cd", "HOME is not set", NULL, 1);
 		g_last_exit_status = 1;
 		return (0);
 	}

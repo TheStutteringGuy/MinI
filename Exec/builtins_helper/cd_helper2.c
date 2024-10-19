@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_helper2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 00:22:48 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/14 06:38:23 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/19 16:44:25 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	check_oldpwd(t_exec **list, char *cwd)
 			creat_node(&(*list)->environ, ft_substr("OLDPWD", 0,
 					ft_strlen2("OLDPWD")), ft_strdup2(""), 1);
 		update_oldpwd(list, cwd);
-		return (1);
+		return (0);
 	}
 }
 
