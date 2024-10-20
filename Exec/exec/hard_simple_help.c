@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hard_simple_help.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 23:28:44 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/17 01:00:34 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/20 16:01:12 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_handle_function(char *str, int *flag)
 
 static void	free_child_2(t_exec *data, t_cmd *input, char **split)
 {
-	print_error(input->command, "command not found\n", NULL, 1);
+	print_error(input->command, "command not found", NULL, 1);
 	free_split(split);
 	if (data->arg)
 		free_split(data->arg);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/19 15:33:25 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/20 14:05:26 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,7 @@ void	main_2(t_exec *data)
 
 int	main(int ac, char **av, char **envp)
 {
-	char	*input;
 	t_exec	data;
-	t_cmd	*cmd_list;
-	t_token	*token_list;
 
 	initialize_everything(&data, envp, av, ac);
 	main_2(&data);

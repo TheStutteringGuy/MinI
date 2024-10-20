@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 21:48:50 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/20 00:05:30 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/20 14:05:35 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ static char	*check_me_spaces(char *str, t_exec *exec)
 
 char	*check_me(t_exec *exec, char *res)
 {
-	int		count;
 	char	*res1;
 
 	if (*res != '\0')

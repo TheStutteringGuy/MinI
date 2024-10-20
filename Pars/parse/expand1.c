@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:23:31 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 01:50:15 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/21 00:11:56 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ char	*expand_environment_variable(t_expansion *exp, char *str)
 {
 	char	*env_value;
 	char	*var_name;
+	char	*new_res;
 	size_t	j;
 
 	j = exp->i + 1;
@@ -55,12 +56,15 @@ char	*expand_environment_variable(t_expansion *exp, char *str)
 	env_value = ft_getenv(exp->exec->environ, var_name);
 	free(var_name);
 	if (env_value)
-		exp->res = ft_strjoin2(exp->res, env_value);
+		new_res = ft_strjoin2(exp->res, env_value);
 	else
-		exp->res = ft_strjoin2(exp->res, "");
+		new_res = ft_strjoin2(exp->res, "");
+	free(exp->res);
+	exp->res = new_res;
 	exp->i = j;
 	return (exp->res);
 }
+
 
 char	*add_quote_to_result(t_expansion *exp, char c)
 {
