@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 02:21:40 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/17 00:57:39 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/20 02:18:41 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	exec_child(int id)
 	else
 	{
 		g_last_exit_status = 128 + WTERMSIG(status);
-		if (WTERMSIG(status) == SIGINT)
+		if (WTERMSIG(status) == SIGINT || WTERMSIG(status) == SIGQUIT)
 			printf("\n");
 	}
 }

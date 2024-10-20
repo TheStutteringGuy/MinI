@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 16:31:32 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/07 22:49:51 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/20 02:45:32 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ void	handle_join(t_exec *data, char *str)
 	var.y = 0;
 	while (str[var.i++])
 		var.y++;
-	value = ft_getexport(data->export, ft_substr(str, 0, var.j));
+	var.key = ft_substr(str, 0, var.j);
+	value = ft_getexport(data->export, var.key);
 	value_saved = ft_strdup2(value);
 	str1 = ft_substr(str, var.z, var.y);
-	see_if_it_exist(data, ft_substr(str, 0, var.j));
+	see_if_it_exist(data, var.key);
 	creat_node(&data->environ, ft_substr(str, 0, var.j),
 		ft_strjoin2(value_saved, str1), 1);
 	creat_node(&data->export, ft_substr(str, 0, var.j), ft_strjoin2(value_saved,

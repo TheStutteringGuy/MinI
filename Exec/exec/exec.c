@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aibn-ich <aibn-ich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:53:52 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/14 07:11:09 by aibn-ich         ###   ########.fr       */
+/*   Updated: 2024/10/20 02:19:22 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	exec_(t_exec *data, t_cmd *input)
 		else
 		{
 			g_last_exit_status = 128 + WTERMSIG(status);
-			if (WTERMSIG(status) == SIGINT)
+			if (WTERMSIG(status) == SIGINT || WTERMSIG(status) == SIGQUIT)
 				printf("\n");
 		}
 		i++;

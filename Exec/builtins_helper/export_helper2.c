@@ -6,11 +6,17 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 22:07:43 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/19 16:05:00 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/20 02:30:47 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+static void free_plus(t_exec *data, char *s, char *key)
+{
+	free(key);
+	handle_join(data, s);
+}
 
 void	handle_plus(t_exec *data, char *s)
 {
@@ -27,7 +33,7 @@ void	handle_plus(t_exec *data, char *s)
 	}
 	if (ft_get_export(data->export, n.key) == 1)
 	{
-		handle_join(data, s);
+		free_plus(data, s, n.key);
 		return ;
 	}
 	free(n.key);
