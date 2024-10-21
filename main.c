@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 02:44:33 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/20 14:05:26 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/21 23:22:38 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ int	main(int ac, char **av, char **envp)
 {
 	t_exec	data;
 
+	if (ac > 1)
+	{
+		printf("Error: Too many arguments\n");
+		return (1);
+	}
 	initialize_everything(&data, envp, av, ac);
 	main_2(&data);
 	free_everything_data(&data);

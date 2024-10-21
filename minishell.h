@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:17:56 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/20 00:05:19 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/21 23:18:44 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,7 @@ void						handle_dollar_at_end(t_helpe *helpe,
 void						handle_result_input(t_helpe *helpe,
 								t_token **token_list, t_exec *exec);
 void						check_next_characters(char *input, t_helpe *helpe);
+int							skip_whitespace(char *input, int i);
 void						handle_expansion_result(char *input, t_helpe *helpe,
 								t_token **token_list, t_exec *exec);
 void						expand_env_var(char *input, t_helpe *helpe,
@@ -298,9 +299,6 @@ void						handle_redirection(t_cmd_context *cmd_ctx,
 								t_token **current_token, t_exec *exec);
 void						expand_env_var_string(char *input, t_norm *norm,
 								t_exec *exec);
-// print include
-void						print_commands(t_cmd *cmd_list);
-// free resources
 void						free_tokens(t_token *token_list);
 void						free_commands(t_cmd *cmd_list);
 void						malloc_error(void);
