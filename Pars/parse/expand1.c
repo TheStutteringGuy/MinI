@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:23:31 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/21 00:59:52 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:22:51 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,11 @@ void	process_dollar(t_expansion *exp, char *str)
 	if (str[exp->i + 1] == '?')
 	{
 		exp->res = expand_exit_status(exp);
+		exp->i += 2;
+	}
+	else if (str[exp->i] == '$' && str[exp->i + 1] == '\0')
+	{
+		exp->res = add_quote_to_result(exp, str[exp->i]);
 		exp->i += 2;
 	}
 	else if (!check_for_char(str[exp->i + 1]))
