@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:23:31 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/21 00:11:56 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/21 00:59:52 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,33 @@
 char	*expand_exit_status(t_expansion *exp)
 {
 	char	*status_str;
+	char	*str;
 
 	status_str = ft_itoa(g_last_exit_status);
 	if (!status_str)
 		return (NULL);
-	exp->res = ft_strjoin2(exp->res, status_str);
+	str = ft_strjoin2(exp->res, status_str);
 	free(status_str);
+	free(exp->res);
+	exp->res = str;
 	return (exp->res);
 }
 
 char	*expand_digit_variable(t_expansion *exp, char *str)
 {
 	char	temp[2];
+	char	*str1;
 
 	exp->i += 2;
+	str1 = NULL;
 	while (exp->i < exp->len && (ft_isdigit(str[exp->i])
 			|| ft_isalnum(str[exp->i]) || str[exp->i] == '_'))
 	{
 		temp[0] = str[exp->i];
 		temp[1] = '\0';
-		exp->res = ft_strjoin2(exp->res, temp);
+		str1 = ft_strjoin2(exp->res, temp);
+		free(exp->res);
+		exp->res = str1;
 		exp->i++;
 	}
 	return (exp->res);
@@ -74,8 +81,7 @@ char	*add_quote_to_result(t_expansion *exp, char c)
 	temp[0] = c;
 	temp[1] = '\0';
 	new_res = ft_strjoin2(exp->res, temp);
-	if (exp->res)
-		free(exp->res);
+	free(exp->res);
 	exp->res = new_res;
 	return (exp->res);
 }
@@ -85,6 +91,12 @@ void	process_dollar(t_expansion *exp, char *str)
 	if (str[exp->i + 1] == '?')
 	{
 		exp->res = expand_exit_status(exp);
+		exp->i += 2;
+	}
+	else if (!check_for_char(str[exp->i + 1]))
+	{
+		exp->res = add_quote_to_result(exp, str[exp->i]);
+		exp->res = add_quote_to_result(exp, str[exp->i + 1]);
 		exp->i += 2;
 	}
 	else if (ft_isdigit(str[exp->i + 1]))
