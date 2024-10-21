@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 01:20:06 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/19 00:19:44 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/21 22:43:09 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ bool	check_pipe_syntax(char *input, int *i)
 		if (input[*i + 1] == '|' || input[*i + 1] == '\0')
 		{
 			printf("Syntax error near unexpected token\n");
+			g_last_exit_status = 2;
 			return (false);
 		}
 		next_char = *i + 1;
@@ -35,6 +36,7 @@ bool	check_pipe_syntax(char *input, int *i)
 		if (input[next_char] == '|')
 		{
 			printf("Syntax error near unexpected token\n");
+			g_last_exit_status = 2;
 			return (false);
 		}
 		(*i)++;
@@ -56,6 +58,7 @@ bool	check_redirection_syntax(char *input, int *i)
 		|| input[next_char] == '<' || input[next_char] == '>')
 	{
 		printf("Syntax error near unexpected token\n");
+		g_last_exit_status = 2;
 		return (false);
 	}
 	return (true);
@@ -87,6 +90,7 @@ bool	check_syntax_errors_before_tokenize(char *input)
 	if (input[i] == '|')
 	{
 		printf("Syntax error near unexpected token\n");
+		g_last_exit_status = 2;
 		return (false);
 	}
 	while (input[i] != '\0')

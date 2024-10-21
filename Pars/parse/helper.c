@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 19:59:40 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/14 02:44:31 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/21 22:40:53 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	*remove_space(char *str)
 char	*handle_quote_error(void)
 {
 	write(2, "Syntax error: unclosed quotes\n", 31);
-	g_last_exit_status = 130;
+	g_last_exit_status = 2;
 	return (NULL);
 }
 

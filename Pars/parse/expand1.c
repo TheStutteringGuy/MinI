@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:23:31 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/21 13:22:51 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/21 14:09:48 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ char	*expand_environment_variable(t_expansion *exp, char *str)
 	exp->i = j;
 	return (exp->res);
 }
-
 
 char	*add_quote_to_result(t_expansion *exp, char c)
 {
