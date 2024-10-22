@@ -6,7 +6,7 @@
 /*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 19:59:40 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/21 22:40:53 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/21 23:47:10 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 int	check_quotes(char *input, t_exec *exec)
 {
-	size_t	len;
-
-	len = ft_strlen2(input);
+	(void)input;
+	
 	if (exec->quote == 1)
 		return (1);
 	else if (exec->quote == 2)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_command_and_arguments.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahmed <ahmed@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:24:11 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/17 18:13:51 by ahmed            ###   ########.fr       */
+/*   Updated: 2024/10/21 23:46:10 by aahlaqqa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,7 @@ void	process_redirection_or_pipe(t_cmd_context *cmd_ctx,
 void	process_token(t_cmd_context *cmd_ctx, t_token **current_token,
 		t_type *expected, t_exec *exec)
 {
-	char	*token_val;
-	size_t	len;
 
-	token_val = (*current_token)->value;
-	len = ft_strlen(token_val);
 	if ((*current_token)->type == COMMAND || (*current_token)->type == ARGUMENT)
 	{
 		if ((*current_token)->value == NULL)

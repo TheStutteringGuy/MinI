@@ -6,7 +6,7 @@
 #    By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/20 01:20:40 by aahlaqqa          #+#    #+#              #
-#    Updated: 2024/10/20 14:04:59 by aahlaqqa         ###   ########.fr        #
+#    Updated: 2024/10/22 00:06:17 by aahlaqqa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,8 +51,6 @@ FLAGS = -L Exec/Libft -lft
 
 ###########################################################################################
 
-
-# PHILO SETTINGS :
 
 NFLAGS = -lreadline -lncurses
 NAME = minishell
