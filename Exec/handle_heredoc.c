@@ -44,7 +44,7 @@ static void	make_name_2(t_output_input **list)
 
 static void	make_names(t_cmd **input)
 {
-	t_cmd			*curr;
+	t_cmd	*curr;
 
 	curr = *input;
 	while (curr)

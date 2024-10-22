@@ -61,7 +61,6 @@ void	process_redirection_or_pipe(t_cmd_context *cmd_ctx,
 void	process_token(t_cmd_context *cmd_ctx, t_token **current_token,
 		t_type *expected, t_exec *exec)
 {
-
 	if ((*current_token)->type == COMMAND || (*current_token)->type == ARGUMENT)
 	{
 		if ((*current_token)->value == NULL)

@@ -12,7 +12,7 @@
 
 #include "../../minishell.h"
 
-static void free_plus(t_exec *data, char *s, char *key)
+static void	free_plus(t_exec *data, char *s, char *key)
 {
 	free(key);
 	handle_join(data, s);

@@ -15,7 +15,6 @@
 int	check_quotes(char *input, t_exec *exec)
 {
 	(void)input;
-	
 	if (exec->quote == 1)
 		return (1);
 	else if (exec->quote == 2)
