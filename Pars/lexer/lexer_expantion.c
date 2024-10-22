@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:19:13 by aahlaqqa          #+#    #+#             */
-/*   Updated: 2024/10/19 16:00:38 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/22 00:45:24 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	handle_expansion_result(char *input, t_helpe *helpe,
 			|| ft_isspace(input[helpe->i + 1]) || input[helpe->i + 1] == '"'))
 	{
 		handle_dollar_end_case(input, helpe, token_list, exec);
+		free(helpe->res);
 		return ;
 	}
 	if (helpe->res && *helpe->res != '\0')

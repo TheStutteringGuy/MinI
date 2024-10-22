@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 10:30:08 by aibn-ich          #+#    #+#             */
-/*   Updated: 2024/10/15 02:11:09 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/22 01:21:30 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static void	make_name_2(t_output_input **list)
 	char			*join;
 	char			*itoa_;
 
-	i = 0;
 	iterate = *list;
 	while (iterate)
 	{
@@ -46,13 +45,11 @@ static void	make_name_2(t_output_input **list)
 static void	make_names(t_cmd **input)
 {
 	t_cmd			*curr;
-	t_output_input	*iterate;
 
 	curr = *input;
 	while (curr)
 	{
-		iterate = curr->redirection;
-		make_name_2(&iterate);
+		make_name_2(&curr->redirection);
 		curr = curr->next;
 	}
 }

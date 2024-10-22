@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 23:00:24 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/17 01:47:13 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/22 01:16:50 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,9 @@ static void	here_document_2(t_exec *data, t_output_input *iterate)
 
 static void	here_document(t_exec *data, t_cmd *curr)
 {
-	t_output_input	*iterate;
-
 	while (curr)
 	{
-		iterate = curr->redirection;
-		here_document_2(data, iterate);
+		here_document_2(data, curr->redirection);
 		curr = curr->next;
 	}
 }

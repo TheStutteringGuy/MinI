@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hard_simple_help.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aahlaqqa <aahlaqqa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 23:28:44 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/20 16:01:12 by aahlaqqa         ###   ########.fr       */
+/*   Updated: 2024/10/22 02:03:34 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,9 @@ void	child_function(t_exec *data, t_cmd *input)
 
 	flag = 0;
 	ft_handle_function(input->command, &flag);
-	if (flag == 1)
-		ft_acces(data, input);
 	inp = ft_getenv(data->export, "PATH");
-	if (inp == NULL)
-		return ;
+	if (flag == 1 || inp == NULL)
+		ft_acces(data, input);
 	child_funtion_2(data, input, inp);
 }
 

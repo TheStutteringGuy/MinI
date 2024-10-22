@@ -6,7 +6,7 @@
 /*   By: thestutteringguy <thestutteringguy@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 22:33:35 by thestutteri       #+#    #+#             */
-/*   Updated: 2024/10/17 01:04:03 by thestutteri      ###   ########.fr       */
+/*   Updated: 2024/10/22 01:47:56 by thestutteri      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,5 @@ void	execve_handle_hard(t_exec *data, t_cmd *input, int read_fd,
 	data->envp[i] = NULL;
 	turn(data->envp, data->environ);
 	child_function(data, input);
-	free_everything(data, input);
 	free_envp(data);
 }
